@@ -93,7 +93,7 @@ cat /home/user/.ssh/id_rsa.pub
 
 6) Log as root
 
-7) Create /root/.ssh directory if not exists
+7) Create **/root/.ssh** directory if not exists
 
 8) Paste the public key inside command 
 
@@ -106,7 +106,7 @@ echo "ssh-rsa key..." >> /root/.ssh/authorized_keys
 10) Test
 
 ```
-ansible -i inventory.cfg local -u root -m ping
+ansible local -u root -m ping
 ```
 
 ```
@@ -122,7 +122,6 @@ Let's see the details of the command:
 * local selects the host(s) upon which we'd like to act.
 * -u root tells Ansible to use user root on the remote server.
 * -m ping tells Ansible to execute the "ping" module.
-* --ssh-common-args tells ansible to pass the -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no flags to the ssh command it uses.
 
 ## 2 - How to execute playbooks
 
