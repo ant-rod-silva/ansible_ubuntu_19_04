@@ -1,0 +1,377 @@
+---
+
+# this playbook does configuration of postgresql 11 on ubuntu 10.04 machine
+# ansible-playbook -i inventory.cfg 04_ubuntu_1904_databases.yaml
+
+- name: Executar as instalações e configuracoes do postgresql
+  hosts: local
+  become: yes
+  vars_prompt:
+    - name: "postgresql_user_answer"
+      prompt: "Install Postgresql (True/False)?"
+      private: no
+      default: true
+    - name: "pgadmin_user_answer"
+      prompt: "Install Pgadmin4 (True/False)?"
+      private: no
+      default: true
+    - name: "dbeaver_user_answer"
+      prompt: "Install Dbeaver (True/False)?"
+      private: no
+      default: true
+    - name: "mongodb_user_answer"
+      prompt: "Install Mongodb (True/False)?"
+      private: no
+      default: true
+    - name: "mariadb_user_answer"
+      prompt: "Install Mariadb (True/False)?"
+      private: no
+      default: true
+    - name: "firebird_user_answer"
+      prompt: "Install Firebird (True/False)?"
+      private: no
+      default: true
+    - name: "user_answer"
+      prompt: "Proceed (True/False)?"
+      private: no
+      default: true
+  vars:
+    usuario_terminal: "{{ lookup('env', 'USER') }}"
+  tasks:
+    - name: updatedb
+      command: updatedb
+
+    # --------------------------------------------------------
+    # POSTGRESQL
+    # --------------------------------------------------------
+    - name: Postgresql - Installation
+      apt:
+        pkg:
+        - postgresql
+        - postgresql-contrib
+        - libpq-dev
+        - python-psycopg2
+        - python3-psycopg2
+        state: present
+      when:
+        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and postgresql_user_answer | bool
+      register: postgresql_installation
+      become: yes
+
+    - name: Get installed version
+      command: dpkg-query --showformat='${Version;2}' --show postgresql
+      register: postgresql_version_query
+      changed_when: false
+      when: 
+        postgresql_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and postgresql_user_answer | bool
+
+    - name: Ensure PostgreSQL service was started
+      service: name=postgresql state=started enabled=yes
+      when:
+        postgresql_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and postgresql_user_answer | bool and postgresql_user_answer | bool
+
+    # Postgresql - Criar BD [test_db]
+    - name: Postgresql - Criar o banco de dados [test_db]
+      become: true
+      become_user: postgres
+      postgresql_db:
+        name: test_db
+        encoding: UTF-8
+      when:
+        postgresql_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and postgresql_user_answer | bool and postgresql_user_answer | bool
+
+    # Postgresql - Configurações
+    - name: Postgresql - Alterar max_connections de [100] para [300] em {{ POSTGRESQL_CONF_PATH }}
+      shell:
+        /bin/sed -i 's/max_connections = 100/max_connections = 300/g' {{ POSTGRESQL_CONF_PATH }}
+      notify:
+        - restart postgresql
+      when:
+        postgresql_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and postgresql_user_answer | bool and postgresql_user_answer | bool
+
+    - name: Postgresql - Alterar max_locks_per_transaction de [64] para [512] em {{ POSTGRESQL_CONF_PATH }}
+      shell:
+        /bin/sed -i 's/#max_locks_per_transaction = 64/max_locks_per_transaction = 512/g' {{ POSTGRESQL_CONF_PATH }}
+      notify:
+        - restart postgresql
+      when:
+        postgresql_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and postgresql_user_answer | bool and postgresql_user_answer | bool
+
+    - name: Postgresql - Descomentando max_locks_per_transaction em {{ POSTGRESQL_CONF_PATH }}, caso esteja comentado
+      shell:
+        /bin/sed -i 's/#max_locks_per_transaction/max_locks_per_transaction/g' {{ POSTGRESQL_CONF_PATH }}
+      notify:
+        - restart postgresql
+      when:
+        postgresql_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and postgresql_user_answer | bool and postgresql_user_answer | bool
+
+    - name: Postgresql - Alterar [peer] para [trust] em {{ PG_HBA_PATH }}
+      shell:
+        /bin/sed -i '/^local/s/peer/trust/' {{ PG_HBA_PATH }}
+      notify:
+        - restart postgresql
+      when:
+        postgresql_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and postgresql_user_answer | bool and postgresql_user_answer | bool
+
+    - name: Postgresql - Alterar [md5] para [trust] em {{ PG_HBA_PATH }}
+      shell:
+        /bin/sed -i '/^host/s/md5/trust/' {{ PG_HBA_PATH }}
+      notify:
+        - restart postgresql
+      when:
+        postgresql_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and postgresql_user_answer | bool and postgresql_user_answer | bool
+
+    - name: Postgresql - listen_addresses = '*' em {{ POSTGRESQL_CONF_PATH }}
+      lineinfile:
+        dest={{ POSTGRESQL_CONF_PATH }}
+        regexp="^#listen_addresses"
+        line="listen_addresses = '*'"
+        state=present
+        backup=yes
+      become: yes
+      notify:
+        - restart postgresql
+      when:
+        postgresql_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and postgresql_user_answer | bool and postgresql_user_answer | bool
+
+    # Postgresql - senha usuario [postgres]
+    - name: Set DB password for postgres user
+      command: psql -c "ALTER USER postgres WITH PASSWORD 'md5e19d5cd5af0378da05f63f891c7467af' VALID UNTIL 'infinity'"
+      become: yes
+      become_user: postgres
+      notify:
+        - restart postgresql
+      when:
+        postgresql_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and postgresql_user_answer | bool and postgresql_user_answer | bool
+
+    # Postgresql - Criar usuários
+    - name: Postgresql - Criar usuario [postgresql_user]
+      become: yes
+      become_user: postgres
+      postgresql_user:
+        name: "postgresql_user"
+        expires: infinity
+        role_attr_flags: NOSUPERUSER
+      when:
+        postgresql_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and postgresql_user_answer | bool and postgresql_user_answer | bool
+
+    # Postgresql - Criar Extensões
+    - name: Postgresql - Criar a extensão [unaccent] no PostgreSQL
+      become_user: root
+      become: yes
+      shell: sudo -u postgres bash -c "psql -c \"CREATE EXTENSION IF NOT EXISTS unaccent with schema pg_catalog;\""
+      when:
+        postgresql_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and postgresql_user_answer | bool and postgresql_user_answer | bool
+
+    - name: Postgresql - Criar a extensão [pg_trgm] no PostgreSQL
+      become_user: root
+      become: yes
+      shell: sudo -u postgres bash -c "psql -c \"CREATE EXTENSION IF NOT EXISTS pg_trgm with schema pg_catalog;\""
+      when:
+        postgresql_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and postgresql_user_answer | bool and postgresql_user_answer | bool
+
+    # Postgresql - Setando Privilégios
+    - name: Postgresql - Setando permissões do usuário [postgresql_user] no PostgreSQL
+      become_user: root
+      become: yes
+      shell: sudo -u postgres bash -c "psql -c \"GRANT ALL PRIVILEGES ON DATABASE test_db TO postgresql_user;\""
+      when:
+        postgresql_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and postgresql_user_answer | bool and postgresql_user_answer | bool
+
+    - name: Postgresql - Setando permissões do usuário [postgres] no PostgreSQL
+      become_user: root
+      become: yes
+      shell: sudo -u postgres bash -c "psql -c \"GRANT ALL PRIVILEGES ON DATABASE test_db TO postgres;\""
+      when:
+        postgresql_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and postgresql_user_answer | bool and postgresql_user_answer | bool
+
+    # Postgresql - Revogando Privilégios
+    - name: Postgresql - Revogando permissões do PUBLIC no BD [test_db]
+      become_user: root
+      become: yes
+      shell: sudo -u postgres bash -c "psql -c \"REVOKE connect ON DATABASE test_db FROM PUBLIC;\""
+      when:
+        postgresql_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and postgresql_user_answer | bool and postgresql_user_answer | bool
+
+    # Postgresql - Grant connect
+    - name: Postgresql - Grant connect do usuário [postgresql_user] no BD [test_db]
+      become_user: root
+      become: yes
+      shell: sudo -u postgres bash -c "psql -c \"GRANT connect ON DATABASE test_db TO postgresql_user;\""
+      when:
+        postgresql_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and postgresql_user_answer | bool and postgresql_user_answer | bool
+
+    - name: Postgresql - Grant connect do usuário [postgres] no BD [test_db]
+      become_user: root
+      become: yes
+      shell: sudo -u postgres bash -c "psql -c \"GRANT connect ON DATABASE test_db TO postgres;\""
+      when:
+        postgresql_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and postgresql_user_answer | bool and postgresql_user_answer | bool
+
+    # Postgresql - Criar senhas
+    - name: Postgresql - Criar a senha do usuario [postgresql_user]
+      become: yes
+      become_user: postgres
+      postgresql_user:
+        db: postgres
+        name: "{{ item.pg_user }}"
+        password: "{{ item.pg_password  }}"
+        role_attr_flags: "{{ item.role }}"
+        encrypted: yes
+      with_items:
+        - { pg_user: "postgresql_user", pg_password: "md5e19d5cd5af0378da05f63f891c7467af", role: "" }
+      when:
+        postgresql_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and postgresql_user_answer | bool and postgresql_user_answer | bool
+
+    # Criando arquivo ~/.pgpass
+    - name: Criando arquivo ~/.pgpass
+      shell: "touch /home/{{ usuario_terminal }}/.pgpass"
+      when: 
+        postgresql_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and postgresql_user_answer | bool
+
+    # --------------------------------------------------------
+    # DBEAVER
+    # --------------------------------------------------------
+    - name: Install Dbeaver (Snap)
+      command: snap install dbeaver-ce --edge
+      become: yes
+      when:
+        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and dbeaver_user_answer | bool
+
+    # --------------------------------------------------------
+    # PGADMIN4
+    # para executar: sudo python /usr/local/lib/python2.7/dist-packages/pgadmin4/pgAdmin4.py
+    # para acessar: http://127.0.0.1:5050
+    # --------------------------------------------------------
+    - name: Download PgAdmin4
+      shell: "wget {{ URL_PGADMIN }} -P /tmp"
+      register: pgadmin4_download
+      when: ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and pgadmin_user_answer | bool
+
+    - name: Instalando PgAdmin4
+      shell: "pip install /tmp/pgadmin4*.whl"
+      register: pgadmin4_installation
+      when: pgadmin4_download is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and pgadmin_user_answer | bool
+
+    # config_local.py
+    - name: Criando arquivo {{ PGADMIN_PATH }}/config_local.py
+      shell: "touch {{ PGADMIN_PATH }}/config_local.py"
+      when: pgadmin4_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and pgadmin_user_answer | bool
+
+    - name: echo "SERVER_MODE = False"
+      shell: 'echo "SERVER_MODE = False" >> {{ PGADMIN_PATH }}/config_local.py'
+      when: pgadmin4_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and pgadmin_user_answer | bool
+
+    # setup.py
+    - name: Executando PgAdmin4 setup.py
+      shell: "python {{ PGADMIN_PATH }}/setup.py"
+      when: pgadmin4_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and pgadmin_user_answer | bool
+
+    # permissões
+    - name: permissões do pgAdmin4.py
+      shell: "chmod +x {{ PGADMIN_PATH }}/pgAdmin4.py"
+      when: pgadmin4_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and pgadmin_user_answer | bool
+
+    - name: permissões do /var/log/pgadmin/
+      shell: "chown -R {{ usuario_terminal }}:{{ usuario_terminal }} /var/log/pgadmin/"
+      when: pgadmin4_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and pgadmin_user_answer | bool
+
+    - name: permissões do /var/lib/pgadmin/
+      shell: "chown -R {{ usuario_terminal }}:{{ usuario_terminal }} /var/lib/pgadmin/"
+      when: pgadmin4_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and pgadmin_user_answer | bool
+
+    - name: permissões do /var/log/pgadmin/pgadmin4.log
+      shell: "chmod 777 /var/log/pgadmin/pgadmin4.log"
+      when: pgadmin4_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and pgadmin_user_answer | bool
+
+    # --------------------------------------------------------
+    # MONGODB
+    # --------------------------------------------------------
+    - name: Mongodb - Installation
+      apt:
+        pkg:
+        - libcurl4-openssl-dev
+        - pkg-config
+        - libssl-dev
+        - mongodb
+        state: present
+      when:
+        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and mongodb_user_answer | bool
+      register: mongodb_installation
+      become: yes
+
+    # --------------------------------------------------------
+    # MARIADB
+    # --------------------------------------------------------
+    - name: MariaDB - Installation
+      apt:
+        pkg:
+        - mariadb-server
+        - mariadb-client
+        state: present
+      when:
+        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and mariadb_user_answer | bool
+      register: mariadb_installation
+      become: yes
+
+    - name: systemctl enable mariadb
+      shell: "systemctl enable mariadb"
+      become: yes
+      when: 
+        mariadb_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and mariadb_user_answer | bool
+
+    - name: systemctl start mariadb
+      shell: "systemctl start mariadb"
+      become: yes
+      when: 
+        mariadb_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and mariadb_user_answer | bool
+
+    - name: Ensure MariaDB service was started
+      service: name=mariadb state=started enabled=yes
+      when:
+        mariadb_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and mariadb_user_answer | bool
+
+    # --------------------------------------------------------
+    # FIREBIRD
+    # --------------------------------------------------------
+    - name: Firebird - Installation
+      apt:
+        pkg:
+        - firebird3.0-server
+        - firebird3.0-server-core
+        - firebird3.0-common
+        - firebird3.0-utils
+        - libfbclient2
+        - libib-util
+        - libtommath1
+        state: present
+      when:
+        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and firebird_user_answer | bool
+      register: firebird_installation
+      become: yes
+
+    - name: systemctl enable firebird3
+      shell: "systemctl enable firebird3.0"
+      become: yes
+      when: 
+        firebird_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and firebird_user_answer | bool
+
+    - name: systemctl start firebird3
+      shell: "systemctl start firebird3.0"
+      become: yes
+      when: 
+        firebird_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and firebird_user_answer | bool
+
+    - name: Ensure firebird3 service was started
+      service: name=firebird3.0 state=started enabled=yes
+      when:
+        firebird_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and firebird_user_answer | bool
+
+  handlers:
+   - name: restart postgresql
+     become: yes
+     service: name=postgresql state=restarted
+
+   - name: reload postgresql
+     become: yes
+     service: name=postgresql state=reloaded

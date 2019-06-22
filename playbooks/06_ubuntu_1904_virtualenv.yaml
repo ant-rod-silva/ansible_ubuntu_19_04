@@ -1,0 +1,77 @@
+---
+
+# this playbook does reconfiguration of virtualenv on ubuntu 19.04 dev machine
+# ansible-playbook -K 5_virtualenv.yml
+
+- name: Executar as instalações e configuracoes do virtualenv
+  hosts: local
+  become: yes
+  vars:
+    usuario_terminal: "{{ lookup('env', 'USER') }}"
+    usuario_home: "{{ lookup('env', 'HOME') }}"
+    virtualenv_dir: "{{ lookup('env', 'HOME') }}/virtualenv"
+  vars_prompt:
+    - name: "user_answer"
+      prompt: "Deseja instalar apps (true/false)?"
+      private: no
+      default: true
+  tasks:
+    - name: hostname
+      command: hostname
+
+    # --------------------------------------------------------
+    # virtualenv dir
+    # --------------------------------------------------------
+    - stat: path={{ virtualenv_dir }}
+      register: virtualenv_dir_exists
+
+    - name: Removing {{ virtualenv_dir }}
+      file:
+        path: '{{ virtualenv_dir }}'
+        state: absent
+        force: yes
+      when:
+        virtualenv_dir_exists.stat.exists and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
+
+    - name: create app directory
+      file:
+        path: '{{ app_dir }}'
+        state: directory
+
+    - name: create app requirements file
+      file:
+        path: '{{ app_dir }}/requirements.txt'
+        state: touch
+
+    # create a directory if it doesn't exist
+    - name: Create '{{ virtualenv_dir }}' if it doesn't exist
+      file:
+        path: '{{ virtualenv_dir }}'
+        state: directory
+        mode: "u=rwx,g=rwx,o=rwx"
+        owner: '{{ usuario_terminal }}'
+        group: '{{ usuario_terminal }}'
+      when: ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
+
+    - name: Install virtualenv package
+      with_items: [ setuptools, pip ]
+      pip:
+        name: virtualenv
+        executable: pip
+      when: ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
+
+    - name: Create virtualenv "{{ virtualenv_dir }}/python3_test_app"
+      pip:
+        virtualenv: "{{ virtualenv_dir }}/test_app"
+        virtualenv_python: python3.7
+        requirements: "{{ app_dir }}/requirements.txt"
+      when: ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
+
+    - name: u=rwx,g=rwx,o=r for '{{ virtualenv_dir }}/python3_test_app' dir
+      file:
+        path: '{{ virtualenv_dir }}/test_app'
+        state: directory
+        owner: '{{ usuario_terminal }}'
+        group: '{{ usuario_terminal }}'
+        mode: "u=rwx,g=rwx,o=r"
+      when: ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
