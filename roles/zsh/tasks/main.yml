@@ -1,0 +1,84 @@
+---
+# tasks file for zsh
+- name: Installing Zsh and git
+  apt:
+    pkg=zsh,git
+    state=latest
+  register: installation
+  become: yes
+
+- name: Backing up existing ~/.zshrc
+  shell: if [ -f {{ usuario_home }}/.zshrc ]; then mv {{ usuario_home }}/.zshrc {{ usuario_home }}/.zshrc.bak ; fi
+  become: no
+
+- stat: path={{ usuario_home }}/.oh-my-zsh
+  register: ohmyzsh_rsa
+
+- name: Delete existing dist folder
+  file:
+    path: "{{ usuario_home }}/.oh-my-zsh"
+    state: absent
+
+- name: Cloning  oh-my-zsh
+  git:
+      repo=https://github.com/robbyrussell/oh-my-zsh
+      dest={{ usuario_home }}/.oh-my-zsh
+  register: cloning
+  become: no
+
+- name: Creating new ~/.zshrc
+  copy:
+    src={{ usuario_home }}/.oh-my-zsh/templates/zshrc.zsh-template
+    dest={{ usuario_home }}/.zshrc
+  register: creating_zshrc
+  become: no
+
+- name: Agnoster Theme
+  lineinfile:
+    dest={{ usuario_home }}/.zshrc
+    regexp='^ZSH_THEME="robbyrussell"'
+    line='ZSH_THEME="agnoster"'
+    state=present
+
+- name: install powerline
+  command: pip install git+http://github.com/Lokaltog/powerline
+
+- name: Download PowerlineSymbols.otf
+  get_url:
+    url: https://github.com/Lokaltog/powerline/raw/develop/font/PowerlineSymbols.otf
+    dest: /tmp/PowerlineSymbols.otf
+  when: creating_zshrc is success
+
+- name: Download 10-powerline-symbols.conf
+  get_url:
+    url: https://github.com/Lokaltog/powerline/raw/develop/font/10-powerline-symbols.conf
+    dest: /tmp/10-powerline-symbols.conf
+  when: creating_zshrc is success
+
+- name: mv /tmp/PowerlineSymbols.otf /usr/share/fonts/
+  shell: "mv /tmp/PowerlineSymbols.otf /usr/share/fonts/"
+  when: creating_zshrc is success
+
+- name: fc-cache -vf
+  shell: "fc-cache -vf"
+  when: creating_zshrc is success
+
+- name: mv /tmp/10-powerline-symbols.conf /etc/fonts/conf.d/
+  shell: "mv /tmp/10-powerline-symbols.conf /etc/fonts/conf.d/"
+  when: creating_zshrc is success
+
+# --------------------------------------------------------
+# SUDOERS
+# --------------------------------------------------------
+- name: Sudoers | update /etc/pam.d/chsh file
+  replace:
+    path: /etc/pam.d/chsh
+    regexp: '^auth       required   pam_shells.so'
+    replace: "auth       sufficient   pam_shells.so"
+  when: creating_zshrc is success
+
+- name: chsh -s /bin/zsh
+  shell: "chsh -s /bin/zsh"
+  when: creating_zshrc is success
+  become: no
+

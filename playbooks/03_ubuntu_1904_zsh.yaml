@@ -5,102 +5,28 @@
 # ansible-playbook -i inventory.cfg 03_zsh.yaml
 
 - name: Executar as instalações e configuracoes do ZSH
-  connection: local
-  hosts: localhost
+  hosts: local
   become: yes
-  vars_prompt:
-    - name: "user_answer"
-      prompt: "Deseja instalar apps (true/false)?"
-      private: no
-      default: true
   vars:
     usuario_terminal: "{{ lookup('env', 'USER') }}"
     usuario_home: "{{ lookup('env', 'HOME') }}"
-  tasks:
-    # --------------------------------------------------------
-    # ZSH
-    # --------------------------------------------------------
-    - name: Installing Zsh and git
-      apt:
-        pkg=zsh,git
-        state=latest
-      register: installation
+  vars_prompt:
+    - name: "user_answer"
+      prompt: "Proceed (true/false)?"
+      private: no
+      default: true
+  pre_tasks:
+    - name: apt-get update
+      apt: update_cache=yes
+      become: yes # root
       when:
         ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
-
-    - name: Backing up existing ~/.zshrc
-      shell: if [ -f {{ usuario_home }}/.zshrc ]; then mv {{ usuario_home }}/.zshrc {{ usuario_home }}/.zshrc.bak ; fi
-      when: installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
-      become: no
-
-    - stat: path={{ usuario_home }}/.oh-my-zsh
-      register: ohmyzsh_rsa
-      when: installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
-
-    - name: Creates directory .ssh
-      shell: rm -rf {{ usuario_home }}/.oh-my-zsh
-      when: ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
-
-    - name: Cloning  oh-my-zsh
-      git:
-          repo=https://github.com/robbyrussell/oh-my-zsh
-          dest={{ usuario_home }}/.oh-my-zsh
-      when: installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
-      register: cloning
-      become: no
-
-    - name: Creating new ~/.zshrc
-      copy:
-        src={{ usuario_home }}/.oh-my-zsh/templates/zshrc.zsh-template
-        dest={{ usuario_home }}/.zshrc
-      when: cloning is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
-      register: creating_zshrc
-      become: no
-
-    - name: Agnoster Theme
-      lineinfile:
-        dest={{ usuario_home }}/.zshrc
-        regexp='^ZSH_THEME="robbyrussell"'
-        line='ZSH_THEME="agnoster"'
-        state=present
-      when: creating_zshrc is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
-
-    - name: install powerline
-      command: pip install git+http://github.com/Lokaltog/powerline
-      when: creating_zshrc is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
-
-    - name: Download PowerlineSymbols.otf
-      shell: "wget https://github.com/Lokaltog/powerline/raw/develop/font/PowerlineSymbols.otf -O /tmp/PowerlineSymbols.otf"
-      when: creating_zshrc is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
-
-    - name: Download PowerlineSymbols.otf
-      shell: "wget https://github.com/Lokaltog/powerline/raw/develop/font/10-powerline-symbols.conf -O /tmp/10-powerline-symbols.conf"
-      when: creating_zshrc is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
-
-    - name: mv /tmp/PowerlineSymbols.otf /usr/share/fonts/
-      shell: "mv /tmp/PowerlineSymbols.otf /usr/share/fonts/"
-      when: creating_zshrc is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
-
-    - name: fc-cache -vf
-      shell: "fc-cache -vf"
-      when: creating_zshrc is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
-
-    - name: mv /tmp/10-powerline-symbols.conf /etc/fonts/conf.d/
-      shell: "mv /tmp/10-powerline-symbols.conf /etc/fonts/conf.d/"
-      when: creating_zshrc is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
-
-    # --------------------------------------------------------
-    # SUDOERS
-    # --------------------------------------------------------
-    - name: Sudoers | update /etc/pam.d/chsh file
-      replace:
-        path: /etc/pam.d/chsh
-        regexp: '^auth       required   pam_shells.so'
-        replace: "auth       sufficient   pam_shells.so"
-      when: creating_zshrc is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
-
-    - name: chsh -s /bin/zsh
-      shell: "chsh -s /bin/zsh"
-      when: creating_zshrc is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
-      become: no
+    - name: apt-get upgrade
+      apt: upgrade=yes
+      become: yes
+      when:
+        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
+  roles:
+    - { role: zsh, when: ansible_distribution == 'Ubuntu' and user_answer | bool }
+  tasks:
 
