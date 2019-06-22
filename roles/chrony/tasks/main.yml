@@ -1,0 +1,241 @@
+---
+# tasks file for chrony
+
+# --------------------------------------------------------
+# Chrony
+# --------------------------------------------------------
+- name: Installing Chrony
+  apt:
+    pkg:
+      - chrony
+    state: present
+  become: yes
+
+# ----------------------------------------------------------------
+# Ensure strings exists
+# ----------------------------------------------------------------
+- name: Ensure /etc/chrony/chrony.conf contains pool ntp.ubuntu.com
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    regexp: '^pool ntp.ubuntu.com'
+    state: absent
+  check_mode: yes
+  register: ntp_pool_ubuntu
+
+- name: Ensure /etc/chrony/chrony.conf contains pool 0.ubuntu.pool.ntp.org
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    regexp: '^pool 0.ubuntu.pool.ntp.org'
+    state: absent
+  check_mode: yes
+  register: ntp_pool0_ubuntu
+
+- name: Ensure /etc/chrony/chrony.conf contains pool 1.ubuntu.pool.ntp.org
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    regexp: '^pool 1.ubuntu.pool.ntp.org'
+    state: absent
+  check_mode: yes
+  register: ntp_pool1_ubuntu
+
+- name: Ensure /etc/chrony/chrony.conf contains pool 2.ubuntu.pool.ntp.org
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    regexp: '^pool 2.ubuntu.pool.ntp.org'
+    state: absent
+  check_mode: yes
+  register: ntp_pool2_ubuntu
+
+- name: Ensure /etc/chrony/chrony.conf contains server a.st1.ntp.br
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    regexp: '^server a.st1.ntp.br'
+    state: absent
+  check_mode: yes
+  register: ntp_a_st1_ubuntu
+
+- name: Ensure /etc/chrony/chrony.conf contains server b.st1.ntp.br
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    regexp: '^server b.st1.ntp.br'
+    state: absent
+  check_mode: yes
+  register: ntp_b_st1_ubuntu
+
+- name: Ensure /etc/chrony/chrony.conf contains server c.st1.ntp.br
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    regexp: '^server c.st1.ntp.br'
+    state: absent
+  check_mode: yes
+  register: ntp_c_st1_ubuntu
+
+- name: Ensure /etc/chrony/chrony.conf contains server d.st1.ntp.br
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    regexp: '^server d.st1.ntp.br'
+    state: absent
+  check_mode: yes
+  register: ntp_d_st1_ubuntu
+
+- name: Ensure /etc/chrony/chrony.conf contains server a.ntp.br iburst
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    regexp: '^server a.ntp.br iburst'
+    state: absent
+  check_mode: yes
+  register: a_ntp_br
+
+- name: Ensure /etc/chrony/chrony.conf contains server b.ntp.br iburst
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    regexp: '^server b.ntp.br iburst'
+    state: absent
+  check_mode: yes
+  register: b_ntp_br
+
+- name: Ensure /etc/chrony/chrony.conf contains server c.ntp.br iburst
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    regexp: '^server c.ntp.br iburst'
+    state: absent
+  check_mode: yes
+  register: c_ntp_br
+
+# ----------------------------------------------------------------
+# Debug
+# ----------------------------------------------------------------
+
+- debug:
+    msg: "Yes, pool ntp.ubuntu.com exists."
+  when: ntp_pool_ubuntu.changed
+
+- debug:
+    msg: "No, pool ntp.ubuntu.com does NOT exist."
+  when: not ntp_pool_ubuntu.changed
+
+- debug:
+    msg: "Yes, 0.ubuntu.pool.ntp.org exists."
+  when: ntp_pool0_ubuntu.changed
+
+- debug:
+    msg: "No, 0.ubuntu.pool.ntp.org does NOT exist."
+  when: not ntp_pool0_ubuntu.changed
+
+- debug:
+    msg: "Yes, 1.ubuntu.pool.ntp.org exists."
+  when: ntp_pool1_ubuntu.changed
+
+- debug:
+    msg: "No, 1.ubuntu.pool.ntp.org does NOT exist."
+  when: not ntp_pool1_ubuntu.changed
+
+- debug:
+    msg: "Yes, 2.ubuntu.pool.ntp.org exists."
+  when: ntp_pool2_ubuntu.changed
+
+- debug:
+    msg: "No, 2.ubuntu.pool.ntp.org does NOT exist."
+  when: not ntp_pool2_ubuntu.changed
+
+# ----------------------------------------------------------------
+# Insert
+# ----------------------------------------------------------------
+- name: Inserir [a.st1.ntp.br] no chrony.conf
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    line: server a.st1.ntp.br iburst
+    insertafter: pool 2.ubuntu.pool.ntp.org iburst maxsources 2
+  become: yes
+  when: not ntp_a_st1_ubuntu.changed and ntp_pool2_ubuntu.changed
+
+- name: Inserir [b.st1.ntp.br] no chrony.conf
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    line: server b.st1.ntp.br iburst
+    insertafter: server a.st1.ntp.br iburst
+  become: yes
+  when: not ntp_b_st1_ubuntu.changed
+
+- name: Inserir [c.st1.ntp.br] no chrony.conf
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    line: server c.st1.ntp.br iburst
+    insertafter: server b.st1.ntp.br iburst
+  become: yes
+  when: not ntp_c_st1_ubuntu.changed
+
+- name: Inserir [d.st1.ntp.br] no chrony.conf
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    line: server d.st1.ntp.br iburst
+    insertafter: server c.st1.ntp.br iburst
+  become: yes
+  when: not ntp_d_st1_ubuntu.changed
+
+- name: Inserir [a.ntp.br] no chrony.conf
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    line: server a.ntp.br iburst
+    insertafter: server d.st1.ntp.br iburst
+  become: yes
+  when: not a_ntp_br.changed
+
+- name: Inserir [b.ntp.br] no chrony.conf
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    line: server b.ntp.br iburst
+    insertafter: server a.ntp.br iburst
+  become: yes
+  when: not b_ntp_br.changed
+
+- name: Inserir [c.ntp.br] no chrony.conf
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    line: server c.ntp.br iburst
+    insertafter: server b.ntp.br iburst
+  become: yes
+  when: not c_ntp_br.changed
+
+# ----------------------------------------------------------------
+# Chrony - Comment ubuntu ntp server from file /etc/chrony/chrony.conf
+# sed: Modificador “g”: tratar linha inteira
+# ----------------------------------------------------------------
+- name: Chrony - Comment pool ntp.ubuntu.com
+  shell:
+    /bin/sed -i 's/^pool ntp.ubuntu.com/#pool ntp.ubuntu.com/g' /etc/chrony/chrony.conf
+  become: yes
+  args:
+    warn: false # set warn=false to prevent warning
+  when: ntp_pool_ubuntu.changed
+
+- name: Chrony - Comment pool 0.ubuntu.pool.ntp.org
+  shell:
+    /bin/sed -i 's/^pool 0.ubuntu.pool.ntp.org/#pool 0.ubuntu.pool.ntp.org/g' /etc/chrony/chrony.conf
+  become: yes
+  args:
+    warn: false # set warn=false to prevent warning
+  when: ntp_pool0_ubuntu.changed
+
+- name: Chrony - Comment pool 1.ubuntu.pool.ntp.org
+  shell:
+    /bin/sed -i 's/^pool 1.ubuntu.pool.ntp.org/#pool 1.ubuntu.pool.ntp.org/g' /etc/chrony/chrony.conf
+  become: yes
+  args:
+    warn: false # set warn=false to prevent warning
+  when: ntp_pool1_ubuntu.changed
+
+- name: Chrony - Comment pool 2.ubuntu.pool.ntp.org
+  shell: 
+    /bin/sed -i 's/^pool 2.ubuntu.pool.ntp.org/#pool 2.ubuntu.pool.ntp.org/g' /etc/chrony/chrony.conf
+  become: yes
+  args:
+    warn: false # set warn=false to prevent warning
+  when: ntp_pool2_ubuntu.changed
+
+- name: Chrony Restart
+  service:
+    name: chrony
+    state: restarted
+  become: yes
+

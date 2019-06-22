@@ -1,0 +1,51 @@
+---
+# tasks file for utilities
+- name: Installing Utilities
+  apt:
+    pkg:
+      - aptitude
+      - build-essential
+      - network-manager
+      # C compiler
+      - cpp
+      - cmake
+      - gcc
+      - g++
+      - g++-7
+      # terminal apps
+      - guake
+      - terminator
+      # text editor
+      - mc
+      - nano
+      - screen
+      - vim
+      - tree
+      - whois
+      # file compression
+      - arj
+      - p7zip
+      - p7zip-full
+      - p7zip-rar
+      - rar
+      - unrar
+      - unace
+      - unace-nonfree
+      - unzip
+      - zip
+      - sharutils
+      - uudeview
+      - mpack
+      - arj
+      - cabextract
+      - ldap-utils
+      - samba
+      - ubuntu-restricted-extras
+      - xclip
+      # Fonts
+      - ttf-ubuntu-font-family
+      - fonts-ubuntu-font-family-console
+      - ppa-purge
+    state: present
+  become: yes
+

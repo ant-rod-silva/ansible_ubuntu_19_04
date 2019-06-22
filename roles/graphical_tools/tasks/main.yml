@@ -1,0 +1,10 @@
+---
+# tasks file for graphical_tools
+- name: Install Inkscape (Snap)
+  command: snap install inkscape --classic
+  become: yes
+
+- name: Install Gimp (Snap)
+  command: snap install gimp --classic
+  become: yes
+

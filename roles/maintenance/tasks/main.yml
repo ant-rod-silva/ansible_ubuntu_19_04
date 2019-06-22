@@ -1,0 +1,17 @@
+---
+# tasks file for maintenance
+- name: Installing Maintenance Tools
+  apt:
+    pkg:
+      - gparted
+      - bleachbit
+      - trash-cli
+      - nmap
+      - monit
+      - htop
+      - iotop
+      - iftop
+    state: present
+  become: yes
+
+

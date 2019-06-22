@@ -1,0 +1,10 @@
+---
+usuario_terminal: user
+ansible_connection: local
+systemd_system_path: /etc/systemd/system
+PG_HBA_PATH: /etc/postgresql/11/main/pg_hba.conf
+POSTGRESQL_CONF_PATH: /etc/postgresql/11/main/postgresql.conf
+PGADMIN_PATH: /usr/local/lib/python2.7/dist-packages/pgadmin4
+URL_PGADMIN: https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v4.8/pip/pgadmin4-4.8-py2.py3-none-any.whl
+SYSTEMD_SYSTEM_PATH: /etc/systemd/system
+app_dir: /opt/python3_test_app

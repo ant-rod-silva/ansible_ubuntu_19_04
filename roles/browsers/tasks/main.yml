@@ -1,0 +1,10 @@
+---
+# tasks file for browsers
+- name: Install Opera (Snap)
+  command: snap install opera --classic
+  become: yes
+ 
+- name: Install Chromium (Snap)
+  command: snap install chromium --classic
+  become: yes
+

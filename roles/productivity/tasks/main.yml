@@ -1,0 +1,38 @@
+---
+# tasks file for productivity
+- name: Installing Utilities
+  apt:
+    pkg:
+      # Remote Desktop Connection
+      - xrdp
+      - rdesktop
+      # ubuntu disco universe
+      - caja-dropbox
+      - dia
+      - flameshot
+      - gnumeric
+      - gscan2pdf
+      - keepassx
+      - synaptic
+      - wine
+      - libdvdread4
+      - youtube-dl
+    state: present
+  become: yes
+
+- name: Install MailSpring (Snap)
+  command: snap install mailspring --classic
+  become: yes
+
+- name: Install Evince (Snap)
+  command: snap install evince --classic
+  become: yes
+
+- name: Install Remmina (Snap)
+  command: snap install remmina --classic
+  become: yes
+
+- name: Install Skype (Snap)
+  command: snap install skype --classic
+  become: yes
+
