@@ -42,10 +42,10 @@ As root:
 sudo usermod -a -G sudo <user>
 ```
 
-### 1.4 - Install ansible
+### 1.4 - Install ansible and git
 
 ```
-sudo apt-get install -y ansible
+sudo apt-get install -y ansible git
 ```
 
 ### 1.5 - Download this project
