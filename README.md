@@ -1,27 +1,18 @@
 # ansible_ubuntu_1904
 
-## Initial steps
+## 1 - Initial steps
 
-### Update and upgrade
+### 1.1 - Update and upgrade
 
 ```
 sudo apt-get update
 sudo apt-get upgrade
 ```
 
-### Enable passwordless sudo for ansible
+### 1.2 - Enable passwordless sudo for ansible
 
 In order to fully control a remote machine we need to be able to execute command on the remote machines as user root. 
 There are a number of ways to accomplish this.
-
-* We can log in to the remote server as user root providing password on each login.
-* We can log in to the remote server as user root using ssh keys.
-* We can login as an unprivileged user and then use sudo after providing the password of the user.
-* We can login as an unprivileged user and then use sudo without providing a password.
-
-Telling ansible ask for the password has the security advantage that only people who know what is the password can execute code but it can be a bit inconvenient on the long run.
-
-Instead we can configure the the remote user we use to be able to execute all, or certain commands using sudo even without supplying a password.
 
 On the remote server run:
 
@@ -43,24 +34,26 @@ and look like this:
 
 We can save the file and exit.
 
-### Add user to sudo group
+### 1.3 - Add user to sudo group
 
 As root:
 
 ```
-usermod -a -G sudo <user>
+sudo usermod -a -G sudo <user>
 ```
 
-### Install ansible
+### 1.4 - Install ansible
 
 ```
 sudo apt-get install -y ansible
 ```
 
+### 1.5 - Download this project
+
 Download this project and put it on **/etc/ansible** dir
 
 
-## Check if Ansible can access the hosts using Ping
+## 1.6 - Check if Ansible can access the hosts using Ping
 
 Let's verify that Ansible can access the machine. 
 Just as with network you'd use the ping command, Ansible also provides a command called "ping" that checks if the remote machine is accessible to Ansible. 
@@ -131,7 +124,7 @@ Let's see the details of the command:
 * -m ping tells Ansible to execute the "ping" module.
 * --ssh-common-args tells ansible to pass the -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no flags to the ssh command it uses.
 
-### To execute:
+## 2 - How to execute playbooks
 
 ```
 ansible-playbook /etc/ansible/playbooks/01_ubuntu_1904_initial.yaml
