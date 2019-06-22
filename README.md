@@ -1,7 +1,5 @@
 # ansible_ubuntu_1904
 
-# ubuntu_ansible
-
 ## Initial steps
 
 ### Update and upgrade
@@ -132,3 +130,9 @@ Let's see the details of the command:
 * -u root tells Ansible to use user root on the remote server.
 * -m ping tells Ansible to execute the "ping" module.
 * --ssh-common-args tells ansible to pass the -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no flags to the ssh command it uses.
+
+### To execute:
+
+```
+ansible-playbook /etc/ansible/playbooks/01_ubuntu_1904_initial.yaml
+```
