@@ -52,6 +52,12 @@ sudo apt-get install -y ansible git
 
 Download this project and put it on **/etc/ansible** dir
 
+```
+sudo rm -rf /etc/ansible/
+sudo git clone https://github.com/rodrigosantosbr/ansible_ubuntu_1904
+sudo mv ansible_ubuntu_1904 ansible
+sudo chown -R $USER:$USER ansible
+```
 
 ## 1.6 - Check if Ansible can access the hosts using Ping
 
