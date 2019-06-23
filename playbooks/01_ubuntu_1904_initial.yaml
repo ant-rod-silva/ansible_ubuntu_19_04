@@ -59,27 +59,20 @@
       when:
         ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool
   roles:
-    - { role: utilities, when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and utilities_user_answer|bool }
-    - { role: graphical_tools, when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and graphical_user_answer|bool }
-    - { role: browsers, when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and browser_user_answer|bool }
-    - { role: productivity, when: ansible_distribution == 'Ubuntu'and ansible_distribution_version == '19.04' and user_answer | bool and productivity_user_answer|bool }
-    - { role: maintenance, when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and maintenance_user_answer|bool }
-    - { role: chrony, when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and chrony_user_answer|bool }
+    - { role: utilities, 
+        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and utilities_user_answer|bool }
+    - { role: graphical_tools, 
+        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and graphical_user_answer|bool }
+    - { role: browsers, 
+        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and browser_user_answer|bool }
+    - { role: productivity, 
+        when: ansible_distribution == 'Ubuntu'and ansible_distribution_version == '19.04' and user_answer | bool and productivity_user_answer|bool }
+    - { role: maintenance, 
+        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and maintenance_user_answer|bool }
+    - { role: chrony, 
+        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and chrony_user_answer|bool }
   tasks:
     - debug: "msg=ansible_connection:{{ansible_connection}}"
     - debug: "msg=user_answer:{{user_answer}}"
     - debug: "msg=distro_name:{{ansible_distribution_release | lower}}"
     - pause: seconds=3
-
-    # --------------------------------------------------------
-    # Permissões de diretórios
-    # --------------------------------------------------------
-    - name: Permissões no diretório /opt
-      command: chown -R {{ usuario_terminal }}:{{ usuario_terminal }} /opt
-      become: yes
-      args:
-        warn: false # set warn=false to prevent warning
-      when:
-        ansible_distribution == 'Ubuntu' and user_answer | bool
-
-

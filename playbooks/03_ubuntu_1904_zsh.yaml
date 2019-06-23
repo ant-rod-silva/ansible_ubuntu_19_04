@@ -23,6 +23,6 @@
       when:
         ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool
   roles:
-    - { role: zsh, when: ansible_distribution == 'Ubuntu' and user_answer | bool }
-  tasks:
+    - { role: zsh, 
+        when: ansible_distribution == 'Ubuntu' and user_answer | bool }
 
