@@ -1,0 +1,20 @@
+---
+# tasks file for php
+- name: Installing PHP 7.2
+  apt:
+    pkg:
+      - php7.2
+      - php7.2-common
+      - php7.2-cli
+      - libapache2-mod-php7.2
+      - php7.2-json
+      - php7.2-gd
+      - php7.2-bz2
+      - php7.2-curl
+      - php-email-validator
+      - php-enum
+      - php-fpdf
+      - php7.2-fpm
+    state: present
+  become: yes
+

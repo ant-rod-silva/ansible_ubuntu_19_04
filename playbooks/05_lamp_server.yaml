@@ -20,6 +20,8 @@
   roles:
     - { role: geerlingguy.apache, become: yes,
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool }
+    - { role: php, 
+        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool }
     - { role: geerlingguy.mysql, become: yes,
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool }
 

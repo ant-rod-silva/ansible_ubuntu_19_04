@@ -22,7 +22,7 @@
     - name: "pascal_user_answer"
       prompt: "Configure Pascal environment (true/false)?"
       private: no
-      default: true
+      default: false
     - name: "python_user_answer"
       prompt: "Configure Python environment (true/false)?"
       private: no
@@ -30,9 +30,13 @@
     - name: "ruby_user_answer"
       prompt: "Configure Ruby environment (true/false)?"
       private: no
-      default: true
+      default: false
     - name: "dotnet_user_answer"
       prompt: "Configure Dotnet environment (true/false)?"
+      private: no
+      default: false
+    - name: "php_user_answer"
+      prompt: "Configure PHP 7.2 environment (true/false)?"
       private: no
       default: true
     - name: "git_user_answer"
@@ -100,6 +104,8 @@
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and pascal_user_answer|bool }
     - { role: ruby, 
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and ruby_user_answer|bool }
+    - { role: php, 
+        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and php_user_answer|bool }
     - { role: devops-ides, 
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and ide_user_answer|bool }
 
