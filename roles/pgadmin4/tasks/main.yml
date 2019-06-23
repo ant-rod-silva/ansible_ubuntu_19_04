@@ -23,7 +23,7 @@
 
 - name: add SERVER_MODE = False
   lineinfile:
-    path: {{ PGADMIN_PATH }}/config_local.py
+    path: "{{ PGADMIN_PATH }}/config_local.py"
     line: 'SERVER_MODE = False'
     insertbefore: BOF # begginning of file
 
@@ -35,7 +35,7 @@
 # permissões
 - name: permissões do pgAdmin4.py
   file:
-    path: {{ PGADMIN_PATH }}/pgAdmin4.py
+    path: "{{ PGADMIN_PATH }}/pgAdmin4.py"
     state: file
     mode: u=rw,g=rw,o=r
   when: pgadmin4_installation is success
@@ -50,7 +50,7 @@
 
 - name: permissões do pgAdmin4.log
   file:
-    path: {{ PGADMIN_LOG_FILE }}
+    path: "{{ PGADMIN_LOG_FILE }}"
     state: file
     mode: u=rw,g=rw,o=rw
   when: pgadmin4_installation is success

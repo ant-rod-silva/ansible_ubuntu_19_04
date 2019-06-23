@@ -3,8 +3,8 @@
 - name: Sqlite - Installation
   apt:
     pkg:
-    - sqlite3
-  state: present
+      - sqlite3
+    state: present
   become: yes
 
 - name: Install SqliteBrowser (Snap)
