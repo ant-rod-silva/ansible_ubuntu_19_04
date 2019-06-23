@@ -31,10 +31,10 @@
       prompt: "Install Dbeaver (True/False)?"
       private: no
       default: true
-    - name: "mariadb_user_answer"
-      prompt: "Install Mariadb (True/False)?"
+    - name: "mysql_user_answer"
+      prompt: "Install Mysql (True/False)?"
       private: no
-      default: false
+      default: true
     - name: "user_answer"
       prompt: "Proceed (True/False)?"
       private: no
@@ -52,35 +52,8 @@
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and postgresql_user_answer|bool }
     - { role: pgadmin4, 
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and pgadmin_user_answer|bool }
-  tasks:
-    # --------------------------------------------------------
-    # MARIADB
-    # --------------------------------------------------------
-    - name: MariaDB - Installation
-      apt:
-        pkg:
-        - mariadb-server
-        - mariadb-client
-        state: present
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and mariadb_user_answer | bool
-      register: mariadb_installation
-      become: yes
-
-    - name: systemctl enable mariadb
-      shell: "systemctl enable mariadb"
-      become: yes
-      when: 
-        mariadb_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and mariadb_user_answer | bool
-
-    - name: systemctl start mariadb
-      shell: "systemctl start mariadb"
-      become: yes
-      when: 
-        mariadb_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and mariadb_user_answer | bool
-
-    - name: Ensure MariaDB service was started
-      service: name=mariadb state=started enabled=yes
-      when:
-        mariadb_installation is success and ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and mariadb_user_answer | bool
+    - { role: geerlingguy.mysql,
+        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and mysql_user_answer|bool }
+    - { role: dbeaver,
+        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and dbeaver_user_answer|bool }
 
