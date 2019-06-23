@@ -15,6 +15,11 @@
       - php-enum
       - php-fpdf
       - php7.2-fpm
+      - php7.2-mysql
+      - php7.2-xml
+      - php7.2-zip
+      - php7.2-mbstring
+      - php-pear
     state: present
   become: yes
 

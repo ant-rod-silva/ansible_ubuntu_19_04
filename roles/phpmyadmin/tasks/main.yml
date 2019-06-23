@@ -1,0 +1,9 @@
+---
+# tasks file for phpmyadmin
+- name: Installing phpmyadmin
+  apt:
+    pkg:
+      - phpmyadmin
+    state: present
+  become: yes
+
