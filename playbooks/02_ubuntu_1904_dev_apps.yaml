@@ -15,10 +15,6 @@
       prompt: "Install Adobe Flash (true/false)?"
       private: no
       default: true
-    - name: "ide_user_answer"
-      prompt: "Install IDEs - Sublime / Atom / Brackets / VSCode / Pycharm (true/false)?"
-      private: no
-      default: true
     - name: "c_user_answer"
       prompt: "Configure C/C++ environment (true/false)?"
       private: no
@@ -41,6 +37,10 @@
       default: true
     - name: "git_user_answer"
       prompt: "Install GIT (true/false)?"
+      private: no
+      default: true
+    - name: "ide_user_answer"
+      prompt: "Install IDEs - Sublime / Atom / Brackets / VSCode / Pycharm (true/false)?"
       private: no
       default: true
     - name: "user_answer"
@@ -100,4 +100,6 @@
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and pascal_user_answer|bool }
     - { role: ruby, 
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and ruby_user_answer|bool }
+    - { role: devops-ides, 
+        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and ide_user_answer|bool }
 

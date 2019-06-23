@@ -1,4 +1,8 @@
 ---
+- name: Change mysql.err permissions
+  command: chmod 777 /var/log/mysql/mysql.err
+  become: yes
+
 - name: Ensure default user is present.
   mysql_user:
     name: "{{ mysql_user_name }}"
