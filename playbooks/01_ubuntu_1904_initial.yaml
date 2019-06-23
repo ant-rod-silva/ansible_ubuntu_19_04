@@ -1,14 +1,11 @@
 ---
 
 # this playbook does reconfiguration of Ubuntu 19.04 machine
-# ansible-playbook -i inventory.cfg 01_ubuntu_1904_initial.yaml
+# ansible-playbook /etc/ansible/playbooks/01_ubuntu_1904_initial.yaml
 
 - name: Executar as instalações e configuracoes no localhost
   hosts: local
   become: yes
-  vars:
-    usuario_terminal: "{{ lookup('env', 'USER') }}"
-    usuario_home: "{{ lookup('env', 'HOME') }}"
   vars_prompt:
     - name: "utilities_user_answer"
       prompt: "Install Utilities (True/False)?"
@@ -73,19 +70,6 @@
     - debug: "msg=user_answer:{{user_answer}}"
     - debug: "msg=distro_name:{{ansible_distribution_release | lower}}"
     - pause: seconds=3
-
-    # --------------------------------------------------------
-    # SUDOERS
-    # --------------------------------------------------------
-    - name: Passwordless sudo
-      lineinfile: "dest=/etc/sudoers
-        insertafter=EOF
-        line='{{ usuario_terminal }} ALL=(ALL) NOPASSWD: ALL'
-        regexp='^{{ usuario_terminal }}'
-        state=present"
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and user_answer | bool
 
     # --------------------------------------------------------
     # Permissões de diretórios

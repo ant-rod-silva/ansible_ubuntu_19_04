@@ -1,2 +1,4 @@
 ---
 # vars file for zsh
+usuario_home: "{{ lookup('env', 'HOME') }}"
+usuario_terminal: "{{ lookup('env', 'USER') }}"

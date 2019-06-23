@@ -1,7 +1,7 @@
 ---
 
 # this playbook does reconfiguration of Ubuntu 19.04 machine
-# ansible-playbook -i inventory.cfg 2_ubuntu_1904_dev_apps.yml
+# ansible-playbook /etc/ansible/playbooks/02_ubuntu_1904_dev_apps.yaml
 
 - name: Executar as instalações e configuracoes no localhost
   hosts: local

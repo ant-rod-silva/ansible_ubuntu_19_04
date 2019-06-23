@@ -1,15 +1,11 @@
 ---
 
 # this playbook does configuration of zsh on ubuntu machine
-# adicionar no aplicativo de sessão:
-# ansible-playbook -i inventory.cfg 03_zsh.yaml
+# ansible-playbook /etc/ansible/playbooks/03_ubuntu_1904_zsh.yaml
 
 - name: Executar as instalações e configuracoes do ZSH
   hosts: local
   become: yes
-  vars:
-    usuario_terminal: "{{ lookup('env', 'USER') }}"
-    usuario_home: "{{ lookup('env', 'HOME') }}"
   vars_prompt:
     - name: "user_answer"
       prompt: "Proceed (true/false)?"
@@ -20,12 +16,12 @@
       apt: update_cache=yes
       become: yes # root
       when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
+        ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool
     - name: apt-get upgrade
       apt: upgrade=yes
       become: yes
       when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
+        ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool
   roles:
     - { role: zsh, when: ansible_distribution == 'Ubuntu' and user_answer | bool }
   tasks:
