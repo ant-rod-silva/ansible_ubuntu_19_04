@@ -1,0 +1,13 @@
+---
+# tasks file for c-c++
+- name: Configuring C/C++ Environment
+  apt:
+    pkg:
+      - cpp
+      - cmake
+      - gcc
+      - g++
+      - g++-7
+    state: present
+  become: yes
+

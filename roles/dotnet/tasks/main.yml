@@ -1,0 +1,5 @@
+---
+# tasks file for dotnet
+- name: Configuring DotNet SDK (Snap) Environment
+  command: snap install dotnet-sdk --classic
+  become: yes

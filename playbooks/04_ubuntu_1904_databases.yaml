@@ -40,7 +40,30 @@
   tasks:
     - name: updatedb
       command: updatedb
+    - name: Install SqliteBrowser (Snap)
+      command: snap install sqlitebrowser --edge
+      become: yes
+      when:
+        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
 
+    - name: Install Dbeaver (Snap)
+      command: snap install dbeaver-ce --edge
+      become: yes
+      when:
+        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
+
+    - name: Installing Virtualization apps
+      apt:
+        pkg:
+          - docker
+          - vagrant
+          - redis-server
+          # virtualization
+          - xvfb
+        state: present
+      become: yes
+      when:
+        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
     # --------------------------------------------------------
     # POSTGRESQL
     # --------------------------------------------------------

@@ -1,0 +1,21 @@
+---
+# tasks file for python
+- name: Configuring Python Environment
+  apt:
+    pkg:
+      - python-pip
+      - python3-pip
+      - python-pil
+      - python-dev
+      - python-setuptools
+      - python-simplejson
+      - python-suds
+      - python3-dev
+      - python3-venv
+      - supervisor
+      - cython
+      - ipython
+      - virtualenv
+      - virtualenvwrapper
+  become: yes
+

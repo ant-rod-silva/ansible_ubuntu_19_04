@@ -7,10 +7,6 @@
   hosts: local
   become: yes
   vars_prompt:
-    - name: "user_answer"
-      prompt: "Proceed (true/false)?"
-      private: no
-      default: true
     - name: "java_user_answer"
       prompt: "Install Oracle Java compiler (true/false)?"
       private: no
@@ -47,52 +43,21 @@
       prompt: "Install GIT (true/false)?"
       private: no
       default: true
-  vars:
-    usuario_terminal: "{{ lookup('env', 'USER') }}"
-    usuario_home: "{{ lookup('env', 'HOME') }}"
-  tasks:
-    - debug: "msg=ansible_connection:{{ansible_connection}}"
-    - debug: "msg=user_answer:{{user_answer}}"
-    - debug: "msg=distro_name:{{ansible_distribution_release | lower}}"
-    - pause: seconds=3
-
-    # --------------------------------------------------------
-    # ppa
-    # --------------------------------------------------------
-    - name: Adding Java 12 PPA
-      apt_repository: "repo='{{ item }}'"
-      with_items:
-        - "ppa:linuxuprising/java"
-      become: yes      
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and java_user_answer | bool
-
-    # Add Canonical Partners Repository into sources list.
-    - name: Adding Canonical Partners Repository
-      apt_repository:
-        repo: 'deb http://archive.canonical.com/ {{ansible_distribution_release | lower}} partner'
-        state: present
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and flash_user_answer | bool
-
-    # --------------------------------------------------------
-    # APT-GET update e upgrade
-    # --------------------------------------------------------
+    - name: "user_answer"
+      prompt: "Proceed (true/false)?"
+      private: no
+      default: true
+  pre_tasks:
     - name: apt-get update
       apt: update_cache=yes
       become: yes # root
       when:
-        user_answer | bool
-
+        ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool
     - name: apt-get upgrade
       apt: upgrade=yes
       become: yes
       when:
-        user_answer | bool
-
-    # --------------------------------------------------------
-    #  Essential Dev Packages
-    # --------------------------------------------------------
+        ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool
     - name: Installing Essential Dev Packages
       apt:
         pkg:
@@ -107,6 +72,7 @@
           - m4
           - ispell
           - meld
+          - memcached
           - numlockx
           - net-tools
           - libssl-dev
@@ -116,195 +82,15 @@
           - openssl
       become: yes
       when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
+        ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool
+  roles:
+    - { role: adobe-flash, 
+        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and flash_user_answer|bool }
+    - { role: c-c++, when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and c_user_answer|bool }
+    - { role: dotnet, when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and dotnet_user_answer|bool }
+    - { role: git, when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and git_user_answer|bool }
+    - { role: oracle-java, when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and java_user_answer|bool }
+    - { role: python, when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and python_user_answer|bool }
+    - { role: pascal, when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and pascal_user_answer|bool }
+    - { role: ruby, when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and ruby_user_answer|bool }
 
-    # --------------------------------------------------------
-    # Java
-    # --------------------------------------------------------
-    - name: Set Java JDK license as accepted
-      debconf: name='oracle-java12-installer' question='shared/accepted-oracle-license-v1-2' value='true' vtype='select'
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool  and java_user_answer | bool
-
-    - name: Installing Java 12
-      apt:
-        pkg:
-          - oracle-java12-installer
-          - oracle-java12-set-default
-        state: present
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool  and java_user_answer | bool
-
-    # --------------------------------------------------------
-    # Flash
-    # --------------------------------------------------------
-    - name: Installing Adobe Flash
-      apt:
-        pkg:
-          - adobe-flashplugin
-        state: present
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and flash_user_answer | bool
-
-    # --------------------------------------------------------
-    # IDEs
-    # --------------------------------------------------------
-    # /snap dir
-    - name: Install Atom (Snap)
-      command: snap install atom --classic
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and ide_user_answer | bool
-
-    - name: Install Brackets (Snap)
-      command: snap install brackets --classic
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and ide_user_answer | bool
-
-    - name: Install Visual Studio Code (Snap)
-      command: snap install code --classic
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and ide_user_answer | bool
-
-    - name: Install Sublime (Snap)
-      command: snap install sublime-text --classic
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and ide_user_answer | bool
-
-    - name: Install Notepad++ (Snap)
-      command: snap install notepad-plus-plus --classic
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and ide_user_answer | bool
-
-    - name: Install Notepadqq (Snap)
-      command: snap install notepadqq --classic
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and ide_user_answer | bool
-
-    - name: Install Pycharm Community (Snap)
-      command: snap install pycharm-community --classic
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and ide_user_answer | bool
-
-    - name: Install Slack (Snap)
-      command: snap install slack --classic
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
-
-    - name: Install SqliteBrowser (Snap)
-      command: snap install sqlitebrowser --edge
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
-
-    - name: Install Dbeaver (Snap)
-      command: snap install dbeaver-ce --edge
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool
-
-    - name: Configuring Pascal Environment
-      apt:
-        pkg:
-          - fpc
-        state: present
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and pascal_user_answer | bool
-
-    - name: Configuring C Environment
-      apt:
-        pkg:
-          - cpp
-          - cmake
-          - gcc
-          - g++
-          - g++-7
-        state: present
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and c_user_answer | bool
-
-    - name: Configuring Python Environment
-      apt:
-        pkg:
-          # python
-          - python-pip
-          - python3-pip
-          - python-pil
-          - python-dev
-          - python-setuptools
-          - python-simplejson
-          - python-suds
-          - python3-dev
-          - python3-venv
-          - supervisor
-          - cython
-          - ipython
-          - virtualenv
-          - virtualenvwrapper
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and python_user_answer | bool
-
-    - name: Configuring Ruby (Snap) Environment
-      command: snap install ruby --classic
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and ruby_user_answer | bool
-
-    - name: Configuring Rails Environment
-      apt:
-        pkg:
-          - rails
-        state: present
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and ruby_user_answer | bool
-
-    - name: Configuring DotNet SDK (Snap) Environment
-      command: snap install dotnet-sdk --classic
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and dotnet_user_answer | bool
-
-    - name: Installing GIT
-      apt:
-        pkg:
-          - git
-          - git-core
-          - gitk
-        state: present
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and git_user_answer | bool
-
-    - name: Install Gitkraken (Snap)
-      command: snap install gitkraken --classic
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool and git_user_answer | bool
-
-    - name: Installing Virtualization apps
-      apt:
-        pkg:
-          - docker
-          - vagrant
-          - redis-server
-          - memcached
-          # virtualization
-          - xvfb
-        state: present
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version is version_compare('19.04', '=') and user_answer | bool

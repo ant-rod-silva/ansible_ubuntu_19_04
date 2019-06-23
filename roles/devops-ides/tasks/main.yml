@@ -1,0 +1,35 @@
+---
+# tasks file for devops-ides
+# /snap dir
+- name: Install Atom (Snap)
+  command: snap install atom --classic
+  become: yes
+
+- name: Install Brackets (Snap)
+  command: snap install brackets --classic
+  become: yes
+
+- name: Install Visual Studio Code (Snap)
+  command: snap install code --classic
+  become: yes
+
+- name: Install Sublime (Snap)
+  command: snap install sublime-text --classic
+  become: yes
+
+- name: Install Notepad++ (Snap)
+  command: snap install notepad-plus-plus --classic
+  become: yes
+
+- name: Install Notepadqq (Snap)
+  command: snap install notepadqq --classic
+  become: yes
+
+- name: Install Pycharm Community (Snap)
+  command: snap install pycharm-community --classic
+  become: yes
+
+- name: Install Slack (Snap)
+  command: snap install slack --classic
+  become: yes
+

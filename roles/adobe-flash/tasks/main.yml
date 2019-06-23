@@ -1,0 +1,9 @@
+---
+# tasks file for adobe-flash
+- name: Installing Adobe Flash
+  apt:
+    pkg:
+      - adobe-flashplugin
+    state: present
+  become: yes
+

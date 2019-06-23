@@ -1,0 +1,15 @@
+---
+# tasks file for git
+- name: Installing GIT
+  apt:
+    pkg:
+      - git
+      - git-core
+      - gitk
+    state: present
+  become: yes
+
+- name: Install Gitkraken (Snap)
+  command: snap install gitkraken --classic
+  become: yes
+

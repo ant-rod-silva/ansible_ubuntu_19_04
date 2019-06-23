@@ -1,0 +1,9 @@
+---
+# tasks file for pascal
+- name: Configuring Pascal Environment
+  apt:
+    pkg:
+      - fpc
+    state: present
+  become: yes
+

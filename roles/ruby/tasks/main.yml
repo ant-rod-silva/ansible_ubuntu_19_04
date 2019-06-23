@@ -1,0 +1,13 @@
+---
+# tasks file for ruby
+- name: Configuring Ruby (Snap) Environment
+  command: snap install ruby --classic
+  become: yes
+
+- name: Configuring Rails Environment
+  apt:
+    pkg:
+      - rails
+    state: present
+  become: yes
+
