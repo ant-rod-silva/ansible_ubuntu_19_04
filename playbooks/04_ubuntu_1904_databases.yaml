@@ -39,6 +39,10 @@
       prompt: "Install Redis (True/False)?"
       private: no
       default: true
+    - name: "memcached_user_answer"
+      prompt: "Install Memcached (True/False)?"
+      private: no
+      default: true
     - name: "user_answer"
       prompt: "Proceed (True/False)?"
       private: no
@@ -58,6 +62,8 @@
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and pgadmin_user_answer|bool }
     - { role: geerlingguy.mysql, become: yes,
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and mysql_user_answer|bool }
+    - { role: memcached, become: yes,
+        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and memcached_user_answer|bool }
     - { role: redis, become: yes,
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and redis_user_answer|bool }
     - { role: dbeaver, become: yes,
