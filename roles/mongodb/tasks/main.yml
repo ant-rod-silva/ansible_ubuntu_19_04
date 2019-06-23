@@ -1,0 +1,12 @@
+---
+# tasks file for mongodb
+- name: Mongodb - Installation
+  apt:
+    pkg:
+      - libcurl4-openssl-dev
+      - pkg-config
+      - libssl-dev
+      - mongodb
+    state: present
+  become: yes
+

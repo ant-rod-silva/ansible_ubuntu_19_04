@@ -1,0 +1,6 @@
+---
+# tasks file for dbeaver
+- name: Install Dbeaver (Snap)
+  command: snap install dbeaver-ce --edge
+  become: yes
+

@@ -1,0 +1,6 @@
+---
+# vars file for postgresql
+usuario_terminal: "{{ lookup('env', 'USER') }}"
+PG_HBA_PATH: /etc/postgresql/12/main/pg_hba.conf
+POSTGRESQL_CONF_PATH: /etc/postgresql/12/main/postgresql.conf
+

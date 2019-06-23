@@ -1,0 +1,13 @@
+---
+# tasks file for sqlite
+- name: Sqlite - Installation
+  apt:
+    pkg:
+    - sqlite3
+  state: present
+  become: yes
+
+- name: Install SqliteBrowser (Snap)
+  command: snap install sqlitebrowser --edge
+  become: yes
+

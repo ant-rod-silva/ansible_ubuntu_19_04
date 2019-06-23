@@ -1,0 +1,27 @@
+---
+# tasks file for firebird
+- name: Firebird - Installation
+  apt:
+    pkg:
+      - firebird3.0-server
+      - firebird3.0-server-core
+      - firebird3.0-common
+      - firebird3.0-utils
+      - libfbclient2
+      - libib-util
+      - libtommath1
+    state: present
+  register: firebird_installation
+  become: yes
+
+- name: systemctl enable firebird3
+  shell: "systemctl enable firebird3.0"
+  become: yes
+
+- name: systemctl start firebird3
+  shell: "systemctl start firebird3.0"
+  become: yes
+
+- name: Ensure firebird3 service was started
+  service: name=firebird3.0 state=started enabled=yes
+

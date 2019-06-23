@@ -1,0 +1,8 @@
+---
+# vars file for pgadmin4
+usuario_terminal: "{{ lookup('env', 'USER') }}"
+PGADMIN_PATH: /usr/local/lib/python2.7/dist-packages/pgadmin4
+URL_PGADMIN: https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v4.8/pip/pgadmin4-4.8-py2.py3-none-any.whl
+PGADMIN_LIB_PATH: /var/lib/pgadmin/
+PGADMIN_LOG_PATH: /var/log/pgadmin
+PGADMIN_LOG_FILE: /var/log/pgadmin/pgadmin4.log

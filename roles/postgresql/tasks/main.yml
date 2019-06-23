@@ -1,0 +1,184 @@
+---
+# tasks file for postgresql
+- name: Postgresql - Installation
+  apt:
+    pkg:
+    - postgresql
+    - postgresql-contrib
+    - libpq-dev
+    - python-psycopg2
+    - python3-psycopg2
+    state: present
+  register: postgresql_installation
+  become: yes
+
+- name: Get installed version
+  command: dpkg-query --showformat='${Version;2}' --show postgresql
+  register: postgresql_version_query
+  changed_when: false
+  when:
+    postgresql_installation is success
+
+- name: Ensure PostgreSQL service was started
+  service: name=postgresql state=started enabled=yes
+  when:
+    postgresql_installation is success
+
+# Postgresql - Criar BD [test_db]
+- name: Postgresql - Criar o banco de dados [test_db]
+  become: true
+  become_user: postgres
+  postgresql_db:
+    name: test_db
+    encoding: UTF-8
+  when:
+    postgresql_installation is success
+
+# Postgresql - Configurações
+- name: Postgresql - Alterar max_connections de [100] para [300] em {{ POSTGRESQL_CONF_PATH }}
+  shell:
+    /bin/sed -i 's/max_connections = 100/max_connections = 300/g' {{ POSTGRESQL_CONF_PATH }}
+  notify:
+    - restart postgresql
+  when:
+    postgresql_installation is success
+
+- name: Postgresql - Alterar max_locks_per_transaction de [64] para [512] em {{ POSTGRESQL_CONF_PATH }}
+  shell:
+    /bin/sed -i 's/#max_locks_per_transaction = 64/max_locks_per_transaction = 512/g' {{ POSTGRESQL_CONF_PATH }}
+  notify:
+    - restart postgresql
+  when:
+    postgresql_installation is success
+
+- name: Postgresql - Descomentando max_locks_per_transaction em {{ POSTGRESQL_CONF_PATH }}, caso esteja comentado
+  shell:
+    /bin/sed -i 's/#max_locks_per_transaction/max_locks_per_transaction/g' {{ POSTGRESQL_CONF_PATH }}
+  notify:
+    - restart postgresql
+  when:
+    postgresql_installation is success
+
+- name: Postgresql - Alterar [peer] para [trust] em {{ PG_HBA_PATH }}
+  shell:
+    /bin/sed -i '/^local/s/peer/trust/' {{ PG_HBA_PATH }}
+  notify:
+    - restart postgresql
+  when:
+    postgresql_installation is success
+
+- name: Postgresql - Alterar [md5] para [trust] em {{ PG_HBA_PATH }}
+  shell:
+    /bin/sed -i '/^host/s/md5/trust/' {{ PG_HBA_PATH }}
+  notify:
+    - restart postgresql
+  when:
+    postgresql_installation is success
+
+- name: Postgresql - listen_addresses = '*' em {{ POSTGRESQL_CONF_PATH }}
+  lineinfile:
+    dest={{ POSTGRESQL_CONF_PATH }}
+    regexp="^#listen_addresses"
+    line="listen_addresses = '*'"
+    state=present
+    backup=yes
+  become: yes
+  notify:
+    - restart postgresql
+  when:
+    postgresql_installation is success
+
+# Postgresql - senha usuario [postgres]
+- name: Set DB password for postgres user
+  command: psql -c "ALTER USER postgres WITH PASSWORD 'md5e19d5cd5af0378da05f63f891c7467af' VALID UNTIL 'infinity'"
+  become: yes
+  become_user: postgres
+  notify:
+    - restart postgresql
+  when:
+    postgresql_installation is success
+
+# Postgresql - Criar usuários
+- name: Postgresql - Criar usuario [postgresql_user]
+  become: yes
+  become_user: postgres
+  postgresql_user:
+    name: "postgresql_user"
+    expires: infinity
+    role_attr_flags: NOSUPERUSER
+  when:
+    postgresql_installation is success
+
+# Postgresql - Criar Extensões
+- name: Postgresql - Criar a extensão [unaccent] no PostgreSQL
+  become: yes
+  shell: sudo -u postgres bash -c "psql -c \"CREATE EXTENSION IF NOT EXISTS unaccent with schema pg_catalog;\""
+  when:
+    postgresql_installation is success
+
+- name: Postgresql - Criar a extensão [pg_trgm] no PostgreSQL
+  become_user: root
+  become: yes
+  shell: sudo -u postgres bash -c "psql -c \"CREATE EXTENSION IF NOT EXISTS pg_trgm with schema pg_catalog;\""
+  when:
+    postgresql_installation is success
+
+# Postgresql - Setando Privilégios
+- name: Postgresql - Setando permissões do usuário [postgresql_user] no PostgreSQL
+  become_user: root
+  become: yes
+  shell: sudo -u postgres bash -c "psql -c \"GRANT ALL PRIVILEGES ON DATABASE test_db TO postgresql_user;\""
+  when:
+    postgresql_installation is success
+
+- name: Postgresql - Setando permissões do usuário [postgres] no PostgreSQL
+  become_user: root
+  become: yes
+  shell: sudo -u postgres bash -c "psql -c \"GRANT ALL PRIVILEGES ON DATABASE test_db TO postgres;\""
+  when:
+    postgresql_installation is success
+
+# Postgresql - Revogando Privilégios
+- name: Postgresql - Revogando permissões do PUBLIC no BD [test_db]
+  become_user: root
+  become: yes
+  shell: sudo -u postgres bash -c "psql -c \"REVOKE connect ON DATABASE test_db FROM PUBLIC;\""
+  when:
+    postgresql_installation is success
+
+# Postgresql - Grant connect
+- name: Postgresql - Grant connect do usuário [postgresql_user] no BD [test_db]
+  become_user: root
+  become: yes
+  shell: sudo -u postgres bash -c "psql -c \"GRANT connect ON DATABASE test_db TO postgresql_user;\""
+  when:
+    postgresql_installation is success
+
+- name: Postgresql - Grant connect do usuário [postgres] no BD [test_db]
+  become_user: root
+  become: yes
+  shell: sudo -u postgres bash -c "psql -c \"GRANT connect ON DATABASE test_db TO postgres;\""
+  when:
+    postgresql_installation is success
+
+# Postgresql - Criar senhas
+- name: Postgresql - Criar a senha do usuario [postgresql_user]
+  become: yes
+  become_user: postgres
+  postgresql_user:
+    db: postgres
+    name: "{{ item.pg_user }}"
+    password: "{{ item.pg_password  }}"
+    role_attr_flags: "{{ item.role }}"
+    encrypted: yes
+  with_items:
+    - { pg_user: "postgresql_user", pg_password: "md5e19d5cd5af0378da05f63f891c7467af", role: "" }
+  when:
+    postgresql_installation is success
+
+# Criando arquivo ~/.pgpass
+- name: Criando arquivo ~/.pgpass
+  shell: "touch /home/{{ usuario_terminal }}/.pgpass"
+  when: 
+    postgresql_installation is success
+

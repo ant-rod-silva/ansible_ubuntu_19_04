@@ -1,0 +1,57 @@
+---
+# tasks file for pgadmin4
+# --------------------------------------------------------
+# PGADMIN4
+# para executar: sudo python /usr/local/lib/python2.7/dist-packages/pgadmin4/pgAdmin4.py
+# para acessar: http://127.0.0.1:5050
+# --------------------------------------------------------
+- name: Download PgAdmin4
+  shell: "wget {{ URL_PGADMIN }} -P /tmp"
+  register: pgadmin4_download
+
+- name: Instalando PgAdmin4
+  shell: "pip install /tmp/pgadmin4*.whl"
+  register: pgadmin4_installation
+  when: pgadmin4_download is success
+
+# config_local.py
+- name: Criando arquivo {{ PGADMIN_PATH }}/config_local.py
+  file:
+    path: "{{ PGADMIN_PATH }}/config_local.py"
+    state: touch
+  when: pgadmin4_installation is success
+
+- name: add SERVER_MODE = False
+  lineinfile:
+    path: {{ PGADMIN_PATH }}/config_local.py
+    line: 'SERVER_MODE = False'
+    insertbefore: BOF # begginning of file
+
+# setup.py
+- name: Executando PgAdmin4 setup.py
+  shell: "python {{ PGADMIN_PATH }}/setup.py"
+  when: pgadmin4_installation is success
+
+# permissões
+- name: permissões do pgAdmin4.py
+  file:
+    path: {{ PGADMIN_PATH }}/pgAdmin4.py
+    state: file
+    mode: u=rw,g=rw,o=r
+  when: pgadmin4_installation is success
+
+- name: permissões do diretorio log
+  shell: "chown -R {{ usuario_terminal }}:{{ usuario_terminal }} {{ PGADMIN_LOG_PATH }}"
+  when: pgadmin4_installation is success
+
+- name: permissões do diretorio lib
+  shell: "chown -R {{ usuario_terminal }}:{{ usuario_terminal }} {{ PGADMIN_LIB_PATH }}"
+  when: pgadmin4_installation is success
+
+- name: permissões do pgAdmin4.log
+  file:
+    path: {{ PGADMIN_LOG_FILE }}
+    state: file
+    mode: u=rw,g=rw,o=rw
+  when: pgadmin4_installation is success
+
