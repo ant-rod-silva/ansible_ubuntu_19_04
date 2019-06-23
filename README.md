@@ -52,6 +52,12 @@ sudo apt-get install -y ansible git
 
 Download this project and put it on **/etc/ansible** dir
 
+```
+sudo rm -rf /etc/ansible/
+sudo git clone https://github.com/rodrigosantosbr/ansible_ubuntu_1904
+sudo mv ansible_ubuntu_1904 ansible
+sudo chown -R $USER:$USER ansible
+```
 
 ## 1.6 - Check if Ansible can access the hosts using Ping
 
@@ -70,7 +76,7 @@ private_key_file = /etc/keys/id_rsa
 2) Create /etc/keys dir
 
 ```
-mkdir /etc/keys
+sudo mkdir /etc/keys
 ```
 
 3) As user, generate ssh key
@@ -82,7 +88,7 @@ ssh-keygen
 4) Copy private key
 
 ```
-cp /home/user/.ssh/id_rsa /etc/keys
+sudo cp /home/user/.ssh/id_rsa /etc/keys
 ```
 
 5) Copy public key
@@ -93,7 +99,15 @@ cat /home/user/.ssh/id_rsa.pub
 
 6) Log as root
 
+```
+sudo su
+```
+
 7) Create **/root/.ssh** directory if not exists
+
+```
+mkdir /root/.ssh
+```
 
 8) Paste the public key inside command 
 
@@ -102,6 +116,10 @@ echo "ssh-rsa key..." >> /root/.ssh/authorized_keys
 ```
 
 9) Logout root
+
+```
+exit
+```
 
 10) Test
 
