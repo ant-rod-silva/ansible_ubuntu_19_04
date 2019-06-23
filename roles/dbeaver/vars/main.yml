@@ -1,2 +1,4 @@
 ---
 # vars file for dbeaver
+DBEAVER_DEB_URL: https://dbeaver.io/files/6.0.0/dbeaver-ce_6.0.0_amd64.deb 
+DBEAVER_DEB_DOWNLOAD_PATH: /tmp/dbeaver-ce_6.0.0_amd64.deb

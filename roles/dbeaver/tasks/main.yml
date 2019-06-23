@@ -1,6 +1,16 @@
 ---
 # tasks file for dbeaver
-- name: Install Dbeaver (Snap)
-  command: snap install dbeaver-ce --edge
-  become: yes
+- name: Check if my_package is installed
+  command: dpkg-query -W dbeaver-ce
+  register: my_package_check_deb
+  failed_when: my_package_check_deb.rc > 1
+  changed_when: my_package_check_deb.rc == 1
 
+- name: Download dbeaver-ce_6 installer
+  get_url: url={{ DBEAVER_DEB_URL }} dest={{ DBEAVER_DEB_DOWNLOAD_PATH }}
+  when: my_package_check_deb.rc == 1
+
+- name: Install dbeaver-ce_6
+  apt: deb="{{ DBEAVER_DEB_DOWNLOAD_PATH }}"
+  sudo: true
+  when: my_package_check_deb.rc == 1
