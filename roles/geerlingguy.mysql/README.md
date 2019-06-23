@@ -6,7 +6,8 @@ Installs and configures MySQL or MariaDB server on RHEL/CentOS or Debian/Ubuntu 
 
 ## Requirements
 
-No special requirements; note that this role requires root access, so either run it in a playbook with a global `become: yes`, or invoke the role in your playbook like:
+No special requirements; 
+note that this role requires root access, so either run it in a playbook with a global `become: yes`, or invoke the role in your playbook like:
 
     - hosts: database
       roles:
@@ -31,11 +32,19 @@ The MySQL root user account details.
 
     mysql_root_password_update: false
 
-Whether to force update the MySQL root user's password. By default, this role will only change the root user's password when MySQL is first configured. You can force an update by setting this to `yes`.
+Whether to force update the MySQL root user's password. 
+By default, this role will only change the root user's password when MySQL is first configured. 
+You can force an update by setting this to `yes`.
 
-> Note: If you get an error like `ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)` after a failed or interrupted playbook run, this usually means the root password wasn't originally updated to begin with. Try either removing  the `.my.cnf` file inside the configured `mysql_user_home` or updating it and setting `password=''` (the insecure default password). Run the playbook again, with `mysql_root_password_update` set to `yes`, and the setup should complete.
+> Note: 
+If you get an error like `ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)` after a 
+failed or interrupted playbook run, this usually means the root password wasn't originally updated to begin with. 
+Try either removing  the `.my.cnf` file inside the configured `mysql_user_home` or updating it and setting `password=''` 
+(the insecure default password). Run the playbook again, with `mysql_root_password_update` set to `yes`, and the setup should complete.
 
-> Note: If you get an error like `ERROR 1698 (28000): Access denied for user 'root'@'localhost' (using password: YES)` when trying to log in from the CLI you might need to run as root or sudoer.
+> Note: 
+If you get an error like `ERROR 1698 (28000): Access denied for user 'root'@'localhost' (using password: YES)` 
+when trying to log in from the CLI you might need to run as root or sudo.
 
     mysql_enabled_on_startup: true
 
@@ -147,7 +156,9 @@ If you want to install MySQL from the official repository instead of installing 
 
 ### MariaDB usage
 
-This role works with either MySQL or a compatible version of MariaDB. On RHEL/CentOS 7+, the mariadb database engine was substituted as the default MySQL replacement package. No modifications are necessary though all of the variables still reference 'mysql' instead of mariadb.
+This role works with either MySQL or a compatible version of MariaDB. 
+On RHEL/CentOS 7+, the mariadb database engine was substituted as the default MySQL replacement package. 
+No modifications are necessary though all of the variables still reference 'mysql' instead of mariadb.
 
 #### Ubuntu 14.04 and 16.04 MariaDB configuration
 
@@ -183,6 +194,57 @@ None.
         host: "%"
         password: similarly-secure-password
         priv: "example_db.*:ALL"
+
+##  Access denied for user 'root'@'localhost'
+
+```
+$ sudo su
+# mysql -u root
+```
+
+``
+mysql> use mysql;
+mysql> select user,host,plugin from mysql.user;
+```
+
+```
++------------------+-----------+-----------------------+
+| user             | host      | plugin                |
++------------------+-----------+-----------------------+
+| root             | localhost | mysql_native_password |
+| mysql.session    | localhost | mysql_native_password |
+| mysql.sys        | localhost | mysql_native_password |
+| debian-sys-maint | localhost | mysql_native_password |
++------------------+-----------+-----------------------+
+```
+
+```
+mysql> create user 'user'@'localhost' identified by 'abcd1234';
+mysql> grant all privileges on *.* to 'user'@'localhost';
+mysql> update user set plugin="auth_socket" where user='user';
+mysql> flush privileges;
+mysql> select user,host,plugin from mysql.user;
+```
+
+```
++------------------+-----------+-----------------------+
+| user             | host      | plugin                |
++------------------+-----------+-----------------------+
+| root             | localhost | mysql_native_password |
+| mysql.session    | localhost | mysql_native_password |
+| mysql.sys        | localhost | mysql_native_password |
+| debian-sys-maint | localhost | mysql_native_password |
+| user_mysql       | localhost | auth_socket           |
++------------------+-----------+-----------------------+
+```
+
+```
+mysql> exit
+```
+
+```
+mysql -u user
+```
 
 ## License
 

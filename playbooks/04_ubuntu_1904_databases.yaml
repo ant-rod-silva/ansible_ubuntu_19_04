@@ -42,18 +42,18 @@
   vars:
     usuario_terminal: "{{ lookup('env', 'USER') }}"
   roles:
-    - { role: sqlite, 
+    - { role: sqlite, become: yes,
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and sqlite_user_answer|bool }
-    - { role: mongodb, 
+    - { role: mongodb, become: yes,
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and mongodb_user_answer|bool }
-    - { role: firebird, 
+    - { role: firebird, become: yes,
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and firebird_user_answer|bool }
-    - { role: postgresql, 
+    - { role: postgresql, become: yes,
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and postgresql_user_answer|bool }
-    - { role: pgadmin4, 
+    - { role: pgadmin4, become: yes,
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and pgadmin_user_answer|bool }
-    - { role: geerlingguy.mysql,
+    - { role: geerlingguy.mysql, become: yes,
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and mysql_user_answer|bool }
-    - { role: dbeaver,
+    - { role: dbeaver, become: yes,
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and dbeaver_user_answer|bool }
 
