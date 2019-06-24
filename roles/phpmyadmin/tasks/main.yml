@@ -6,4 +6,45 @@
       - phpmyadmin
     state: present
   become: yes
+  register: phpmyadmin_installation
 
+- name: Ensure /etc/phpmyadmin/apache.conf contains DirectoryIndex index.php
+  lineinfile:
+    path: /etc/phpmyadmin/apache.conf
+    regexp: '<IfModule mod_php5.c>'
+    state: absent
+  check_mode: yes
+  register: ifmodule_string
+  when:
+    phpmyadmin_installation is success
+
+- name: Ensure /etc/phpmyadmin/apache.conf contains Require ip 127.0.0.1 10.0.0.0/2
+  lineinfile:
+    path: /etc/phpmyadmin/apache.conf
+    regexp: 'Require ip 127.0.0.1 10.0.0.0/2'
+    state: absent
+  check_mode: yes
+  register: requireip_string
+  when:
+    phpmyadmin_installation is success
+
+- name: Inserir /etc/phpmyadmin/apache.conf
+  lineinfile:
+    path: /etc/phpmyadmin/apache.conf
+    line: "    Require ip 127.0.0.1 10.0.0.0/2"
+    insertbefore: <IfModule mod_php5.c>
+  become: yes
+  when: phpmyadmin_installation is success and ifmodule_string.changed and not requireip_string.changed
+
+# Web server to reconfigure automatically: choose [*] apache2
+#- name: dpkg-reconfigure -plow phpmyadmin
+#  command: dpkg-reconfigure -plow phpmyadmin
+#  become: yes
+#  when:
+#    phpmyadmin_installation is success
+
+- name: Restart service apache2
+  service:
+    name: apache2
+    state: restarted
+  when: phpmyadmin_installation is success

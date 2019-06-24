@@ -2,6 +2,22 @@
   hosts: local
   become: yes
   vars_prompt:
+    - name: "apache_user_answer"
+      prompt: "Install Apache2 (true/false)?"
+      private: no
+      default: false
+    - name: "php_user_answer"
+      prompt: "Install php7 (true/false)?"
+      private: no
+      default: false
+    - name: "mysql_user_answer"
+      prompt: "Install Mysql (true/false)?"
+      private: no
+      default: true
+    - name: "phpmyadmin_user_answer"
+      prompt: "Install Phpmyadmin (true/false)?"
+      private: no
+      default: false
     - name: "user_answer"
       prompt: "Proceed (True/False)?"
       private: no
@@ -19,9 +35,11 @@
         ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool
   roles:
     - { role: geerlingguy.apache, become: yes,
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool }
+        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and apache_user_answer|bool }
     - { role: php, 
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool }
-    - { role: geerlingguy.mysql, become: yes,
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool }
+        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and php_user_answer|bool }
+    - { role: mysql, become: yes,
+        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and mysql_user_answer|bool }
+    - { role: phpmyadmin, become: yes,
+        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and phpmyadmin_user_answer|bool }
 
