@@ -168,7 +168,3 @@
 #- name: Remove MySQL test database.
 #  mysql_db: "name='test' state=absent"
 #  when: mysql_installation is success
-
-#- include_tasks: databases.yml
-#- include_tasks: users.yml
-#- include_tasks: replication.yml
