@@ -17,11 +17,6 @@
       become: yes # root
       when:
         ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool
-    - name: apt-get upgrade
-      apt: upgrade=yes
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool
   roles:
     - { role: zsh, 
         when: ansible_distribution == 'Ubuntu' and user_answer | bool }
