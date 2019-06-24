@@ -112,13 +112,17 @@
   when: mysql_installation is success
 
 # in a terminal
-# sudo service mysql stop
-# mysqld_safe --skip-grant-tables &
-# In another
-# mysql
+# $ sudo service mysql stop
+# $ mysqld_safe --skip-grant-tables &
+#
+# In another terminal, enter as root (sudo su)
+#
+# $ mysql
 # mysql> select user,host,plugin from mysql.user;
 # mysql> UPDATE mysql.user SET plugin = 'mysql_native_password', authentication_string = PASSWORD('abcd1234') WHERE User = 'root';
-# FLUSH PRIVILEGES;
+# mysql> FLUSH PRIVILEGES;
+# 
+# Reboot
 
 
 
