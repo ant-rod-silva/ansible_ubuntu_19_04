@@ -53,6 +53,12 @@
       become: yes # root
       when:
         ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool
+    - name: Ensure Python 2 is installed
+      apt:
+        name: 
+          - python2
+          - python2.7
+        state: present
   roles:
     - { role: sqlite, become: yes,
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and sqlite_user_answer|bool }
