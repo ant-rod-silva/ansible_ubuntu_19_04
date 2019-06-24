@@ -5,7 +5,18 @@
   changed_when: false
   check_mode: false
 
-- name: Copy [my.cnf] global MySQL configuration.
+# sudo mkdir /var/run/mysqld
+# chown mysql:mysql /var/run/mysqld
+- name: Verify if /var/run/mysqld directory exists
+  file:
+    path: "/var/run/mysqld"
+    state: directory
+    owner: mysql
+    group: mysql
+    mode: 0775
+  become: yes
+
+- name: Override global MySQL configuration - {{ mysql_config_file }}
   template:
     src: my.cnf.j2
     dest: "{{ mysql_config_file }}"
@@ -15,7 +26,7 @@
     force: "{{ overwrite_global_mycnf }}"
   notify: restart mysql
 
-- name: Verify if {{ mysql_config_include_dir }} directory exists.
+- name: Verify if {{ mysql_config_include_dir }} directory exists
   file:
     path: "{{ mysql_config_include_dir }}"
     state: directory
