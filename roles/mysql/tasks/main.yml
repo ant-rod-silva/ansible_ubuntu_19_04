@@ -123,6 +123,11 @@
 # mysql> FLUSH PRIVILEGES;
 # 
 # Reboot
+#
+# Test:
+#
+# sudo systemctl status mysql
+# mysql -u root
 
 
 
