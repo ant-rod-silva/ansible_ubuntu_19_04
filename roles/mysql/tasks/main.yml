@@ -15,19 +15,160 @@
 # Because Ubuntu starts MySQL as part of the install process, we need to stop
 # mysql and remove the logfiles in case the user set a custom log file size.
 - name: Ensure MySQL is stopped after initial install.
-  service: "name={{ mysql_daemon }} state=stopped"
+  service: "name=mysql state=stopped"
+  become: yes
   when: mysql_installation is success
 
-- name: Delete innodb log files created by apt package after initial install.
-  file: path={{ mysql_datadir }}/{{item}} state=absent
-  with_items:
-    - "ib_logfile0"
-    - "ib_logfile1"
+# DATADIR = /var/lib/mysql - Used for mysql_socket file (mysql.sock)
+- name: Create [{{ DATA_DIR }}] directory if it does not exist
+  file:
+    path: "{{ DATA_DIR }}"
+    state: directory
+    owner: mysql
+    group: mysql
+    mode: 0664 # read (4) + write (2)
+    setype: mysqld_db_t
+  become: yes
   when: mysql_installation is success
 
-# Configure MySQL.
-- include_tasks: configure.yml
-#- include_tasks: secure-installation.yml
+# DATA_DIR = /var/lib/mysql
+- name: Delete [{{ DATA_DIR }}/ib_logfile0] innodb files created by apt package after initial install.
+  file:
+    path: "{{ DATA_DIR }}/ib_logfile0"
+    state: absent
+  become: yes
+  when: mysql_installation is success
+
+- name: Delete [{{ DATA_DIR }}/ib_logfile1] innodb files created by apt package after initial install.
+  file:
+    path: "{{ DATA_DIR }}/ib_logfile1"
+    state: absent
+  become: yes
+  when: mysql_installation is success
+
+# sudo mkdir /var/run/mysqld
+# chown mysql:mysql /var/run/mysqld
+# used for: pid file (mysqld.pid)
+- name: Verify if [{{MYSQLD_DIR}}] directory exists
+  file:
+    path: "{{ MYSQLD_DIR }}"
+    state: directory
+    owner: mysql
+    group: mysql
+    mode: 0664 # read (4) + write (2)
+  become: yes
+  when: mysql_installation is success
+
+# DEFAULT: /var/log/mysql/
+- name: Verify if [{{ MYSQL_LOG_DIR }}] directory exists
+  file:
+    path: "{{ MYSQL_LOG_DIR }}"
+    state: directory
+    owner: mysql
+    group: mysql
+    mode: 0664 # read (4) + write (2)
+  become: yes
+  when: mysql_installation is success
+
+# DEFAULT: /var/log/mysql/mysql-slow.log
+- name: Create slow query log file (if configured) - {{ mysql_slow_query_log_file }}
+  file:
+    path: "{{ mysql_slow_query_log_file }}"
+    state: touch
+    owner: mysql
+    group: mysql
+    mode: 0664 # read (4) + write (2)
+  become: yes
+  when: mysql_installation is success
+
+# DEFAULT: /var/log/mysql/mysql.err
+- name: Create error log file (if configured) - {{ mysql_log_error_file }}
+  file:
+    path: "{{ mysql_log_error_file }}"
+    state: touch
+    owner: mysql
+    group: mysql
+    mode: 0664 # read (4) + write (2)
+  become: yes
+  when: mysql_installation is success
+
+# DEFAULT: /etc/mysql/my.cnf
+- name: Override global MySQL configuration [{{ mysql_config_file }}]
+  template:
+    src: my.cnf.j2
+    dest: "{{ mysql_config_file }}"
+    owner: root
+    group: root
+    mode: 0664 # read (4) + write (2)
+    force: true
+  notify: restart mysql
+  become: yes
+  when: mysql_installation is success
+
+- name: Ensure MySQL is started and enabled on boot.
+  service: "name=mysql state=started enabled=true"
+  register: mysql_service_configuration
+  become: yes
+  when: mysql_installation is success
+
+# --------------------------------------------------------
+# secure installation
+# --------------------------------------------------------
+
+- name: Ensure [root] user is present.
+  mysql_user:
+    name: "root"
+    host: 'localhost'
+    password: "{{ mysql_default_password }}"
+    priv: '*.*:ALL,GRANT'
+    state: present
+  become: yes
+  when: mysql_installation is success
+
+#- name: Disallow root login remotely
+#  command: 'mysql -NBe "{{ item }}"'
+#  with_items:
+#    - DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1')
+#  changed_when: false
+#  become: yes
+#  when: mysql_installation is success
+
+#- name: Update MySQL root password for root account.
+#  shell: >
+#    mysql -u root -NBe
+#    'ALTER USER "root"@"localhost" IDENTIFIED WITH mysql_native_password BY "{{ mysql_default_password }}";'
+#  become: yes
+#  when: mysql_installation is success
+
+# Has to be after the root password assignment, for idempotency.
+#- name: Copy .my.cnf file with root password credentials.
+#  template:
+#    src: "root-my.cnf.j2"
+#    dest: "/root/.my.cnf"
+#    owner: root
+#    group: root
+#    mode: 0600
+#  when: mysql_installation is success
+
+#- name: Get list of hosts for the anonymous user.
+#  command: mysql -NBe 'SELECT Host FROM mysql.user WHERE User = ""'
+#  register: mysql_anonymous_hosts
+#  changed_when: false
+#  check_mode: false
+#  when: mysql_installation is success
+
+#- name: Remove anonymous MySQL users.
+#  mysql_user:
+#    name: ""
+#    host: "{{ item }}"
+#    state: absent
+#  with_items: "{{ mysql_anonymous_hosts.stdout_lines|default([]) }}"
+#  when: mysql_installation is success
+
+#- name: Remove MySQL test database.
+#  mysql_db: "name='test' state=absent"
+#  when: mysql_installation is success
+
 #- include_tasks: databases.yml
 #- include_tasks: users.yml
 #- include_tasks: replication.yml
