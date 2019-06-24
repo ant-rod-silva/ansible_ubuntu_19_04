@@ -9,7 +9,13 @@ sudo su
 apt update && apt upgrade -y
 ```
 
-### 1.2 - Enable passwordless sudo for ansible
+### 1.2 Install Python 2 (Ubuntu Server)
+
+```
+sudo apt install python2 python2.7
+```
+
+### 1.3 - Enable passwordless sudo for ansible
 
 In order to fully control a remote machine we need to be able to execute command on the remote machines as user root. 
 There are a number of ways to accomplish this.
@@ -34,7 +40,7 @@ and look like this:
 
 We can save the file and exit.
 
-### 1.3 - Add user to sudo group
+### 1.4 - Add user to sudo group
 
 As root:
 
@@ -42,13 +48,13 @@ As root:
 sudo usermod -a -G sudo <user>
 ```
 
-### 1.4 - Install ansible and git
+### 1.5 - Install ansible and git
 
 ```
 sudo apt install -y ansible git
 ```
 
-### 1.5 - Download this project
+### 1.6 - Download this project
 
 Download this project and put it on **/etc/ansible** dir
 
@@ -59,7 +65,7 @@ sudo mv ansible_ubuntu_1904 /etc/ansible
 sudo chown -R $USER:$USER /etc/ansible
 ```
 
-## 1.6 - Check if Ansible can access the hosts using Ping
+## 1.7 - Check if Ansible can access the hosts using Ping
 
 Let's verify that Ansible can access the machine. 
 Just as with network you'd use the ping command, Ansible also provides a command called "ping" that checks if the remote machine is accessible to Ansible. 
