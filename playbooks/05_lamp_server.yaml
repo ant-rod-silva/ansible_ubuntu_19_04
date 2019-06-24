@@ -33,6 +33,12 @@
 #      become: yes
 #      when:
 #        ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool
+    - name: Ensure Python 2 is installed
+      apt:
+        name: 
+          - python2
+          - python2.7
+        state: present
   roles:
     - { role: geerlingguy.apache, become: yes,
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and apache_user_answer|bool }
