@@ -5,8 +5,8 @@
 ### 1.1 - Update and upgrade
 
 ```
-sudo apt-get update
-sudo apt-get upgrade
+sudo su
+apt update && apt upgrade -y
 ```
 
 ### 1.2 - Enable passwordless sudo for ansible
