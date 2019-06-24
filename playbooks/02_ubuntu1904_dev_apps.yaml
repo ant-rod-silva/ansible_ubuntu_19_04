@@ -84,9 +84,6 @@
           - net-tools
           - libssl-dev
           - shared-mime-info
-          - openssh-server
-          - openssh-client
-          - openssl
       become: yes
       when:
         ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool
