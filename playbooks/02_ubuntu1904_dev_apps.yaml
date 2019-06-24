@@ -65,6 +65,12 @@
       become: yes # root
       when:
         ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool
+    - name: Ensure Python 2 is installed
+      apt:
+        name: 
+          - python2
+          - python2.7
+        state: present
     - name: Installing Essential Dev Packages
       apt:
         pkg:
