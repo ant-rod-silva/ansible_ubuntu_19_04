@@ -1,4 +1,5 @@
 ---
+ansible_python_interpreter: /usr/bin/python3
 usuario_terminal: user
 ansible_connection: local
 systemd_system_path: /etc/systemd/system
