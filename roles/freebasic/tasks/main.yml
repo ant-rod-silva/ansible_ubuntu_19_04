@@ -7,28 +7,28 @@
     state: present
   become: yes
 
-- name: Download freebasic-bin_1.05.0-1~getdeb1_i386.deb on /tmp
+- name: Download freebasic-bin_1.04.0-1~getdeb3_i386.deb on /tmp
   get_url:
-    url: http://ftp.ubuntu-tw.org/mirror/getdeb/ubuntu/pool/games/f/freebasic/freebasic-bin_1.05.0-1~getdeb1_i386.deb
+    url: http://ftp.ubuntu-tw.org/mirror/getdeb/ubuntu/pool/games/f/freebasic/freebasic-bin_1.04.0-1~getdeb3_i386.deb
     dest: /tmp/freebasic-bin_1.05.0-1~getdeb1_i386.deb
   when:
     ansible_distribution == "Ubuntu" and ansible_distribution_version == "19.04"
 
-- name: Download freebasic_1.05.0-1~getdeb1_i386.deb on /tmp
+- name: Download freebasic_1.04.0-1~getdeb3_i386.deb on /tmp
   get_url:
-    url: http://ftp.ubuntu-tw.org/mirror/getdeb/ubuntu/pool/games/f/freebasic/freebasic_1.05.0-1~getdeb1_i386.deb
+    url: http://ftp.ubuntu-tw.org/mirror/getdeb/ubuntu/pool/games/f/freebasic/freebasic_1.04.0-1~getdeb3_i386.deb
     dest: /tmp/freebasic_1.05.0-1~getdeb1_i386.deb
   when:
     ansible_distribution == "Ubuntu" and ansible_distribution_version == "19.04"
 
-- name: Install /tmp/freebasic-bin_1.05.0-1~getdeb1_i386.deb
-  apt: deb="/tmp/freebasic-bin_1.05.0-1~getdeb1_i386.deb"
+- name: Install /tmp/freebasic-bin_1.04.0-1~getdeb3_i386.deb
+  apt: deb="/tmp/freebasic-bin_1.04.0-1~getdeb3_i386.deb"
   become: yes
   when:
     ansible_distribution == "Ubuntu" and ansible_distribution_version == "19.04"
 
-- name: Install /tmp/freebasic_1.05.0-1~getdeb1_i386.deb
-  apt: deb="/tmp/freebasic_1.05.0-1~getdeb1_i386.deb"
+- name: Install /tmp/freebasic_1.04.0-1~getdeb3_i386.deb
+  apt: deb="/tmp/freebasic_1.04.0-1~getdeb3_i386.deb"
   become: yes
   when:
     ansible_distribution == "Ubuntu" and ansible_distribution_version == "19.04"
