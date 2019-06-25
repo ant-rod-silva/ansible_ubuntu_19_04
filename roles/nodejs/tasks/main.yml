@@ -1,2 +1,8 @@
 ---
 # tasks file for nodejs
+- name: Installing Nodejs
+  apt:
+    pkg:
+      - nodejs
+    state: present
+  become: yes
