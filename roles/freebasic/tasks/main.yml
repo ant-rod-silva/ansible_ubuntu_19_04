@@ -18,3 +18,7 @@
   unarchive:
     src: /tmp/freebasic.tar.gz
     dest: /tmp
+
+- name: Execute install.sh
+  script: /tmp/FreeBASIC-1.06.0-linux-x86_64/install.sh
+  become: yes
