@@ -42,9 +42,13 @@
     - name: "phpmyadmin_user_answer"
       prompt: "Configure PHPmyAdmin environment (true/false)?"
       private: no
-      default: true
+      default: false
     - name: "lua_user_answer"
       prompt: "Configure Lua 5.3 environment (true/false)?"
+      private: no
+      default: false
+    - name: "nodejs_user_answer"
+      prompt: "Configure Nodejs environment (true/false)?"
       private: no
       default: true
     - name: "git_user_answer"
@@ -54,7 +58,7 @@
     - name: "ide_user_answer"
       prompt: "Install IDEs - Sublime / Atom / Brackets / VSCode / Pycharm (true/false)?"
       private: no
-      default: true
+      default: false
     - name: "user_answer"
       prompt: "Proceed (true/false)?"
       private: no
@@ -116,6 +120,8 @@
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and phpmyadmin_user_answer|bool }
     - { role: lua, 
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and lua_user_answer|bool }
-    - { role: devops-ides, 
+    - { role: devops-ides,
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and ide_user_answer|bool }
+    - { role: nodejs,
+        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and nodejs_user_answer|bool }
 
