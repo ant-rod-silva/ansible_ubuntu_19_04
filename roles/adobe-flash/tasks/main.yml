@@ -1,5 +1,10 @@
 ---
 # tasks file for adobe-flash
+- name: Add Canonical Partners Repository into sources list
+  apt_repository:
+    repo: 'deb http://archive.canonical.com/ {{ansible_distribution_release | lower}} partner'
+    state: present
+  become: yes
 - name: Installing Adobe Flash
   apt:
     pkg:
