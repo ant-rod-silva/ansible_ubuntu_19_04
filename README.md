@@ -1,6 +1,6 @@
 # ansible_ubuntu_1904
 
-![](https://cdn3.imggmi.com/uploads/2019/6/25/fe297f9c471f9e22fb6d984a5ea6715e-full.png)
+![-](https://cdn3.imggmi.com/uploads/2019/6/25/fe297f9c471f9e22fb6d984a5ea6715e-full.png)
 
 ## 1 - Initial steps
 
