@@ -150,5 +150,11 @@ Let's see the details of the command:
 ## 2 - How to execute playbooks
 
 ```
-ansible-playbook /etc/ansible/playbooks/01_ubuntu_1904_initial.yaml
+ansible-playbook /etc/ansible/playbooks/01_ubuntu1904_initial.yaml
+ansible-playbook /etc/ansible/playbooks/02_ubuntu1904_dev_apps.yaml
+ansible-playbook /etc/ansible/playbooks/03_ubuntu1904_zsh.yaml
+ansible-playbook /etc/ansible/playbooks/04_ubuntu1904_databases.yaml
+ansible-playbook /etc/ansible/playbooks/05_ubuntu1904_lamp_server.yaml
+ansible-playbook /etc/ansible/playbooks/06_ubuntu1904_virtualenv.yaml
+ansible-playbook /etc/ansible/playbooks/07_ubuntu1904_maintenancetools.yaml
 ```
