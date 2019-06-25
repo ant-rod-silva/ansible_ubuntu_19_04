@@ -1,23 +1,16 @@
 ---
 # tasks file for freebasic
-- name: Add an Apt signing key
-  apt_key:
-    url: http://archive.getdeb.net/getdeb-archive.key
-    state: present
+- name: Download freebasic-bin_1.05.0-1~getdeb1_i386.deb on /tmp
+  get_url:
+    url: http://ftp.ubuntu-tw.org/mirror/getdeb/ubuntu/pool/games/f/freebasic/freebasic-bin_1.05.0-1~getdeb1_i386.deb
+    dest: /tmp/freebasic-bin_1.05.0-1~getdeb1_i386.deb
   when:
     ansible_distribution == "Ubuntu" and ansible_distribution_version == "19.04"
 
-- name: Adding PPA
-  apt_repository: 
-    repo: http://archive.getdeb.net/getdeb-archive.key
-    state: present
-  become: yes
-  when:
-    ansible_distribution == "Ubuntu" and ansible_distribution_version == "19.04"
-
-- name: apt-get update
-  apt: update_cache=yes
-  become: yes # root
+- name: Download freebasic_1.05.0-1~getdeb1_i386.deb on /tmp
+  get_url:
+    url: http://ftp.ubuntu-tw.org/mirror/getdeb/ubuntu/pool/games/f/freebasic/freebasic_1.05.0-1~getdeb1_i386.deb
+    dest: /tmp/freebasic_1.05.0-1~getdeb1_i386.deb
   when:
     ansible_distribution == "Ubuntu" and ansible_distribution_version == "19.04"
 
