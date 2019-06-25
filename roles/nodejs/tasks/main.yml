@@ -4,5 +4,6 @@
   apt:
     pkg:
       - nodejs
+      - npm
     state: present
   become: yes
