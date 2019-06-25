@@ -1,5 +1,12 @@
 ---
 # tasks file for freebasic
+- name: Install libtinfo5
+  apt:
+    pkg:
+      - libtinfo5
+    state: present
+  become: yes
+
 - name: Download freebasic-bin_1.05.0-1~getdeb1_i386.deb on /tmp
   get_url:
     url: http://ftp.ubuntu-tw.org/mirror/getdeb/ubuntu/pool/games/f/freebasic/freebasic-bin_1.05.0-1~getdeb1_i386.deb
