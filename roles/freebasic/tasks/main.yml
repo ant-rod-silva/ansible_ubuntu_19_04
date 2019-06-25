@@ -1,0 +1,28 @@
+---
+# tasks file for freebasic
+- name: Add an Apt signing key
+  apt_key:
+    url: http://archive.getdeb.net/getdeb-archive.key
+    state: present
+  when:
+    ansible_distribution == "Ubuntu" and ansible_distribution_version == "19.04"
+
+- name: Adding PPA
+  apt_repository: 
+    repo: http://archive.getdeb.net/getdeb-archive.key
+    state: present
+  become: yes
+  when:
+    ansible_distribution == "Ubuntu" and ansible_distribution_version == "19.04"
+
+- name: apt-get update
+  apt: update_cache=yes
+  become: yes # root
+  when:
+    ansible_distribution == "Ubuntu" and ansible_distribution_version == "19.04"
+
+- name: Ensure freebasic is installed
+  apt:
+    name:
+      - freebasic
+    state: present
