@@ -33,8 +33,3 @@
   when:
     ansible_distribution == "Ubuntu" and ansible_distribution_version == "19.04"
   
-- name: Ensure freebasic is installed
-  apt:
-    name:
-      - freebasic
-    state: present
