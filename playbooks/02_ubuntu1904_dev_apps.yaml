@@ -59,8 +59,8 @@
       prompt: "Install IDEs - Sublime / Atom / Brackets / VSCode / Pycharm (true/false)?"
       private: no
       default: false
-    - name: "basic_user_answer"
-      prompt: "Install Freebasic (True/False)?"
+    - name: "gambas3_user_answer"
+      prompt: "Install Gambas 3 (True/False)?"
       private: no
       default: false
     - name: "user_answer"
@@ -128,5 +128,5 @@
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and ide_user_answer|bool }
     - { role: nodejs,
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and nodejs_user_answer|bool }
-    - { role: freebasic,
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and basic_user_answer | bool }
+    - { role: gambas3,
+        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and gambas3_user_answer | bool }

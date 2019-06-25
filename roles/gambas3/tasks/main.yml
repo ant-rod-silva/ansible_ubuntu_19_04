@@ -1,0 +1,9 @@
+---
+# tasks file for gambas3
+- name: Gambas3 - Installation
+  apt:
+    pkg:
+      - gambas3
+    state: present
+  register: gambas_installation
+  become: yes
