@@ -1,9 +1,9 @@
 ---
 # tasks file for freebasic
-- name: Install libtinfo5
+- name: Install libncurses-dev
   apt:
     pkg:
-      - libtinfo5
+      - libncurses-dev
     state: present
   become: yes
 
