@@ -1,0 +1,32 @@
+---
+
+# this playbook does reconfiguration of Ubuntu 19.04 machine
+# ansible-playbook /etc/ansible/playbooks/01_ubuntu_1904_initial.yaml
+
+- name: Executar as instalações e configuracoes no localhost
+  hosts: local
+  become: yes
+  vars_prompt:
+    - name: "maintenance_user_answer"
+      prompt: "Install Maintenance Tools (True/False)?"
+      private: no
+      default: true
+    - name: "user_answer"
+      prompt: "Proceed (True/False)?"
+      private: no
+      default: true
+  pre_tasks:
+    - name: apt-get update
+      apt: update_cache=yes
+      become: yes # root
+      when:
+        ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool
+    - name: Ensure Python 2 is installed
+      apt:
+        name: 
+          - python2
+          - python2.7
+        state: present
+  roles:
+    - { role: maintenance, 
+        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and maintenance_user_answer|bool }
