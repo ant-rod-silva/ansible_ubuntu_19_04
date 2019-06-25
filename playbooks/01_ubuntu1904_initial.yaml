@@ -23,10 +23,6 @@
       prompt: "Install Productivity Tools like Skype, Keepassx, Dropbox, Mailspring (True/False)?"
       private: no
       default: true
-    - name: "maintenance_user_answer"
-      prompt: "Install Maintenance Tools (True/False)?"
-      private: no
-      default: true
     - name: "chrony_user_answer"
       prompt: "Install Chrony (True/False)?"
       private: no
@@ -73,8 +69,6 @@
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and browser_user_answer|bool }
     - { role: productivity, 
         when: ansible_distribution == 'Ubuntu'and ansible_distribution_version == '19.04' and user_answer | bool and productivity_user_answer|bool }
-    - { role: maintenance, 
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and maintenance_user_answer|bool }
     - { role: chrony, 
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and chrony_user_answer|bool }
   tasks:
