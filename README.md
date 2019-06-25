@@ -1,5 +1,7 @@
 # ansible_ubuntu_1904
 
+![ansible](https://ibb.co/BzqhhN8)
+
 ## 1 - Initial steps
 
 ### 1.1 - Update and upgrade
