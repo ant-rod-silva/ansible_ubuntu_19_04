@@ -2,6 +2,12 @@
 
 ![](https://cdn3.imggmi.com/uploads/2019/6/25/fe297f9c471f9e22fb6d984a5ea6715e-full.png)
 
+## Tested with:
+
+```
+ansible 2.7.8
+```
+
 ## 1 - Initial steps
 
 ### 1.1 - Update and upgrade
