@@ -1,4 +1,14 @@
 ---
 # tasks file for subversion
-- role: geerlingguy.apache
+- name: Installing Apache 2
+  role: geerlingguy.apache
+  become: yes
+
+- name: Installing Subversion
+  apt:
+    pkg:
+      - subversion
+      - subversion-tools
+      - libapache2-mod-svn
+    state: present
   become: yes
