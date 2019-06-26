@@ -160,3 +160,9 @@ ansible-playbook /etc/ansible/playbooks/05_ubuntu1904_lamp_server.yaml
 ansible-playbook /etc/ansible/playbooks/06_ubuntu1904_virtualenv.yaml
 ansible-playbook /etc/ansible/playbooks/07_ubuntu1904_maintenancetools.yaml
 ```
+
+To skip update and python2 check steps:
+
+```
+ansible-playbook /etc/ansible/playbooks/03_ubuntu1904_zsh.yaml --skip-tags apt_update,python2_check
+```
