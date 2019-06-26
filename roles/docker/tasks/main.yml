@@ -45,10 +45,10 @@
 - name: Install Docker packages
   apt:
     name: "{{ packages }}"
+    install_recommends: no
   vars:
     packages:
     - docker-ce
     - docker-ce-cli
     - containerd.io
-  install_recommends: no
   when: ansible_architecture == "x86_64"
