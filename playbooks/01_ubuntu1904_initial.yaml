@@ -49,11 +49,13 @@
       become: yes # root
       when:
         ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool
+      tags: apt_update
     - name: apt-get upgrade
       apt: upgrade=yes
       become: yes
       when:
         ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool
+      tags: apt_upgrade
     - name: Ensure Python 2 is installed
       apt:
         name: 
