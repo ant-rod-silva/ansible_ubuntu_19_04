@@ -1,2 +1,4 @@
 ---
 # tasks file for subversion
+- role: geerlingguy.apache
+  become: yes
