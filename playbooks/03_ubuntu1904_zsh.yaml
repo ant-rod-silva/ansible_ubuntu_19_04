@@ -24,6 +24,7 @@
           - python2
           - python2.7
         state: present
+      tags: python2_check
   roles:
     - { role: zsh, 
         when: ansible_distribution == 'Ubuntu' and user_answer | bool }
