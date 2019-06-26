@@ -1,7 +1,6 @@
 ---
 # tasks file for subversion
-- name: Installing Apache 2
-  include_role: geerlingguy.apache
+- include_role: geerlingguy.apache
   become: yes
 
 - name: Installing Subversion
