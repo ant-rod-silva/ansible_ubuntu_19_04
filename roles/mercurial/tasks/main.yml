@@ -1,2 +1,8 @@
 ---
 # tasks file for mercurial
+- name: Installing Mercurial
+  apt:
+    pkg:
+      - mercurial
+    state: present
+  become: yes
