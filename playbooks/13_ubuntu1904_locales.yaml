@@ -2,6 +2,7 @@
 
 # this playbook does reconfiguration of Web Servers on ubuntu 19.04 dev machine
 # ansible-playbook -K 12_ubuntu1904_webservers.yaml
+# locale -a -> see all locales
 
 - name: Executar as instalações e configuracoes do Webserver
   hosts: local
