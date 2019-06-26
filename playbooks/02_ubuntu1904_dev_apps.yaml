@@ -88,8 +88,6 @@
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and dotnet_user_answer|bool }
     - { role: git, 
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and git_user_answer|bool }
-    - { role: oracle-java, 
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and java_user_answer|bool }
     - { role: ruby, 
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and ruby_user_answer|bool }
     - { role: php, 
