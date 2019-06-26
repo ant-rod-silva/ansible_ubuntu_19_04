@@ -15,18 +15,6 @@
       prompt: "Install Adobe Flash (true/false)?"
       private: no
       default: true
-    - name: "c_user_answer"
-      prompt: "Configure C/C++ environment (true/false)?"
-      private: no
-      default: true
-    - name: "pascal_user_answer"
-      prompt: "Configure Pascal environment (true/false)?"
-      private: no
-      default: false
-    - name: "python_user_answer"
-      prompt: "Configure Python environment (true/false)?"
-      private: no
-      default: true
     - name: "ruby_user_answer"
       prompt: "Configure Ruby environment (true/false)?"
       private: no
@@ -43,10 +31,6 @@
       prompt: "Configure PHPmyAdmin environment (true/false)?"
       private: no
       default: false
-    - name: "lua_user_answer"
-      prompt: "Configure Lua 5.3 environment (true/false)?"
-      private: no
-      default: false
     - name: "nodejs_user_answer"
       prompt: "Configure Nodejs environment (true/false)?"
       private: no
@@ -61,10 +45,6 @@
       default: false
     - name: "gambas3_user_answer"
       prompt: "Install Gambas 3 (True/False)?"
-      private: no
-      default: false
-    - name: "freebasic_user_answer"
-      prompt: "Install Freebasic 1.05 (True/False)?"
       private: no
       default: false
     - name: "user_answer"
@@ -108,31 +88,21 @@
   roles:
     - { role: adobe-flash, 
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and flash_user_answer|bool }
-    - { role: c-c++, 
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and c_user_answer|bool }
     - { role: dotnet,
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and dotnet_user_answer|bool }
     - { role: git, 
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and git_user_answer|bool }
     - { role: oracle-java, 
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and java_user_answer|bool }
-    - { role: python, 
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and python_user_answer|bool }
-    - { role: pascal, 
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and pascal_user_answer|bool }
     - { role: ruby, 
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and ruby_user_answer|bool }
     - { role: php, 
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and php_user_answer|bool }
     - { role: phpmyadmin, 
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and phpmyadmin_user_answer|bool }
-    - { role: lua, 
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and lua_user_answer|bool }
     - { role: devops-ides,
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and ide_user_answer|bool }
     - { role: nodejs,
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and nodejs_user_answer|bool }
     - { role: gambas3,
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and gambas3_user_answer | bool }
-    - { role: freebasic,
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and freebasic_user_answer | bool }
