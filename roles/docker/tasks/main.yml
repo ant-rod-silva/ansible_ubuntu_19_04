@@ -3,9 +3,11 @@
 - name: Configuring Docker
   apt:
     pkg:
+      - apt-transport-https
       - ca-certificates
       - curl
       - gnupg2
+      - gnupg-agent
       - software-properties-common
       - docker
       - wmdocker
