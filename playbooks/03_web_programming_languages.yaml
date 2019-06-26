@@ -15,10 +15,6 @@
       prompt: "Configure Ruby environment (true/false)?"
       private: no
       default: false
-    - name: "dotnet_user_answer"
-      prompt: "Configure Dotnet environment (true/false)?"
-      private: no
-      default: false
     - name: "php_user_answer"
       prompt: "Configure PHP 7.2 environment (true/false)?"
       private: no
@@ -39,10 +35,6 @@
       prompt: "Install IDEs - Sublime / Atom / Brackets / VSCode / Pycharm (true/false)?"
       private: no
       default: false
-    - name: "gambas3_user_answer"
-      prompt: "Install Gambas 3 (True/False)?"
-      private: no
-      default: false
     - name: "user_answer"
       prompt: "Proceed (true/false)?"
       private: no
@@ -59,33 +51,9 @@
           - python2
           - python2.7
         state: present
-    - name: Installing Essential Dev Packages
-      apt:
-        pkg:
-          - curl
-          - freetds-dev
-          - gdebi
-          - gconf-service
-          - gconf-service-backend
-          - gconf2
-          - gconf2-common
-          - gfortran
-          - m4
-          - ispell
-          - meld
-          - memcached
-          - numlockx
-          - net-tools
-          - libssl-dev
-          - shared-mime-info
-      become: yes
-      when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool
   roles:
     - { role: adobe-flash, 
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and flash_user_answer|bool }
-    - { role: dotnet,
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and dotnet_user_answer|bool }
     - { role: git, 
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and git_user_answer|bool }
     - { role: ruby, 
@@ -98,5 +66,3 @@
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and ide_user_answer|bool }
     - { role: nodejs,
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and nodejs_user_answer|bool }
-    - { role: gambas3,
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and gambas3_user_answer | bool }
