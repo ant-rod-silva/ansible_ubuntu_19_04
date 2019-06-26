@@ -23,6 +23,7 @@
       - docker.io
       - containerd
       - runc
+      - docker-ce
     state: absent
 
 - name: Add an Apt Docker signing key
