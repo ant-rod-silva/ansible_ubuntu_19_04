@@ -8,6 +8,6 @@
       - gnupg2
       - software-properties-common
       - docker
-      - vmdocker
+      - wmdocker
     state: present
   become: yes
