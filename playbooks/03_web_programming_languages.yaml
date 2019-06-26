@@ -27,6 +27,10 @@
       prompt: "Configure Nodejs environment (true/false)?"
       private: no
       default: true
+    - name: "golang_user_answer"
+      prompt: "Configure Golang environment (true/false)?"
+      private: no
+      default: true
     - name: "git_user_answer"
       prompt: "Install GIT (true/false)?"
       private: no
@@ -67,3 +71,5 @@
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and ide_user_answer|bool }
     - { role: nodejs,
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and nodejs_user_answer|bool }
+    - { role: golang,
+        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and golang_user_answer|bool }
