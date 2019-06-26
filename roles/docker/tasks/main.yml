@@ -33,7 +33,7 @@
 
 - name: Add Docker Repo
   apt_repository:
-    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu disco main
     state: present
   when: ansible_architecture == "x86_64"
 
