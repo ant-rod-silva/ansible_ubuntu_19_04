@@ -3,8 +3,6 @@
 - name: Installing Mercurial
   apt:
     pkg:
-      - subversion
-      - subversion-tools
-      - libapache2-mod-svn
+      - mercurial
     state: present
   become: yes
