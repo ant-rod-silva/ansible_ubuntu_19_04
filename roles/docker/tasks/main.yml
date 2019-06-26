@@ -1,6 +1,6 @@
 ---
 # tasks file for docker
-- name: Configuring Docker
+- name: Installing prerequisites
   apt:
     pkg:
       - apt-transport-https
@@ -14,3 +14,13 @@
     state: present
   become: yes
   when: ansible_architecture == "x86_64"
+
+- name: Remove "docker" old versions
+  apt:
+    pkg: 
+      - docker
+      - docker-engine
+      - docker.io
+      - containerd
+      - runc
+    state: absent
