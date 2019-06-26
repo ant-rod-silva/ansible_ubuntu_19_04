@@ -7,10 +7,6 @@
   hosts: local
   become: yes
   vars_prompt:
-    - name: "java_user_answer"
-      prompt: "Install Oracle Java compiler (true/false)?"
-      private: no
-      default: true
     - name: "flash_user_answer"
       prompt: "Install Adobe Flash (true/false)?"
       private: no
