@@ -29,12 +29,24 @@
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
+  when: ansible_architecture == "x86_64"
 
 - name: Add Docker Repo
   apt_repository:
     repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu
     state: present
+  when: ansible_architecture == "x86_64"
 
 - name: apt-get update
   apt: update_cache=yes
   become: yes # root
+  
+- name: Install Docker packages
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+  when: ansible_architecture == "x86_64"
