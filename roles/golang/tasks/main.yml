@@ -1,2 +1,9 @@
 ---
 # tasks file for golang
+- name: Installing Golang
+  apt:
+    pkg:
+      - golang
+      - golang-go
+    state: present
+  become: yes
