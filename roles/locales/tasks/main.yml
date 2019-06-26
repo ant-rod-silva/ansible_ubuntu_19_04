@@ -1,2 +1,8 @@
 ---
 # tasks file for locales
+- name: Ensure the locale exists
+  locale_gen:
+    name: pt_BR.UTF-8
+    state: present
+- name: set BR as default locale
+  command: localectl set-locale LANG-pt_BR.UTF-8 LC_ALL=pt_BR.UTF-8
