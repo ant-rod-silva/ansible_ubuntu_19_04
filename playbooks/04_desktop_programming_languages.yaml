@@ -32,6 +32,7 @@
           - python2
           - python2.7
         state: present
+      tags: python2_check
   roles:
     - { role: dotnet,
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and dotnet_user_answer|bool }
