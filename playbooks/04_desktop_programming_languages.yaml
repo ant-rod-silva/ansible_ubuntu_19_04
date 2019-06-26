@@ -1,0 +1,38 @@
+---
+
+# this playbook does reconfiguration of Ubuntu 19.04 machine
+# ansible-playbook /etc/ansible/playbooks/02_ubuntu_1904_dev_apps.yaml
+
+- name: Executar as instalações e configuracoes no localhost
+  hosts: local
+  become: yes
+  vars_prompt:
+    - name: "dotnet_user_answer"
+      prompt: "Configure Dotnet environment (true/false)?"
+      private: no
+      default: false
+    - name: "gambas3_user_answer"
+      prompt: "Install Gambas 3 (True/False)?"
+      private: no
+      default: false
+    - name: "user_answer"
+      prompt: "Proceed (true/false)?"
+      private: no
+      default: true
+  pre_tasks:
+    - name: apt-get update
+      apt: update_cache=yes
+      become: yes # root
+      when:
+        ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool
+    - name: Ensure Python 2 is installed
+      apt:
+        name: 
+          - python2
+          - python2.7
+        state: present
+  roles:
+    - { role: dotnet,
+        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and dotnet_user_answer|bool }
+    - { role: gambas3,
+        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and gambas3_user_answer | bool }
