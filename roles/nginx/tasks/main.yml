@@ -1,2 +1,10 @@
 ---
 # tasks file for nginx
+- name: Installing Nginx
+  apt:
+    pkg:
+      - nginx
+      - nginx-common
+      - nginx-core
+    state: present
+  become: yes
