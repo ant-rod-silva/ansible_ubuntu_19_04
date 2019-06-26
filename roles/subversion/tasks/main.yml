@@ -1,8 +1,5 @@
 ---
 # tasks file for subversion
-- include_role: geerlingguy.apache
-  become: yes
-
 - name: Installing Subversion
   apt:
     pkg:
