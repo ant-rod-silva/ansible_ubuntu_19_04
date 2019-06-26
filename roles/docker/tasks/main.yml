@@ -11,3 +11,4 @@
       - wmdocker
     state: present
   become: yes
+  when: ansible_architecture == "x86_64"
