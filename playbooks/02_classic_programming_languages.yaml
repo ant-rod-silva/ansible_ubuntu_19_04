@@ -56,5 +56,7 @@
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and lua_user_answer|bool }
     - { role: pascal, 
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and pascal_user_answer|bool }
+    - { role: oracle-java, 
+        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and java_user_answer|bool }
     - { role: python, 
         when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and python_user_answer|bool }
