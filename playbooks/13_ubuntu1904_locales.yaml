@@ -4,7 +4,7 @@
 # ansible-playbook -K 12_ubuntu1904_webservers.yaml
 # locale -a -> see all locales
 
-- name: Executar as instalações e configuracoes do Webserver
+- name: Executar as configuracoes do Locale
   hosts: local
   become: yes
   vars_prompt:
