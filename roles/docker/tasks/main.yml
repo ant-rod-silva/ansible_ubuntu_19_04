@@ -24,3 +24,8 @@
       - containerd
       - runc
     state: absent
+
+- name: Add an Apt signing key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
