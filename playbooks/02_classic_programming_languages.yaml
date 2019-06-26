@@ -15,6 +15,10 @@
       prompt: "Install Freebasic 1.05 (True/False)?"
       private: no
       default: false
+    - name: "java_user_answer"
+      prompt: "Install Oracle Java compiler (true/false)?"
+      private: no
+      default: true
     - name: "lua_user_answer"
       prompt: "Configure Lua 5.3 environment (true/false)?"
       private: no
