@@ -4,5 +4,7 @@
   locale_gen:
     name: pt_BR.UTF-8
     state: present
+  become: yes
 - name: set BR as default locale
-  command: localectl set-locale LANG-pt_BR.UTF-8 LC_ALL=pt_BR.UTF-8
+  command: update-locale LANG-pt_BR.UTF-8 LC_ALL=pt_BR.UTF-8
+  become: yes
