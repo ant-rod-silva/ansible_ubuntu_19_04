@@ -1,2 +1,13 @@
 ---
 # tasks file for docker
+- name: Configuring Docker
+  apt:
+    pkg:
+      - ca-certificates
+      - curl
+      - gnupg2
+      - software-properties-common
+      - docker
+      - vmdocker
+    state: present
+  become: yes
