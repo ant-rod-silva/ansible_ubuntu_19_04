@@ -49,4 +49,5 @@
     - docker-ce
     - docker-ce-cli
     - containerd.io
+  install_recommends: no
   when: ansible_architecture == "x86_64"
