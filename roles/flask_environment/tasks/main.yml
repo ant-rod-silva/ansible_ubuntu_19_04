@@ -9,11 +9,6 @@
   register: lighttpd_disable
   ignore_errors: True
 
-- name: show message if the lighttpd disable command did not succeed
-  fail:
-    msg: "Service lighttpd not found"
-  when: "'FAILED' in lighttpd_disable.stderr"
-
 - name: Disable Apache2 as service To avoid conflicts with nginx
   service:
     name=apache2
@@ -22,11 +17,6 @@
   become: yes
   register: apache2_disable
   ignore_errors: True
-
-- name: show message if the apache2 disable command did not succeed
-  fail:
-    msg: "Service apache2 not found"
-  when: "'FAILED' in apache2_disable.stderr"
 
 - name: Installing Python
   apt:
