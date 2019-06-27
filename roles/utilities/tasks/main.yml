@@ -15,7 +15,6 @@
       # terminal apps
       - guake
       - terminator
-      # text editor
       - screen
       - tree
       - whois
