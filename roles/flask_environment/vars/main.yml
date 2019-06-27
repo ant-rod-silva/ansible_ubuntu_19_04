@@ -1,2 +1,5 @@
 ---
 # vars file for flask_environment
+usuario_terminal: "{{ lookup('env', 'USER') }}"
+usuario_home: "{{ lookup('env', 'HOME') }}"
+virtualenv_dir: "{{ lookup('env', 'HOME') }}/virtualenv"
