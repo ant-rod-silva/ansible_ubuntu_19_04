@@ -1,0 +1,35 @@
+---
+
+# this playbook does reconfiguration of Web Servers on ubuntu 19.04 dev machine
+# ansible-playbook -K 12_ubuntu1904_webservers.yaml
+
+- name: Installing Text Editors
+  hosts: local
+  become: yes
+  vars_prompt:
+    - name: "user_answer"
+      prompt: "Proceed (true/false)?"
+      private: no
+      default: true
+  pre_tasks:
+    - name: apt-get update
+      apt: update_cache=yes
+      become: yes # root
+      when:
+        - ansible_distribution == 'Ubuntu' 
+          and ansible_distribution_version == '19.04' 
+          and user_answer | bool
+      tags: apt_update
+    - name: Ensure Python 2 is installed
+      apt:
+        name: 
+          - python2
+          - python2.7
+        state: present
+      tags: python2_check
+  roles:
+    - { role: terminal, 
+        when: 
+          ansible_distribution == 'Ubuntu' 
+          and ansible_distribution_version == '19.04'
+          and user_answer | bool }
