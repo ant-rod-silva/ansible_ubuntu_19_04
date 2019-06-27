@@ -38,11 +38,25 @@
       tags: python2_check
   roles:
     - { role: geerlingguy.apache, become: yes,
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and apache_user_answer|bool }
+        when: 
+          ansible_distribution == 'Ubuntu' 
+          and ansible_distribution_version == '19.04' 
+          and user_answer | bool and apache_user_answer|bool }
     - { role: php, 
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and php_user_answer|bool }
+        when: 
+          ansible_distribution == 'Ubuntu' 
+          and ansible_distribution_version == '19.04' 
+          and user_answer | bool and php_user_answer|bool }
     - { role: mysql, become: yes,
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and mysql_user_answer|bool }
+        when: 
+          ansible_distribution == 'Ubuntu' 
+          and ansible_distribution_version == '19.04' 
+          and user_answer | bool 
+          and mysql_user_answer|bool }
     - { role: phpmyadmin, become: yes,
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and phpmyadmin_user_answer|bool }
+        when: 
+          ansible_distribution == 'Ubuntu' 
+          and ansible_distribution_version == '19.04' 
+          and user_answer | bool 
+          and phpmyadmin_user_answer|bool }
 
