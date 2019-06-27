@@ -56,16 +56,44 @@
         state: present
   roles:
     - { role: adobe-flash, 
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and flash_user_answer|bool }
+        when: 
+          ansible_distribution == 'Ubuntu' 
+          and ansible_distribution_version == '19.04' 
+          and user_answer | bool 
+          and flash_user_answer|bool }
     - { role: ruby, 
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and ruby_user_answer|bool }
+        when: 
+          ansible_distribution == 'Ubuntu' 
+          and ansible_distribution_version == '19.04' 
+          and user_answer | bool 
+          and ruby_user_answer|bool }
     - { role: php, 
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and php_user_answer|bool }
+        when: 
+          ansible_distribution == 'Ubuntu' 
+          and ansible_distribution_version == '19.04' 
+          and user_answer | bool 
+          and php_user_answer|bool }
     - { role: phpmyadmin, 
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and phpmyadmin_user_answer|bool }
+        when: 
+          ansible_distribution == 'Ubuntu' 
+          and ansible_distribution_version == '19.04' 
+          and user_answer | bool 
+          and phpmyadmin_user_answer|bool }
     - { role: devops-ides,
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and ide_user_answer|bool }
+        when: 
+          ansible_distribution == 'Ubuntu' 
+          and ansible_distribution_version == '19.04' 
+          and user_answer | bool 
+          and ide_user_answer|bool }
     - { role: nodejs,
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and nodejs_user_answer|bool }
+        when: 
+          ansible_distribution == 'Ubuntu' 
+          and ansible_distribution_version == '19.04' 
+          and user_answer | bool 
+          and nodejs_user_answer|bool }
     - { role: golang,
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and golang_user_answer|bool }
+        when: 
+          ansible_distribution == 'Ubuntu' 
+          and ansible_distribution_version == '19.04' 
+          and user_answer | bool 
+          and golang_user_answer|bool }
