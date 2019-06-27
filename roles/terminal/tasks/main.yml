@@ -1,2 +1,10 @@
 ---
 # tasks file for terminal
+- name: Installing Terminal apps (Tmux, Guake, Tilda)
+  apt:
+    pkg:
+      - tmux
+      - guake
+      - tilda
+    state: present
+  become: yes
