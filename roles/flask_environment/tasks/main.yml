@@ -26,6 +26,12 @@
     state: present
   become: yes
 
+- name: Install virtualenv package
+  with_items: [ setuptools, pip ]
+  pip:
+    name: virtualenv
+    executable: pip
+
 - stat: path={{ virtualenv_dir }}
   register: virtualenv_dir_exists
 
@@ -52,3 +58,27 @@
     requirements: /opt/flask-hello-world/requirements.txt
     virtualenv: /home/{{ ansible_ssh_user }}/{{ app_name }}/env
     virtualenv_python: python3.5
+
+# create a directory if it doesn't exist
+- name: Create '{{ virtualenv_dir }}' if it doesn't exist
+  file:
+    path: '{{ virtualenv_dir }}'
+    state: directory
+    mode: "u=rwx,g=rwx,o=rwx"
+    owner: '{{ usuario_terminal }}'
+    group: '{{ usuario_terminal }}'
+
+
+- name: Create virtualenv "{{ virtualenv_dir }}/python3_test_app"
+  pip:
+    virtualenv: "{{ virtualenv_dir }}/test_app"
+    virtualenv_python: python3.7
+    requirements: "{{ app_dir }}/requirements.txt"
+
+- name: u=rwx,g=rwx,o=r for '{{ virtualenv_dir }}/python3_test_app' dir
+  file:
+    path: '{{ virtualenv_dir }}/test_app'
+    state: directory
+    owner: '{{ usuario_terminal }}'
+    group: '{{ usuario_terminal }}'
+    mode: "u=rwx,g=rwx,o=r"
