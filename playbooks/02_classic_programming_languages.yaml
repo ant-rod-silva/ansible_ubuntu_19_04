@@ -40,7 +40,9 @@
       apt: update_cache=yes
       become: yes # root
       when:
-        ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool
+        - ansible_distribution == 'Ubuntu' 
+          and ansible_distribution_version == '19.04' 
+          and user_answer | bool
       tags: apt_update
     - name: Ensure Python 2 is installed
       apt:
