@@ -61,3 +61,11 @@
     requirements: /opt/flask-hello-world/requirements.txt
     virtualenv: "{{ virtualenv_dir }}/flask-hello-world"
     virtualenv_python: python3.7
+
+  - name: restart nginx
+    systemd: name=nginx state=restarted enabled=yes
+  
+  - name: open firewall for nginx
+    ufw:
+      rule: allow
+      name: Nginx Full
