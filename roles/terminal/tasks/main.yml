@@ -8,5 +8,6 @@
       - tilda
       - tilix
       - terminator
+      - screen
     state: present
   become: yes

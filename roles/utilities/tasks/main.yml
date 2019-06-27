@@ -13,9 +13,6 @@
       - g++
       - g++-7
       # terminal apps
-      - guake
-      - terminator
-      - screen
       - tree
       - whois
       # file compression
