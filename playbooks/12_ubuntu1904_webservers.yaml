@@ -35,7 +35,13 @@
       tags: python2_check
   roles:
     - { role: geerlingguy.apache, 
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and apache2_user_answer | bool }
+        when: 
+          ansible_distribution == 'Ubuntu' 
+          and ansible_distribution_version == '19.04' 
+          and apache2_user_answer | bool }
     - { role: nginx, 
-        when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and nginx_user_answer | bool }
+        when: 
+          ansible_distribution == 'Ubuntu' 
+          and ansible_distribution_version == '19.04' 
+          and nginx_user_answer | bool }
 
