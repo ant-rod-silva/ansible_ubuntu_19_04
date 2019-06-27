@@ -39,13 +39,29 @@
   tasks:
     - include_role: 
         name: geerlingguy.apache
-      when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and subversion_user_answer|bool
+      when: 
+        ansible_distribution == 'Ubuntu' 
+        and ansible_distribution_version == '19.04' 
+        and user_answer | bool 
+        and subversion_user_answer|bool
     - include_role: 
         name: subversion
-      when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and subversion_user_answer|bool
+      when: 
+        ansible_distribution == 'Ubuntu' 
+        and ansible_distribution_version == '19.04' 
+        and user_answer | bool 
+        and subversion_user_answer|bool
     - include_role: 
         name: git
-      when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and git_user_answer|bool
+      when: 
+        ansible_distribution == 'Ubuntu' 
+        and ansible_distribution_version == '19.04' 
+        and user_answer | bool 
+        and git_user_answer|bool
     - include_role: 
         name: mercurial
-      when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '19.04' and user_answer | bool and mercurial_user_answer|bool
+      when: 
+        ansible_distribution == 'Ubuntu' 
+        and ansible_distribution_version == '19.04' 
+        and user_answer | bool 
+        and mercurial_user_answer|bool
