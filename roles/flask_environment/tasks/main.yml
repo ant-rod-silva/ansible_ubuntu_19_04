@@ -57,5 +57,5 @@
 - name: install modules in a virtualenv
   pip:
     requirements: /opt/flask-hello-world/requirements.txt
-    virtualenv: /home/{{ ansible_ssh_user }}/{{ app_name }}/env
-    virtualenv_python: python3.5
+    virtualenv: {{ virtualenv_dir }}/flask-hello-world
+    virtualenv_python: python3.7
