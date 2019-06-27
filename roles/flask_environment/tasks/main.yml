@@ -36,8 +36,8 @@
   file:
     path: "{{ virtualenv_dir }}"
     state: directory
-    owner: {{ usuario_terminal }}
-    group: {{ usuario_terminal }}
+    owner: "{{ usuario_terminal }}"
+    group: "{{ usuario_terminal }}"
     mode: 0775
 
 - name: setting /opt dir permissions
