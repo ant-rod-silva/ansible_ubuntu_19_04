@@ -1,2 +1,15 @@
 ---
 # tasks file for flask_environment
+- name: disable lighttpd as service To avoid conflicts with nginx
+  systemd: 
+    name=lighttpd 
+    state=stopped 
+    enabled=no
+  become: yes
+
+- name: Disable Apache as service To avoid conflicts with nginx
+  service:
+    name=apache2
+    state=stopped
+    enabled=no
+  become: yes
