@@ -42,7 +42,7 @@
   with_items:
     - {{ virtualenv_dir }}
 
-- name: [/opt] dir permissions
+- name: setting /opt dir permissions
   command: chown -R {{ usuario_terminal }}:{{ usuario_terminal }} /opt
   become: yes
   args:
