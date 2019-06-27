@@ -1,2 +1,10 @@
 ---
 # tasks file for gunicorn
+- name: Gunicorn - Installation
+  apt:
+    pkg:
+      - gunicorn
+      - python-gunicorn
+    state: present
+  register: gunicorn_installation
+  become: yes
