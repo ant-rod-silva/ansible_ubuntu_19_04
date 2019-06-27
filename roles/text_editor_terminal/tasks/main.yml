@@ -1,2 +1,14 @@
 ---
 # tasks file for text_editor_terminal
+- name: Installing Text Editors
+  apt:
+    pkg:
+      - mc
+      - vim
+      - nano
+      - emacs 
+      - emacs-bin-common 
+      - emacs-common 
+      - emacs-el
+    state: present
+  become: yes
