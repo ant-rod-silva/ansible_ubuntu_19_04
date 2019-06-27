@@ -25,3 +25,15 @@
       - nginx
     state: present
   become: yes
+
+  - name: clone hello world repo
+    git:
+      repo: 'https://github.com/rodrigosantosbr/flask-hello-world.git'
+      dest: /opt/flask-hello-world
+      update: yes  # Does a git pull if the repo already exists
+  
+  - name: install modules in a virtualenv
+    pip:
+      requirements: /opt/flask-hello-world/requirements.txt
+      virtualenv: /home/{{ ansible_ssh_user }}/{{ app_name }}/env
+      virtualenv_python: python3.5
