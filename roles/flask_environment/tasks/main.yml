@@ -54,6 +54,16 @@
   args:
     warn: false # set warn=false to prevent warning
 
+- name: open firewall for nginx
+  ufw:
+    rule: allow
+    name: Nginx Full
+
+- name: open firewall for 5000 port
+  ufw:
+    rule: allow
+    port: 5000
+
 - name: clone hello world repo
   git:
     repo: 'https://github.com/rodrigosantosbr/flask-hello-world.git'
@@ -69,7 +79,3 @@
 - name: restart nginx
   systemd: name=nginx state=restarted enabled=yes
   
-- name: open firewall for nginx
-  ufw:
-    rule: allow
-    name: Nginx Full
