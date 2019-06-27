@@ -15,6 +15,10 @@
       prompt: "Install Nginx (true/false)?"
       private: no
       default: true
+    - name: "gunicorn_user_answer"
+      prompt: "Install Gunicorn (true/false)?"
+      private: no
+      default: true
     - name: "user_answer"
       prompt: "Proceed (true/false)?"
       private: no
@@ -37,11 +41,19 @@
     - { role: geerlingguy.apache, 
         when: 
           ansible_distribution == 'Ubuntu' 
-          and ansible_distribution_version == '19.04' 
+          and ansible_distribution_version == '19.04'
+          and user_answer | bool
           and apache2_user_answer | bool }
     - { role: nginx, 
         when: 
           ansible_distribution == 'Ubuntu' 
           and ansible_distribution_version == '19.04' 
+          and user_answer | bool
           and nginx_user_answer | bool }
+    - { role: gunicorn, 
+        when: 
+          ansible_distribution == 'Ubuntu' 
+          and ansible_distribution_version == '19.04' 
+          and user_answer | bool
+          and gunicorn_user_answer | bool }
 
