@@ -16,10 +16,7 @@
       - guake
       - terminator
       # text editor
-      - mc
-      - nano
       - screen
-      - vim
       - tree
       - whois
       # file compression
