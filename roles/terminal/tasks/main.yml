@@ -6,5 +6,6 @@
       - tmux
       - guake
       - tilda
+      - tilix
     state: present
   become: yes
