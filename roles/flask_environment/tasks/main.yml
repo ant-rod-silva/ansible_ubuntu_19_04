@@ -34,13 +34,11 @@
 
 - name: create {{ virtualenv_dir }} directory if they don't exist
   file:
-    path: "{{ item }}"
+    path: "{{ virtualenv_dir }}"
     state: directory
     owner: {{ usuario_terminal }}
     group: {{ usuario_terminal }}
     mode: 0775
-  with_items:
-    - {{ virtualenv_dir }}
 
 - name: setting /opt dir permissions
   command: chown -R {{ usuario_terminal }}:{{ usuario_terminal }} /opt
