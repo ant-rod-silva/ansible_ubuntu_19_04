@@ -77,10 +77,10 @@
     virtualenv_python: python3.7
 
 - name: virtualenv activate
-  shell: "source {{ virtualenv_dir }}/flask-hello-world/bin/activate"
+  shell: source {{ virtualenv_dir }}/flask-hello-world/bin/activate
 
 - name: execute python
-  shell: "python /opt/flask-hello-world/app.py"
+  shell: python /opt/flask-hello-world/app.py
 
 #- name: restart nginx
 #  systemd: name=nginx state=restarted enabled=yes
