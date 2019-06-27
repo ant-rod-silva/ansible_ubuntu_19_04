@@ -13,3 +13,15 @@
     state=stopped
     enabled=no
   become: yes
+
+- name: Installing Python
+  apt:
+    pkg:
+      - tree         # Optional
+      - python-pip   # Optional
+      - python-dev   # Optional
+      - python3-pip
+      - python3-dev
+      - nginx
+    state: present
+  become: ye
