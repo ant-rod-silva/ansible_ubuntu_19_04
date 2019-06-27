@@ -1,2 +1,23 @@
 ---
 # tasks file for file_compression
+- name: Installing File Compression apps
+  apt:
+    pkg:
+      - arj
+      - p7zip
+      - p7zip-full
+      - p7zip-rar
+      - rar
+      - unrar
+      - unace
+      - unace-nonfree
+      - unzip
+      - zip
+      - sharutils
+      - uudeview
+      - mpack
+      - arj
+      - cabextract
+    state: present
+  become: yes
+
