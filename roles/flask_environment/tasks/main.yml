@@ -24,4 +24,4 @@
       - python3-dev
       - nginx
     state: present
-  become: ye
+  become: yes
