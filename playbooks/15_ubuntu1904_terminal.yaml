@@ -3,7 +3,7 @@
 # this playbook does reconfiguration of Web Servers on ubuntu 19.04 dev machine
 # ansible-playbook -K 12_ubuntu1904_webservers.yaml
 
-- name: Installing Text Editors
+- name: Installing Terminal
   hosts: local
   become: yes
   vars_prompt:
