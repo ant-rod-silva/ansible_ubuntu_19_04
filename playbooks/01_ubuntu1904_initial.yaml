@@ -70,36 +70,36 @@
         state: present
       tags: python2_check
   roles:
-    - role: utilities, 
+    - { role: utilities, 
       when: 
         - ansible_distribution == 'Ubuntu' 
           and ansible_distribution_version == '19.04' 
           and user_answer | bool 
-          and utilities_user_answer|bool
-    - role: graphical_tools, 
+          and utilities_user_answer|bool }
+    - { role: graphical_tools, 
       when:
         - ansible_distribution == 'Ubuntu' 
           and ansible_distribution_version == '19.04'
           and user_answer | bool 
-          and graphical_user_answer|bool
-    - role: browsers, 
+          and graphical_user_answer|bool }
+    - { role: browsers, 
       when: 
         - ansible_distribution == 'Ubuntu' 
           and ansible_distribution_version == '19.04' 
           and user_answer | bool 
-          and browser_user_answer|bool
-    - role: productivity, 
+          and browser_user_answer|bool }
+    - { role: productivity, 
       when: 
         - ansible_distribution == 'Ubuntu'
           and ansible_distribution_version == '19.04' 
           and user_answer | bool 
-          and productivity_user_answer|bool
-    - role: chrony, 
+          and productivity_user_answer|bool }
+    - { role: chrony, 
       when: 
         - ansible_distribution == 'Ubuntu' 
           and ansible_distribution_version == '19.04' 
           and user_answer | bool 
-          and chrony_user_answer|bool
+          and chrony_user_answer|bool }
   tasks:
     - debug: "msg=ansible_connection:{{ansible_connection}}"
     - debug: "msg=user_answer:{{user_answer}}"
