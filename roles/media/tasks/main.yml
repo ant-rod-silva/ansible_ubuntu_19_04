@@ -1,2 +1,9 @@
 ---
 # tasks file for media
+- name: Installing Media apps
+  apt:
+    pkg:
+      - vlc
+      - banshee
+    state: present
+  become: yes
