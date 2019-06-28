@@ -8,3 +8,9 @@
   command: snap install gimp --classic
   become: yes
 
+- name: Installing Graphical Apps
+  apt:
+    pkg:
+      - glabels
+    state: present
+  become: yes
