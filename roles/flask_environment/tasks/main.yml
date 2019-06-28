@@ -78,7 +78,7 @@
 
 - name: virtualenv activate and execute python
   shell: 
-    - "source {{ virtualenv_dir }}/flask-hello-world/bin/activate && python /opt/flask-hello-world/app.py"
+    "source {{ virtualenv_dir }}/flask-hello-world/bin/activate && python /opt/flask-hello-world/app.py"
   args:
     executable: /bin/bash
 
