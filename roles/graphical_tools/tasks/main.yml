@@ -8,6 +8,10 @@
   command: snap install gimp --classic
   become: yes
 
+- name: Install Freemind (Snap)
+  command: snap install freemind --classic
+  become: yes
+
 - name: Installing Graphical Apps
   apt:
     pkg:
