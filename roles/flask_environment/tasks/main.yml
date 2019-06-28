@@ -69,6 +69,7 @@
     repo: 'https://github.com/rodrigosantosbr/flask-hello-world.git'
     dest: /opt/flask-hello-world
     update: yes  # Does a git pull if the repo already exists
+    force: yes
   
 - name: install modules in a virtualenv
   pip:
