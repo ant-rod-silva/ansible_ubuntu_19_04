@@ -20,10 +20,6 @@
     state: present
   become: yes
 
-- name: Install MailSpring (Snap)
-  command: snap install mailspring --classic
-  become: yes
-
 - name: Install Evince (Snap)
   command: snap install evince --classic
   become: yes
@@ -32,7 +28,4 @@
   command: snap install remmina --classic
   become: yes
 
-- name: Install Skype (Snap)
-  command: snap install skype --classic
-  become: yes
 
