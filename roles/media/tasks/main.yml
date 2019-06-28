@@ -4,6 +4,10 @@
   apt:
     pkg:
       - vlc
-      - banshee
+      - rhythmbox
+      - cmus
+      - clementine
+      - audacious
+      - smplayer
     state: present
   become: yes
