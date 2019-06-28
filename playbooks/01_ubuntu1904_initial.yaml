@@ -11,6 +11,10 @@
       prompt: "Install Utilities (True/False)?"
       private: no
       default: true
+    - name: "email_communication_user_answer"
+      prompt: "Install Email Communication Apps like Thunderbird, Skype, Pidgin (True/False)?"
+      private: no
+      default: true
     - name: "graphical_user_answer"
       prompt: "Install Graphical Tools like Gimp, Inkscape (True/False)?"
       private: no
@@ -76,6 +80,12 @@
         and ansible_distribution_version == '19.04' 
         and user_answer | bool 
         and utilities_user_answer|bool }
+    - { role: email_communication, 
+      when: 
+        ansible_distribution == 'Ubuntu' 
+        and ansible_distribution_version == '19.04' 
+        and user_answer | bool 
+        and email_communication_user_answer|bool }
     - { role: graphical_tools, 
       when:
         ansible_distribution == 'Ubuntu' 
