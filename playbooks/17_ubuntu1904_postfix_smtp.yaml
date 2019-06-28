@@ -22,11 +22,17 @@
       tags: apt_update
     - name: Ensure Python 2 is installed
       apt:
-        name: 
+        pkg: 
           - python2
           - python2.7
         state: present
       tags: python2_check
+    - name: Ensure mailutils is installed
+      apt:
+        pkg:
+          - mailutils
+        state: present
+      become: yes
   roles:
     - { role: geerlingguy.postfix, 
         when: 
