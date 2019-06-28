@@ -1,2 +1,10 @@
 ---
 # tasks file for email_communication
+- name: Installing Email & Communication apps
+  apt:
+    pkg:
+      - thunderbird
+      - pidgin
+      - evolution
+    state: present
+  become: yes
