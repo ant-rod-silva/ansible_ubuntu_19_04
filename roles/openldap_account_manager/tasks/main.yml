@@ -21,3 +21,10 @@
     state: restarted
     daemon_reload: yes
     name: apache2
+
+- name: Installing ldap-account-manager
+  apt:
+    pkg:
+      - ldap-account-manager
+    state: present
+  become: yes
