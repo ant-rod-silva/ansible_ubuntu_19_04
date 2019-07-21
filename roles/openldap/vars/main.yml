@@ -2,3 +2,4 @@
 usuario_terminal: "{{ lookup('env', 'USER') }}"
 domain: example.org
 ldap_pw: abcd1234
+ldap_hostname: ldap.example.com
