@@ -1,2 +1,23 @@
 ---
 # tasks file for openldap_account_manager
+- name: Installing prerequisites (apache,php)
+  apt:
+    pkg:
+      - apache2
+      - php
+      - php-cgi
+      - libapache2-mod-php
+      - php-mbstring
+      - php-common
+      - php-pear
+    state: present
+  become: yes
+
+- name: Enable php-cgi PHP extension.
+  shell: a2enconf php7.2-cgi
+
+- name: restart apache2 service
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: apache2
