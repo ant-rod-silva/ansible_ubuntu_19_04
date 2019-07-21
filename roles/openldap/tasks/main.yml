@@ -1,11 +1,8 @@
 ---
 # tasks file for openldap
 - name: Installing prerequisites
-  apt:
-    pkg:
-      - dnspython
-    state: present
-  become: yes
+  pip:
+    name: dnspython
 
 - name: Set hostname (hostnamectl)
   shell: hostnamectl set-hostname {{ ldap_hostname }}
