@@ -8,10 +8,11 @@
 
 - debug: msg="Running Ubuntu version {{ ubuntu_release.stdout|float }}"
 
-- name: Installing python-pip
+- name: Installing python-pip/python3-pip
   apt:
     pkg:
       - python-pip
+      - python3-pip
     state: present
   become: yes
 
