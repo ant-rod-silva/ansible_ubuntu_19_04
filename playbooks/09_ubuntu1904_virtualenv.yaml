@@ -1,7 +1,7 @@
 ---
 
 # this playbook does reconfiguration of virtualenv on ubuntu 19.04 dev machine
-# ansible-playbook -K 5_virtualenv.yml
+# ansible-playbook /etc/ansible/playbooks/09_ubuntu1904_virtualenv.yml
 
 - name: Executar as instalações e configuracoes do virtualenv
   hosts: local
