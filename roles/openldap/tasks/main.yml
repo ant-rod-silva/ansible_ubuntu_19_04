@@ -16,10 +16,15 @@
     state: present
   become: yes
 
-- name: Installing prerequisites
+- name: Installing prerequisites (dnspython)
   pip:
     name: dnspython
     executable: pip3
+
+- name: Installing prerequisites (dnspython)
+  pip:
+    name: dnspython
+    executable: pip
 
 - name: Set hostname (hostnamectl)
   shell: hostnamectl set-hostname {{ ldap_hostname }}
