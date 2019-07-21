@@ -4,6 +4,10 @@
   shell: hostnamectl set-hostname {{ ldap_hostname }}
   become: yes
 
+- name: Set hostname
+  shell: echo "{{ machine_ip }} {{ ldap_hostname }}" | sudo tee -a /etc/hosts
+  become: yes
+
 - name: Installing openldap
   apt:
     pkg:
