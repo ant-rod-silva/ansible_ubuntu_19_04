@@ -1,10 +1,10 @@
 ---
 # tasks file for openldap
-- name: Set hostname
+- name: Set hostname (hostnamectl)
   shell: hostnamectl set-hostname {{ ldap_hostname }}
   become: yes
 
-- name: Set hostname
+- name: Set hostname (/etc/hosts)
   shell: echo "{{ machine_ip }} {{ ldap_hostname }}" | sudo tee -a /etc/hosts
   become: yes
 
