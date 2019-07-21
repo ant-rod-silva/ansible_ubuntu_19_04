@@ -1,2 +1,3 @@
 ---
-# vars file for openldap
+ domain: example.org
+ ldap_pw: abcd1234
