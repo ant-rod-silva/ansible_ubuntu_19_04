@@ -20,6 +20,10 @@
   pip:
     name: dnspython
 
+- name: Installing prerequisites
+  pip3:
+    name: dnspython
+
 - name: Set hostname (hostnamectl)
   shell: hostnamectl set-hostname {{ ldap_hostname }}
   become: yes
