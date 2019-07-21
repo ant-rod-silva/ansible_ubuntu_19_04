@@ -1,2 +1,9 @@
 ---
 # tasks file for openldap
+- name: Installing openldap
+  apt:
+    pkg:
+      - slapd
+      - ldap-utils
+    state: present
+  become: yes
