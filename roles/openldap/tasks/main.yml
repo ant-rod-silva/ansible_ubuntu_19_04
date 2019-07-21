@@ -25,6 +25,14 @@
   debconf: name=slapd question="slapd/domain" value="{{ domain }}" vtype="string"
   when: debconf.stdout == "1"
 
-- ufw:
+- name: Allow all access to tcp port 389
+  ufw:
     rule: allow
-    name: ldap
+    port: 389
+    proto: tcp
+
+- name: Allow all access to tcp port 636
+  ufw:
+    rule: allow
+    port: 636
+    proto: tcp
