@@ -1,7 +1,7 @@
 ---
 
 # this playbook does reconfiguration of Web Servers on ubuntu 19.04 dev machine
-# ansible-playbook -K 12_ubuntu1904_webservers.yaml
+# ansible-playbook  /etc/ansible/playbooks/12_ubuntu1904_webservers.yaml
 # testing: echo "This is the body of the email" | mail -s "This is the subject line" [email]
 
 - name: Configuring PostFix SMTP
