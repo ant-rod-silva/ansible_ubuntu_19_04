@@ -7,9 +7,20 @@
       - ldap-utils
     state: present
   become: yes
-- name: reconfigure openldap
-  shell:
-    dpkg-reconfigure slapd
-  become: yes
-  args:
-    warn: false # set warn=false to prevent warning
+    
+- name: Check debconf for slapd entries
+  shell: (debconf-get-selections | grep -q -s slapd); echo $?
+  register: debconf
+  ignore_errors: yes
+
+- name: Set debconf slapd password1
+  debconf: name=slapd question="slapd/password1" value="{{ ldap_pw }}" vtype="password"
+  when: debconf.stdout == "1"
+    
+- name: Set debconf slapd password2
+  debconf: name=slapd question="slapd/password2" value="{{ ldap_pw }}" vtype="password"
+  when: debconf.stdout == "1"
+
+- name: Set debconf slapd domain
+  debconf: name=slapd question="slapd/domain" value="{{ domain }}" vtype="string"
+  when: debconf.stdout == "1"
