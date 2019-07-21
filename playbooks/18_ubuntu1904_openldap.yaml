@@ -1,9 +1,9 @@
 ---
 
 # this playbook does reconfiguration of Web Servers on ubuntu 19.04 dev machine
-# ansible-playbook -K 12_ubuntu1904_webservers.yaml
+# ansible-playbook -K 18_ubuntu1904_openldap.yaml
 
-- name: Installing Text Editors
+- name: Installing Openldap
   hosts: local
   become: yes
   vars_prompt:
@@ -17,7 +17,7 @@
       become: yes # root
       when:
         - ansible_distribution == 'Ubuntu' 
-          and ansible_distribution_version == '19.04' 
+          and ansible_distribution_version >= '18.04' 
           and user_answer | bool
       tags: apt_update
     - name: Ensure Python 2 is installed
@@ -28,8 +28,8 @@
         state: present
       tags: python2_check
   roles:
-    - { role: text_editor_terminal, 
+    - { role: openldap, 
         when: 
           ansible_distribution == 'Ubuntu' 
-          and ansible_distribution_version == '19.04'
+          and ansible_distribution_version >= '18.04'
           and user_answer | bool }
