@@ -19,7 +19,7 @@
 - name: Installing prerequisites
   pip:
     name: dnspython
-    executable: pip-3.3
+    executable: pip3
 
 - name: Set hostname (hostnamectl)
   shell: hostnamectl set-hostname {{ ldap_hostname }}
