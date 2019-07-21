@@ -1,7 +1,7 @@
 ---
 
 # this playbook does reconfiguration of Web Servers on ubuntu 19.04 dev machine
-# ansible-playbook  /etc/ansible/playbooks/12_ubuntu1904_webservers.yaml
+# ansible-playbook  /etc/ansible/playbooks/16_ubuntu1904_flask_environment.yaml
 
 - name: Configuring Flask Environment Example
   hosts: local
