@@ -28,3 +28,9 @@
       - ldap-account-manager
     state: present
   become: yes
+
+- name: restart apache2 service
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: apache2
