@@ -1,5 +1,9 @@
 ---
 # tasks file for openldap
+- name: Set hostname
+  shell: hostnamectl set-hostname {{ ldap_hostname }}
+  become: yes
+
 - name: Installing openldap
   apt:
     pkg:
