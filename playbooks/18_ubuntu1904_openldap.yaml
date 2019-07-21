@@ -11,6 +11,10 @@
       prompt: "Proceed (true/false)?"
       private: no
       default: true
+    - name: "oam_user_answer"
+      prompt: "Install Openldap Account Manager (true/false)?"
+      private: no
+      default: true
   pre_tasks:
     - name: apt-get update
       apt: update_cache=yes
@@ -32,8 +36,14 @@
           and user_answer | bool
       tags: python2_check
   roles:
-    - { role: openldap, 
+    - { role: openldap,
         when: 
           ansible_distribution == 'Ubuntu' 
           and ansible_distribution_version >= '18.04'
           and user_answer | bool }
+    - { role: openldap_account_manager,
+        when: 
+          ansible_distribution == 'Ubuntu' 
+          and ansible_distribution_version >= '18.04'
+          and user_answer | bool
+          and oam_user_answer | bool }
