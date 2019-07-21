@@ -1,7 +1,7 @@
 ---
 
 # this playbook does configuration of zsh on ubuntu machine
-# ansible-playbook /etc/ansible/playbooks/03_ubuntu_1904_zsh.yaml
+# ansible-playbook /etc/ansible/playbooks/05_ubuntu1904_zsh.yaml
 
 - name: Executar as instalações e configuracoes do ZSH
   hosts: local
