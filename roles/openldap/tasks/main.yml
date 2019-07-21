@@ -1,5 +1,20 @@
 ---
 # tasks file for openldap
+
+- name: Check Ubuntu release
+  raw: cat /etc/lsb-release | grep DISTRIB_RELEASE | cut -d "=" -f2
+  register: ubuntu_release
+  changed_when: false
+
+- debug: msg="Running Ubuntu version {{ ubuntu_release.stdout|float }}"
+
+- name: Installing python-pip
+  apt:
+    pkg:
+      - python-pip
+    state: present
+  become: yes
+
 - name: Installing prerequisites
   pip:
     name: dnspython
