@@ -36,6 +36,10 @@
           - python2
           - python2.7
         state: present
+      when:
+        - ansible_distribution == 'Ubuntu' 
+          and ansible_distribution_version == '19.04' 
+          and user_answer | bool
       tags: python2_check
   roles:
     - { role: geerlingguy.apache, 
