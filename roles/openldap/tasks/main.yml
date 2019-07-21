@@ -24,3 +24,7 @@
 - name: Set debconf slapd domain
   debconf: name=slapd question="slapd/domain" value="{{ domain }}" vtype="string"
   when: debconf.stdout == "1"
+
+- ufw:
+    rule: allow
+    name: ldap
