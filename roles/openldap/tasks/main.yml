@@ -7,3 +7,9 @@
       - ldap-utils
     state: present
   become: yes
+- name: reconfigure openldap
+  shell:
+    dpkg-reconfigure slapd
+  become: yes
+  args:
+    warn: false # set warn=false to prevent warning
