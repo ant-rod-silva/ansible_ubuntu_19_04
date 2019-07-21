@@ -1,7 +1,7 @@
 ---
 
 # this playbook does reconfiguration of Ubuntu 19.04 machine
-# ansible-playbook /etc/ansible/playbooks/02_ubuntu_1904_dev_apps.yaml
+# ansible-playbook /etc/ansible/playbooks/02_classic_programming_languages.yaml
 
 - name: Executar as instalações e configuracoes no localhost
   hosts: local
