@@ -1,7 +1,7 @@
 ---
 
 # this playbook does configuration of postgresql 11 on ubuntu 10.04 machine
-# ansible-playbook 06_ubuntu1904_databases.yaml
+# ansible-playbook /etc/ansible/playbooks/06_ubuntu1904_databases.yaml
 
 - name: Executar as instalações e configuracoes do postgresql
   hosts: local
