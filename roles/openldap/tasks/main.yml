@@ -109,12 +109,12 @@
     port: 636
     proto: tcp
 
-- name: Make sure we have [people] entry on {{ dc }}
+- name: Make sure we have [people] entry
   ldap_entry:
-    dn: "{{ people_ou }}"
+    dn: ou=people,dc=example,dc=com
     objectClass: organizationalUnit
 
-- name: Make sure we have [groups] entry on {{ dc }}
+- name: Make sure we have [groups] entry
   ldap_entry:
-    dn: "{{ groups_ou }}"
+    dn: ou=groups,dc=example,dc=com
     objectClass: organizationalUnit
