@@ -111,7 +111,7 @@
 
 - name: Make sure we have [people] entry
   ldap_entry:
-    dn: ou=people,dc=example,dc=com
+    dn: "[{{ people_ou }}]"
     objectClass: organizationalUnit
 
 - name: Make sure we have [groups] entry
