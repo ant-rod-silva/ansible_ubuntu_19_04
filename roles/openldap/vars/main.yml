@@ -1,6 +1,8 @@
 ---
 usuario_terminal: "{{ lookup('env', 'USER') }}"
 domain: example.com
+org: Example Org
+dc: dc=example,dc=com
 ldap_pw: abcd1234
 ldap_hostname: ldap.example.com
 machine_ip: "{{ lookup('dig', ansible_host) }}"
