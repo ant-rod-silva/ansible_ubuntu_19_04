@@ -95,12 +95,12 @@
     port: 636
     proto: tcp
 
-- name: Make sure we have [people] entry
+- name: Make sure we have [people] entry on {{ dc }}
   ldap_entry:
-    dn: ou=people,dc=example,dc=com
+    dn: ou=people,{{ dc }}
     objectClass: organizationalUnit
 
-- name: Make sure we have [groups] entry
+- name: Make sure we have [groups] entry on {{ dc }}
   ldap_entry:
-    dn: ou=groups,dc=example,dc=com
+    dn: ou=groups,{{ dc }}
     objectClass: organizationalUnit
