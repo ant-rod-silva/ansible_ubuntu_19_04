@@ -20,7 +20,6 @@
   pip:
     name:
       - dnspython
-      - python-dev
       - libldap2-dev
       - libsasl2-dev
       - libssl-dev
@@ -31,7 +30,6 @@
   pip:
     name:
       - dnspython
-      - python-dev
       - libldap2-dev
       - libsasl2-dev
       - libssl-dev
