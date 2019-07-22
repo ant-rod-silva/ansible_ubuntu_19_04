@@ -33,19 +33,23 @@
 - name: Set hostname (/etc/hosts)
   shell: echo "{{ machine_ip }} {{ ldap_hostname }}" | sudo tee -a /etc/hosts
   become: yes
-
-- name: Installing openldap
-  apt:
-    pkg:
-      - slapd
-      - ldap-utils
-    state: present
-  become: yes
     
 - name: Check debconf for slapd entries
   shell: (debconf-get-selections | grep -q -s slapd); echo $?
   register: debconf
   ignore_errors: yes
+
+- name: "debconf for slapd"
+  debconf: name=slapd question='slapd/no_configuration' value='false' vtype='boolean'
+  when: debconf.stdout == "1"
+
+- name: debconf for slapd (domain)
+  debconf: name=slapd question='slapd/domain' value="{{ domain }}" vtype='string'
+  when: debconf.stdout == "1"
+
+- name: "debconf for slapd (org)"
+  debconf: name=slapd question='shared/organization' value="{{ org }}" vtype='string'
+  when: debconf.stdout == "1"
 
 - name: Set debconf slapd password1
   debconf: name=slapd question="slapd/password1" value="{{ ldap_pw }}" vtype="password"
@@ -55,9 +59,29 @@
   debconf: name=slapd question="slapd/password2" value="{{ ldap_pw }}" vtype="password"
   when: debconf.stdout == "1"
 
-- name: Set debconf slapd domain
-  debconf: name=slapd question="slapd/domain" value="{{ domain }}" vtype="string"
+- name: "debconf for slapd (backend)"
+  debconf: name=slapd question='slapd/backend' value='MDB' vtype='select'
   when: debconf.stdout == "1"
+
+- name: "debconf for slapd (purge_database)"
+  debconf: name=slapd question='slapd/purge_database' value='false' vtype='boolean'
+  when: debconf.stdout == "1"
+
+- name: "debconf for slapd (move_old_database)"
+  debconf: name=slapd question='slapd/move_old_database' value='true' vtype='boolean'
+  when: debconf.stdout == "1"
+
+- name: "debconf for slapd (allow_ldap_v2)"
+  debconf: name=slapd question='slapd/allow_ldap_v2' value='false' vtype='boolean'
+  when: debconf.stdout == "1"
+
+- name: Installing openldap
+  apt:
+    pkg:
+      - slapd
+      - ldap-utils
+    state: present
+  become: yes
 
 - name: Allow all access to tcp port 389
   ufw:
