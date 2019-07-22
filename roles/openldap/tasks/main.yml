@@ -94,3 +94,13 @@
     rule: allow
     port: 636
     proto: tcp
+
+- name: Make sure we have [people] entry
+  ldap_entry:
+    dn: ou=people,dc=example,dc=com
+    objectClass: organizationalUnit
+
+- name: Make sure we have [groups] entry
+  ldap_entry:
+    dn: ou=groups,dc=example,dc=com
+    objectClass: organizationalUnit
