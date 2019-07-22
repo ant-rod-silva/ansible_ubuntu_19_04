@@ -16,7 +16,7 @@
     state: present
   become: yes
 
-- name: Installing prerequisites (dnspython)
+- name: Installing prerequisites (dnspython, python-ldap)
   pip:
     name:
       - dnspython
