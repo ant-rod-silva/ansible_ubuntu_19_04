@@ -20,6 +20,10 @@
   pip:
     name:
       - dnspython
+      - python-dev
+      - libldap2-dev
+      - libsasl2-dev
+      - libssl-dev
       - python-ldap
     executable: pip3
 
@@ -27,6 +31,10 @@
   pip:
     name:
       - dnspython
+      - python-dev
+      - libldap2-dev
+      - libsasl2-dev
+      - libssl-dev
       - python-ldap
     executable: pip
 
