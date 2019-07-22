@@ -111,10 +111,10 @@
 
 - name: Make sure we have [people] entry on {{ dc }}
   ldap_entry:
-    dn: "ou=people,{{ dc }}"
+    dn: {{ people_ou }}
     objectClass: organizationalUnit
 
 - name: Make sure we have [groups] entry on {{ dc }}
   ldap_entry:
-    dn: "ou=groups,{{ dc }}"
+    dn: {{ groups_ou }}
     objectClass: organizationalUnit
