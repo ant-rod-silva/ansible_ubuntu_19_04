@@ -21,9 +21,11 @@
     name: dnspython
     executable: pip3
 
-- name: Installing prerequisites (dnspython)
+- name: Installing prerequisites (dnspython, python-ldap)
   pip:
-    name: dnspython
+    name:
+      - dnspython
+      - python-ldap
     executable: pip
 
 - name: Set hostname (hostnamectl)
