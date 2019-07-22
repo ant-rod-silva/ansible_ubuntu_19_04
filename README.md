@@ -56,7 +56,7 @@ As root:
 sudo usermod -a -G sudo <user>
 ```
 
-### 1.5 - Install ansible and git
+### 1.5 - Install ansible, git
 
 ```
 sudo apt install -y ansible git
@@ -108,7 +108,7 @@ sudo cp /home/user/.ssh/id_rsa /etc/keys
 5) Copy public key
 
 ```
-cat /home/user/.ssh/id_rsa.pub
+cat /home/user/.ssh/id_rsa.pub > /tmp/id_rsa.pub
 ```
 
 6) Log as root
@@ -126,7 +126,8 @@ mkdir /root/.ssh
 8) Paste the public key inside command 
 
 ```
-echo "ssh-rsa key..." >> /root/.ssh/authorized_keys
+cat /tmp/id_rsa.pub >> /root/.ssh/authorized_keys
+rm /tmp/id_rsa.pub
 ```
 
 9) Logout root
