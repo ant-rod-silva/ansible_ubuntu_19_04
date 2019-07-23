@@ -146,6 +146,7 @@
   lineinfile:
     path: /usr/share/slapd/slapd.conf
     line: include        /etc/ldap/schema/servidorpublico.schema
+    insertbefore: '^# Where the pid file is put. The init.d script'
   become: yes
   when: not servidorpublicoschema.changed
 
