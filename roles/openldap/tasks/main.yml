@@ -118,5 +118,7 @@
 
 - name: Make sure we have [groups] entry
   ldap_entry:
-    dn: ou=groups,dc=example,dc=com
+    dn: "{{ groups_ou }}"
     objectClass: organizationalUnit
+    bind_dn: "{{ bind_dn }}"
+    bind_pw: "{{ ldap_pw }}"
