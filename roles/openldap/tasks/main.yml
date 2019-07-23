@@ -140,6 +140,5 @@
   lineinfile:
     path: /usr/share/slapd/slapd.conf
     line: include        /etc/ldap/schema/servidorpublico.schema
-    insertafter: include        /etc/ldap/schema/inetorgperson.schema
   become: yes
   when: not servidorpublicoschema.changed
