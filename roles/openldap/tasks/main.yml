@@ -137,7 +137,7 @@
 - name: Ensure [/usr/share/slapd/slapd.conf] contains [/etc/ldap/schema/servidorpublico.schema]
   lineinfile:
     path: /usr/share/slapd/slapd.conf
-    regexp: '^include        /etc/ldap/schema/servidorpublico.schema'
+    regexp: '^include         /etc/ldap/schema/servidorpublico.schema'
     state: absent
   check_mode: yes
   register: servidorpublicoschema
@@ -145,7 +145,7 @@
 - name: Insert [/etc/ldap/schema/servidorpublico.schema] on [/usr/share/slapd/slapd.conf]
   lineinfile:
     path: /usr/share/slapd/slapd.conf
-    line: include        /etc/ldap/schema/servidorpublico.schema
+    line: include         /etc/ldap/schema/servidorpublico.schema
     insertbefore: '^# Where the pid file is put. The init.d script'
   become: yes
   when: not servidorpublicoschema.changed
