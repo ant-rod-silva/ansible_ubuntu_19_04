@@ -122,3 +122,8 @@
     objectClass: organizationalUnit
     bind_dn: "{{ bind_dn }}"
     bind_pw: "{{ ldap_pw }}"
+
+- name: Extending schema
+  copy:
+    src: /etc/ansible/files/servidorpublico.schema
+    dest: /etc/ldap/schema/servidorpublico.schema
