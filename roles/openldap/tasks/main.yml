@@ -155,7 +155,7 @@
   replace:
     path: /etc/ldap/ldap.conf
     regexp: '^TLS_CACERT'
-    replace: '^#TLS_CACERT'
+    replace: '#TLS_CACERT'
   when: tls_cacert.changed
 
 - name: Convert servidorpublico.schema file
