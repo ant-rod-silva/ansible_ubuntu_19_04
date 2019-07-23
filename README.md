@@ -8,7 +8,9 @@
 ansible >= 2.7.8
 ```
 
-## 1 - Initial steps
+----------------------------
+
+## 1 - Ansible installation
 
 ### 1.1 - Update and upgrade
 
@@ -32,13 +34,19 @@ apt install ansible
 ansible --version
 ```
 
-### 1.4 Install Python 2 (Ubuntu Server)
+----------------------------
+
+## 2 - Python 2 and Git Installation
 
 ```
-sudo apt install python2 python2.7
+sudo apt install python2 python2.7 git
 ```
 
-### 1.5 - Enable passwordless sudo for ansible
+----------------------------
+
+## 3 - Enable passwordless sudo for ansible
+
+### 3.1 - Visudo
 
 In order to fully control a remote machine we need to be able to execute command on the remote machines as user root. 
 There are a number of ways to accomplish this.
@@ -63,7 +71,7 @@ and look like this:
 
 We can save the file and exit.
 
-### 1.6 - Add user to sudo group
+### 3.2 - Add user to sudo group
 
 As root:
 
@@ -71,13 +79,9 @@ As root:
 sudo usermod -a -G sudo <user>
 ```
 
-### 1.7 - Install ansible, git
+----------------------------
 
-```
-sudo apt install -y ansible git
-```
-
-### 1.8 - Download this project
+### 4 - Download this project
 
 Download this project and put it on **/etc/ansible** dir
 
@@ -88,7 +92,9 @@ sudo mv ansible_ubuntu_1904 /etc/ansible
 sudo chown -R $USER:$USER /etc/ansible
 ```
 
-## 1.9 - Check if Ansible can access the hosts using Ping
+----------------------------
+
+## 5 - Check if Ansible can access the hosts using Ping
 
 Let's verify that Ansible can access the machine. 
 Just as with network you'd use the ping command, Ansible also provides a command called "ping" that checks if the remote machine is accessible to Ansible. 
@@ -173,7 +179,7 @@ Let's see the details of the command:
 
 ----------------------------
 
-## 2 - How to execute playbooks
+## 6 - How to execute playbooks
 
 ```
 ansible-playbook /etc/ansible/playbooks/01_ubuntu1904_initial.yaml
