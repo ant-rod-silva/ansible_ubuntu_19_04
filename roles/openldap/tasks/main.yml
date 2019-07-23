@@ -127,3 +127,19 @@
   copy:
     src: /etc/ansible/files/servidorpublico.schema
     dest: /etc/ldap/schema/servidorpublico.schema
+
+- name: Ensure [/usr/share/slapd/slapd.conf] contains [/etc/ldap/schema/servidorpublico.schema]
+  lineinfile:
+    path: /usr/share/slapd/slapd.conf
+    regexp: '^include        /etc/ldap/schema/servidorpublico.schema'
+    state: absent
+  check_mode: yes
+  register: servidorpublicoschema
+
+- name: Insert [/etc/ldap/schema/servidorpublico.schema] on [/usr/share/slapd/slapd.conf]
+  lineinfile:
+    path: /usr/share/slapd/slapd.conf
+    line: include        /etc/ldap/schema/servidorpublico.schema
+    insertafter: include        /etc/ldap/schema/inetorgperson.schema
+  become: yes
+  when: not servidorpublicoschema.changed
