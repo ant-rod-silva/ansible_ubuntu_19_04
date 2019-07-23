@@ -114,7 +114,7 @@
     dn: "{{ people_ou }}"
     objectClass: organizationalUnit
     bind_dn: {{ bind_dn }}
-    bind_pw: password
+    bind_pw: {{ ldap_pw }}
 
 - name: Make sure we have [groups] entry
   ldap_entry:
