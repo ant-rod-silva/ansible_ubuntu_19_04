@@ -129,27 +129,6 @@
     groups: openldap
     append: yes
 
-- name: Extending schema
-  copy:
-    src: /etc/ansible/roles/openldap/files/servidorpublico.schema
-    dest: /etc/ldap/schema/servidorpublico.schema
-
-- name: Ensure [/usr/share/slapd/slapd.conf] contains [/etc/ldap/schema/servidorpublico.schema]
-  lineinfile:
-    path: /usr/share/slapd/slapd.conf
-    regexp: '^include         /etc/ldap/schema/servidorpublico.schema'
-    state: absent
-  check_mode: yes
-  register: servidorpublicoschema
-
-- name: Insert [/etc/ldap/schema/servidorpublico.schema] on [/usr/share/slapd/slapd.conf]
-  lineinfile:
-    path: /usr/share/slapd/slapd.conf
-    line: include         /etc/ldap/schema/servidorpublico.schema
-    insertbefore: '^# Where the pid file is put. The init.d script'
-  become: yes
-  when: not servidorpublicoschema.changed
-
 - name: Ensure [/etc/ldap/ldap.conf] contains [TLS_CACERT]
   lineinfile:
     path: /etc/ldap/ldap.conf
@@ -164,6 +143,30 @@
     regexp: '^TLS_CACERT'
     replace: '#TLS_CACERT'
   when: tls_cacert.changed
+
+- name: Create directory [/tmp/ldapworkingdir] if it does not exist
+  file:
+    path: /tmp/ldapworkingdir
+    state: directory
+    mode: '0777'
+
+- name: Delete file [/tmp/ldapworkingdir/ldap.conf]
+  file:
+    path: /tmp/ldapworkingdir/ldap.conf
+    state: absent
+
+- name: Create file [/tmp/ldapworkingdir/ldap.conf]
+  file:
+    path: /tmp/ldapworkingdir/ldap.conf
+    state: present
+
+- name: Extending schema [servidorpublico.schema]
+  copy:
+    src: /etc/ansible/roles/openldap/files/servidorpublico.schema
+    dest: /etc/ldap/schema/servidorpublico.schema
+
+- name: Convert and add the schema to OpenLDAP
+  shell: echo "include /etc/ldap/schema/servidorpublico.schema" > /tmp/ldapworkingdir/ldap.conf
 
 - name: Convert servidorpublico.schema file
   shell: slaptest -f /etc/ldap/ldap.conf -F .
