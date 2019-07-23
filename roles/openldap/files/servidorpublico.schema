@@ -113,7 +113,8 @@ attributetype ( 2.5.4.100018
   SYNTAX '1.3.6.1.4.1.1466.115.121.1.27' )
 
 objectclass ( 2.5.6.10002
-  NAME 'ServidorPublicoObjectClass' SUP top STRUCTURAL
+  NAME 'ServidorPublicoObjectClass'
+  SUP (top $ inetOrgPerson $ organizationalPerson) STRUCTURAL
   DESC 'this is MSExchangeObjectClass object class'
   MUST (givenName $
         sn $
