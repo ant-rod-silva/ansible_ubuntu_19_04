@@ -170,19 +170,19 @@
     src: /etc/ansible/roles/openldap/files/servidorpublico.schema
     dest: /etc/ldap/schema/servidorpublico.schema
 
-- name: Convert and add the schema to OpenLDAP
+- name: Add [/etc/ldap/schema/core.schema] in [/tmp/ldapworkingdir/ldap.conf]
   shell: echo "include /etc/ldap/schema/core.schema" >> /tmp/ldapworkingdir/ldap.conf
 
-- name: Convert and add the schema to OpenLDAP
+- name: Add [/etc/ldap/schema/cosine.schema] in [/tmp/ldapworkingdir/ldap.conf]
   shell: echo "include /etc/ldap/schema/cosine.schema" >> /tmp/ldapworkingdir/ldap.conf
 
-- name: Convert and add the schema to OpenLDAP
+- name: Add [/etc/ldap/schema/nis.schema] in [/tmp/ldapworkingdir/ldap.conf]
   shell: echo "include /etc/ldap/schema/nis.schema" >> /tmp/ldapworkingdir/ldap.conf
 
-- name: Convert and add the schema to OpenLDAP
+- name: Add [/etc/ldap/schema/inetorgperson.schema] in [/tmp/ldapworkingdir/ldap.conf]
   shell: echo "include /etc/ldap/schema/inetorgperson.schema" >> /tmp/ldapworkingdir/ldap.conf
 
-- name: Convert and add the schema to OpenLDAP
+- name: Add [/etc/ldap/schema/servidorpublico.schema] in [/tmp/ldapworkingdir/ldap.conf]
   shell: echo "include /etc/ldap/schema/servidorpublico.schema" >> /tmp/ldapworkingdir/ldap.conf
 
 - name: Convert servidorpublico.schema file
