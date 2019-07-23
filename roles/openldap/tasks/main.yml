@@ -151,12 +151,12 @@
   check_mode: yes
   register: tls_cacert
 
-- name: Exampel of commenting a line in Ansible.
+- name: Comment [TLS_CACERT] parameter on [/etc/ldap/ldap.conf]
   replace:
-    path: /Users/mdtutorials/Documents/Ansible/Input.txt
+    path: /etc/ldap/ldap.conf
     regexp: '^TLS_CACERT'
     replace: '^#TLS_CACERT'
-  when: not servidorpublicoschema.changed
+  when: not tls_cacert.changed
 
 - name: Convert servidorpublico.schema file
   shell: slaptest -f /etc/ldap/ldap.conf -F .
