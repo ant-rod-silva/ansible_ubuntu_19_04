@@ -196,6 +196,6 @@
 
 - name: Change /tmp/ldapworkingdir/ owner and group
   file:
-    path: cn=config.ldif
+    path: /tmp/ldapworkingdir/cn=config.ldif
     owner: openldap
     group: openldap
