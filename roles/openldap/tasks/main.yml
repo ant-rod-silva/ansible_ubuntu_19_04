@@ -143,6 +143,14 @@
   become: yes
   when: not servidorpublicoschema.changed
 
+- name: Ensure [/etc/ldap/ldap.conf] contains [TLS_CACERT]
+  lineinfile:
+    path: /etc/ldap/ldap.conf
+    regexp: '^TLS_CACERT'
+    state: absent
+  check_mode: yes
+  register: tls_cacert
+
 - name: Convert servidorpublico.schema file
   shell: slaptest -f /etc/ldap/ldap.conf -F .
   become: yes
