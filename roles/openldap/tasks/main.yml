@@ -178,7 +178,7 @@
   shell: echo "include /etc/ldap/schema/inetorgperson.schema" >> /tmp/ldapworkingdir/ldap.conf
 
 - name: Convert and add the schema to OpenLDAP
-  shell: echo "include /etc/ldap/schema/servidorpublico.schema" >. /tmp/ldapworkingdir/ldap.conf
+  shell: echo "include /etc/ldap/schema/servidorpublico.schema" >> /tmp/ldapworkingdir/ldap.conf
 
 - name: Convert servidorpublico.schema file
   shell: slaptest -f /tmp/ldapworkingdir/ldap.conf -F .
