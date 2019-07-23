@@ -5,7 +5,7 @@
 ## Tested with:
 
 ```
-ansible 2.7.8
+ansible >= 2.7.8
 ```
 
 ## 1 - Initial steps
