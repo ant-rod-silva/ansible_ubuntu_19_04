@@ -193,3 +193,9 @@
 - name: Convert servidorpublico.schema file
   shell: cd /tmp/ldapworkingdir/ && slaptest -f /tmp/ldapworkingdir/ldap.conf -F .
   become: yes
+
+- name: Change /tmp/ldapworkingdir/ owner and group
+  file:
+    path: cn=config.ldif
+    owner: openldap
+    group: openldap
