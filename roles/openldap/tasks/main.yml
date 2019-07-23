@@ -125,7 +125,7 @@
 
 - name: Extending schema
   copy:
-    src: /etc/ansible/files/servidorpublico.schema
+    src: /etc/ansible/roles/openldap/files/servidorpublico.schema
     dest: /etc/ldap/schema/servidorpublico.schema
 
 - name: Ensure [/usr/share/slapd/slapd.conf] contains [/etc/ldap/schema/servidorpublico.schema]
