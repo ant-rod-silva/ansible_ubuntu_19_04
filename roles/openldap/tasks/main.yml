@@ -199,3 +199,4 @@
     path: /tmp/ldapworkingdir/cn=config.ldif
     owner: openldap
     group: openldap
+    mode: '0774'
