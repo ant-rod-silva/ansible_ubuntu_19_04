@@ -154,6 +154,8 @@
     path: /tmp/ldapworkingdir
     state: directory
     mode: '0777'
+    owner: openldap
+    group: openldap
 
 - name: Delete file [/tmp/ldapworkingdir/ldap.conf]
   file:
@@ -164,6 +166,9 @@
   file:
     path: /tmp/ldapworkingdir/ldap.conf
     state: touch
+    owner: openldap
+    group: openldap
+    mode: '0774'
 
 - name: Extending schema [servidorpublico.schema]
   copy:
