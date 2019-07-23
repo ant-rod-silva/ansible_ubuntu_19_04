@@ -123,9 +123,9 @@
     bind_dn: "{{ bind_dn }}"
     bind_pw: "{{ ldap_pw }}"
 
-- name: adding existing user '{{ user }}' to group sudo
+- name: adding existing user '{{ usuario_terminal }}' to group [openldap]
   user:
-    name: '{{ user }}'
+    name: '{{ usuario_terminal }}'
     groups: openldap
     append: yes
 
