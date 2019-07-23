@@ -17,13 +17,28 @@ sudo su
 apt update && apt upgrade -y
 ```
 
-### 1.2 Install Python 2 (Ubuntu Server)
+### 1.2 - Install [software-properties-common] package
+
+```
+apt install software-properties-common
+```
+
+### 1.3 - Install ansible
+
+```
+apt-add-repository ppa:ansible/ansible
+apt update
+apt install ansible
+ansible --version
+```
+
+### 1.4 Install Python 2 (Ubuntu Server)
 
 ```
 sudo apt install python2 python2.7
 ```
 
-### 1.3 - Enable passwordless sudo for ansible
+### 1.5 - Enable passwordless sudo for ansible
 
 In order to fully control a remote machine we need to be able to execute command on the remote machines as user root. 
 There are a number of ways to accomplish this.
@@ -48,7 +63,7 @@ and look like this:
 
 We can save the file and exit.
 
-### 1.4 - Add user to sudo group
+### 1.6 - Add user to sudo group
 
 As root:
 
@@ -56,13 +71,13 @@ As root:
 sudo usermod -a -G sudo <user>
 ```
 
-### 1.5 - Install ansible, git
+### 1.7 - Install ansible, git
 
 ```
 sudo apt install -y ansible git
 ```
 
-### 1.6 - Download this project
+### 1.8 - Download this project
 
 Download this project and put it on **/etc/ansible** dir
 
@@ -73,7 +88,7 @@ sudo mv ansible_ubuntu_1904 /etc/ansible
 sudo chown -R $USER:$USER /etc/ansible
 ```
 
-## 1.7 - Check if Ansible can access the hosts using Ping
+## 1.9 - Check if Ansible can access the hosts using Ping
 
 Let's verify that Ansible can access the machine. 
 Just as with network you'd use the ping command, Ansible also provides a command called "ping" that checks if the remote machine is accessible to Ansible. 
@@ -155,6 +170,8 @@ Let's see the details of the command:
 * local selects the host(s) upon which we'd like to act.
 * -u root tells Ansible to use user root on the remote server.
 * -m ping tells Ansible to execute the "ping" module.
+
+----------------------------
 
 ## 2 - How to execute playbooks
 
