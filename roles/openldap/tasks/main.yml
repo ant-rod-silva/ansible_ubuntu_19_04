@@ -249,3 +249,16 @@
     path: /tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif
     state: absent
     regexp: '^modifyTimestamp:'
+
+- name: Change [dn] on [/tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif]
+  replace:
+    path: /tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif
+    regexp: '^dn: cn={4}servidorpublico'
+    replace: 'dn: cn=servidorpublico,cn=schema,cn=config'
+
+- name: Change [cn] on [/tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif]
+  replace:
+    path: /tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif
+    regexp: '^cn: {4}servidorpublico'
+    replace: 'cn: servidorpublico'
+
