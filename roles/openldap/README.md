@@ -50,3 +50,7 @@ Administrator password? enter a secure password twice
 - Remove the database when slapd is purged? No
 - Move old database? Yes
 - Allow LDAPv2 protocol? No
+
+## References
+
+https://www.cyrill-gremaud.ch/how-to-add-new-schema-to-openldap-2-4/
