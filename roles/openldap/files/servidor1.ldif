@@ -1,0 +1,13 @@
+dn: uid=servidor1,ou=People,dc=example,dc=com
+givenName: Servidor Um
+sn: Um
+cn: Servidor Um
+displayName: Servidor Um
+userPassword: {SSHA}fOA1nxKFfyqQx95GX0CpXwHLXak=
+description: Dados do Servidor 1
+employeeNumber: 1234
+employeeType: ATIVO PERMANENTE
+title: PROFESSOR
+loginShell: /bin/bash
+mail: servidorum@mydom.com
+objectClass: ServidorPublicoObjectClass
