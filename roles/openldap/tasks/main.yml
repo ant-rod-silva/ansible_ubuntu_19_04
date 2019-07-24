@@ -262,3 +262,6 @@
     regexp: '^cn\: \{4\}servidorpublico'
     replace: 'cn: servidorpublico'
 
+- name: add [servidorpublico.schema] to the OpenLDAP server 
+  shell: ldapadd -Q -Y EXTERNAL -H ldapi:/// -W -f /tmp/ldapworkingdir/cn\=config/cn\=schema/cn\=\{0\}servidorpublico.ldif
+  become: yes
