@@ -194,16 +194,11 @@
   shell: cd /tmp/ldapworkingdir/ && slaptest -f /tmp/ldapworkingdir/ldap.conf -F .
   become: yes
 
-- name: Change [/tmp/ldapworkingdir/cn=config.ldif] owner and group
+- name: Change [/tmp/ldapworkingdir/] owner and group
   file:
-    path: /tmp/ldapworkingdir/cn=config.ldif
+    path: /tmp/ldapworkingdir/
     owner: openldap
     group: openldap
     mode: '0774'
+    recurse=yes
 
-- name: Change [/tmp/ldapworkingdir/cn=config] owner and group
-  file:
-    path: /tmp/ldapworkingdir/cn=config
-    owner: openldap
-    group: openldap
-    mode: '0774'
