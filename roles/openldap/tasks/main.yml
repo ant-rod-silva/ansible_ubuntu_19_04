@@ -200,5 +200,5 @@
     owner: openldap
     group: openldap
     mode: '0774'
-    recurse=yes
+    recurse: yes
 
