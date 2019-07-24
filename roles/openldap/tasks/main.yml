@@ -202,7 +202,7 @@
     mode: '0774'
     recurse: yes
 
-- name: Delete [structuralObjectClass: olcSchemaConfig] in [/tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif]
+- name: Delete [structuralObjectClass] in [/tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif]
   lineinfile:
     path: /tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif
     state: absent
