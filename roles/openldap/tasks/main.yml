@@ -190,13 +190,20 @@
 - name: Add [/etc/ldap/schema/servidorpublico.schema] in [/tmp/ldapworkingdir/ldap.conf]
   shell: echo "include /etc/ldap/schema/servidorpublico.schema" >> /tmp/ldapworkingdir/ldap.conf
 
-- name: Convert servidorpublico.schema file
+- name: Convert [servidorpublico.schema] file
   shell: cd /tmp/ldapworkingdir/ && slaptest -f /tmp/ldapworkingdir/ldap.conf -F .
   become: yes
 
-- name: Change /tmp/ldapworkingdir/ owner and group
+- name: Change [/tmp/ldapworkingdir/cn=config.ldif] owner and group
   file:
     path: /tmp/ldapworkingdir/cn=config.ldif
+    owner: openldap
+    group: openldap
+    mode: '0774'
+
+- name: Change [/tmp/ldapworkingdir/cn=config] owner and group
+  file:
+    path: /tmp/ldapworkingdir/cn=config
     owner: openldap
     group: openldap
     mode: '0774'
