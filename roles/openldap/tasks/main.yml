@@ -202,3 +202,50 @@
     mode: '0774'
     recurse: yes
 
+- name: Delete [structuralObjectClass: olcSchemaConfig] in [/tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif]
+  lineinfile:
+    path: /tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif
+    state: absent
+    regexp: '^structuralObjectClass: olcSchemaConfig'
+
+- name: Delete [entryUUID] in [/tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif]
+  lineinfile:
+    path: /tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif
+    state: absent
+    regexp: '^entryUUID:'
+
+- name: Delete [creatorsName] in [/tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif]
+  lineinfile:
+    path: /tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif
+    state: absent
+    regexp: '^creatorsName:'
+
+- name: Delete [createTimestamp] in [/tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif]
+  lineinfile:
+    path: /tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif
+    state: absent
+    regexp: '^createTimestamp:'
+
+- name: Delete [entryCSN] in [/tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif]
+  lineinfile:
+    path: /tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif
+    state: absent
+    regexp: '^entryCSN:'
+
+- name: Delete [modifiersName] in [/tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif]
+  lineinfile:
+    path: /tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif
+    state: absent
+    regexp: '^modifiersName:'
+
+- name: Delete [modifiersName] in [/tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif]
+  lineinfile:
+    path: /tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif
+    state: absent
+    regexp: '^modifiersName:'
+
+- name: Delete [modifyTimestamp] in [/tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif]
+  lineinfile:
+    path: /tmp/ldapworkingdir/cn=config/cn=schema/cn={4}servidorpublico.ldif
+    state: absent
+    regexp: '^modifyTimestamp:'
