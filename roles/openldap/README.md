@@ -55,3 +55,4 @@ Administrator password? enter a secure password twice
 
 https://www.cyrill-gremaud.ch/how-to-add-new-schema-to-openldap-2-4/
 https://docs.secureauth.com/display/KBA/Active+Directory+Attributes+List
+https://www.userbooster.de/en/support/feature-articles/feature-article146.aspx
