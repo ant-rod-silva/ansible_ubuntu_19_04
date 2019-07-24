@@ -8,6 +8,5 @@ description: Dados do Servidor 1
 employeeNumber: 1234
 employeeType: ATIVO PERMANENTE
 title: PROFESSOR
-loginShell: /bin/bash
 mail: servidorum@mydom.com
 objectClass: ServidorPublicoObjectClass
