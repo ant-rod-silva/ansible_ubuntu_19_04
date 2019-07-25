@@ -1,0 +1,2 @@
+dn,givenName ,sn ,cn ,displayName ,description ,mail,userPassword 
+"uid=0000001,ou=People,dc=example,dc=com",Fulano,Anzois,1,Fulano de Tal dos Anzois,Fulano de Tal dos Anzois,fulano@domain.com,{SSHA}fOA1nxKFfyqQx95GX0CpXwHLXak= 
