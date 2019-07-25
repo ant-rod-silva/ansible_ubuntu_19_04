@@ -1,4 +1,3 @@
-```
 import csv
 import ldap
 import ldap.modlist as modlist
@@ -44,4 +43,4 @@ with open('/etc/ansible/roles/openldap/files/openldap_data.csv') as csvfile:
  
 conn.unbind_s()
 print "All Done"
-```
+
