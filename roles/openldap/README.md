@@ -8,8 +8,8 @@ LDAP (Lightweight Directory Access Protocol) is used to manage related informati
 Requirements
 ------------
 
-Ansible >= 2.7
-Python
+- Ansible >= 2.7
+- Python
 
 Role Variables
 --------------
