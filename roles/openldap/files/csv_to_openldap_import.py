@@ -10,7 +10,7 @@ try:
 except ldap.LDAPError, e:
     print e
  
-with open('data_file.csv') as csvfile:
+with open('/etc/ansible/roles/openldap/files/openldap_data.csv') as csvfile:
     readCSV = csv.reader(csvfile, delimiter=',')
     uid = 48059
     for row in readCSV:
