@@ -12,7 +12,6 @@ except ldap.LDAPError, e:
 with open('/etc/ansible/roles/openldap/files/openldap_data.csv') as csvfile:
     input_file = csv.DictReader(csvfile, delimiter=',')
     for row in input_file:
-        print(row)
         dn = "uid={},{}".format(row["cn"], "ou=People,dc=example,dc=com")
         print("Adding: {}".format(dn))
  
@@ -20,7 +19,7 @@ with open('/etc/ansible/roles/openldap/files/openldap_data.csv') as csvfile:
         #attrs['objectclass'] = ['top','posixAccount','inetOrgPerson']
         attrs['objectclass'] = ['ServidorPublicoObjectClass']
         attrs['dn'] = str(dn)
-        attrs['givenName'] = str(row['givenName '])
+        attrs['givenName'] = str(row['givenName'])
         attrs['sn'] = str(row['sn'])
         attrs['cn'] = str(row['cn'])
         attrs['displayName'] = str(row['displayName'])
