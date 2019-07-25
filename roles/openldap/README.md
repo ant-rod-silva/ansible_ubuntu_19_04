@@ -1,12 +1,15 @@
-Role Name
+Introduction
 =========
 
-A brief description of the role goes here.
+OpenLDAP is Open Source alternative to Microsoft Active Directory. 
+LDAP (Lightweight Directory Access Protocol) is used to manage related information from a centralized location through the use of a file and directory hierarchy.
+
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Ansible >= 2.7
+Python
 
 Role Variables
 --------------
