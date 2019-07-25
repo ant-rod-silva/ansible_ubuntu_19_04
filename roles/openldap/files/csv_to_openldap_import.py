@@ -12,7 +12,7 @@ except ldap.LDAPError, e:
 with open('/etc/ansible/roles/openldap/files/openldap_data.csv') as csvfile:
     readCSV = csv.DictReader(csvfile, delimiter=',')
     for row in readCSV:
-        dn = "uid={},{}".format(str(row['dn']), "ou=People,dc=example,dc=com")
+        dn = "uid={},{}".format(str(row['cn']), "ou=People,dc=example,dc=com")
         print("Adding: {}".format(dn))
  
         attrs = {}
