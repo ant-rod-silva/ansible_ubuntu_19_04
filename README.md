@@ -197,6 +197,3 @@ To skip update and python2 check steps:
 ansible-playbook /etc/ansible/playbooks/03_ubuntu1904_zsh.yaml --skip-tags apt_update,python2_check
 ```
 
-## SEE MORE
-
-https://github.com/dkoudela/active-directory-to-openldap/tree/master/schema
