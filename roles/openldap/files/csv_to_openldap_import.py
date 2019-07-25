@@ -10,24 +10,22 @@ except ldap.LDAPError, e:
     print e
  
 with open('/etc/ansible/roles/openldap/files/openldap_data.csv') as csvfile:
-    readCSV = csv.reader(csvfile, delimiter=',')
-    uid = 48059
+    readCSV = csv.DictReader(csvfile, delimiter=',')
     for row in readCSV:
- 
-        dn = "uid={},{}".format(str(row[3]), "ou=People,dc=example,dc=com")
-        print "Adding: {}".format(dn)
+        dn = "uid={},{}".format(str(row['dn']), "ou=People,dc=example,dc=com")
+        print("Adding: {}".format(dn))
  
         attrs = {}
         #attrs['objectclass'] = ['top','posixAccount','inetOrgPerson']
         attrs['objectclass'] = ['ServidorPublicoObjectClass']
         attrs['dn'] = str(dn)
-        attrs['givenName'] = str(row[1])
-        attrs['sn'] = str(row[2])
-        attrs['cn'] = str(row[3])
-        attrs['displayName'] = str(row[4])
-        attrs['description'] = str(row[5])
-        attrs['mail'] = str(row[6])
-        attrs['userPassword'] = str(row[7])
+        attrs['givenName'] = str(row['givenName '])
+        attrs['sn'] = str(row['sn'])
+        attrs['cn'] = str(row['cn'])
+        attrs['displayName'] = str(row['displayName'])
+        attrs['description'] = str(row['description'])
+        attrs['mail'] = str(row['mail'])
+        attrs['userPassword'] = str(row['userPassword'])
         
         #attrs['uid'] = str(row[4])
         #attrs['uidNumber'] = str(uid)
