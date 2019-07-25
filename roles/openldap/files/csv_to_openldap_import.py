@@ -18,11 +18,13 @@ with open('/etc/ansible/roles/openldap/files/openldap_data.csv') as csvfile:
         attrs = {}
         #attrs['objectclass'] = ['top','posixAccount','inetOrgPerson']
         attrs['objectclass'] = ['ServidorPublicoObjectClass']
+        attrs['sAMAccountName'] = str(row['sAMAccountName'])
         attrs['givenName'] = str(row['givenName'])
         attrs['sn'] = str(row['sn'])
         attrs['cn'] = str(row['cn'])
         attrs['displayName'] = str(row['displayName'])
         attrs['description'] = str(row['description'])
+        attrs['title'] = str(row['title'])
         attrs['mail'] = str(row['mail'])
         attrs['userPassword'] = str(row['userPassword'])
         
