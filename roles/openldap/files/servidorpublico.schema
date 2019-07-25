@@ -3,124 +3,146 @@ attributetype ( 2.5.4.10002
   DESC 'MS Exchange attribute: extensionAttribute1'
   EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
 
 attributetype ( 2.5.4.10003
   NAME 'extensionAttribute2'
   DESC 'MS Exchange attribute: extensionAttribute2'
   EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
 
 attributetype ( 2.5.4.10004
   NAME 'extensionAttribute3'
   DESC 'MS Exchange attribute: extensionAttribute3'
   EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
 
 attributetype ( 2.5.4.10005
   NAME 'extensionAttribute4'
   DESC 'MS Exchange attribute: extensionAttribute4'
   EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
 
 attributetype ( 2.5.4.10006
   NAME 'extensionAttribute5'
   DESC 'MS Exchange attribute: extensionAttribute5'
   EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
 
 attributetype ( 2.5.4.10007
   NAME 'extensionAttribute6'
   DESC 'MS Exchange attribute: extensionAttribute6'
   EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
 
 attributetype ( 2.5.4.10008
   NAME 'extensionAttribute7'
   DESC 'MS Exchange attribute: extensionAttribute7'
   EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
 
 attributetype ( 2.5.4.10009
   NAME 'extensionAttribute8'
   DESC 'MS Exchange attribute: extensionAttribute8'
   EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
 
 attributetype ( 2.5.4.10010
   NAME 'extensionAttribute9'
   DESC 'MS Exchange attribute: extensionAttribute9'
   EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
 
 attributetype ( 2.5.4.10011
   NAME 'extensionAttribute10'
   DESC 'MS Exchange attribute: extensionAttribute10'
   EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
 
 attributetype ( 2.5.4.10012
   NAME 'extensionAttribute11'
   DESC 'MS Exchange attribute: extensionAttribute11'
   EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
 
 attributetype ( 2.5.4.100013
   NAME 'extensionAttribute12'
   DESC 'MS Exchange attribute: extensionAttribute12'
   EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
 
 attributetype ( 2.5.4.100014
   NAME 'extensionAttribute13'
   DESC 'MS Exchange attribute: extensionAttribute13'
   EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
 
 attributetype ( 2.5.4.100015
   NAME 'extensionAttribute14'
   DESC 'MS Exchange attribute: extensionAttribute14'
   EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
 
 attributetype ( 2.5.4.100016
   NAME 'extensionAttribute15'
   DESC 'MS Exchange attribute: extensionAttribute15'
   EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
 
 attributetype ( 2.5.4.100017
+  NAME 'mailNickname'
+  DESC 'MS Exchange attribute: mailNickname'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 2.5.4.100018
   NAME 'sAMAccountName'
   DESC 'MS Active Directory attribute: sAMAccountName'
   SYNTAX '1.3.6.1.4.1.1466.115.121.1.15' )
 
-attributetype ( 2.5.4.100018
+attributetype ( 2.5.4.100019
    NAME 'userPrincipalName'
    DESC 'MS Active Directory attribute: userPrincipalName'
    EQUALITY caseIgnoreMatch
    SUBSTR caseIgnoreSubstringsMatch
    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 
-attributetype ( 2.5.4.100019
+attributetype ( 2.5.4.100020
   NAME 'userAccountControl'
   DESC 'MS Active Directory attribute: userAccountControl'
   SYNTAX '1.3.6.1.4.1.1466.115.121.1.27' )
 
-attributetype ( 2.5.4.100020
+attributetype ( 2.5.4.100021
    NAME 'department'
    DESC 'MS Active Directory attribute: department'
    EQUALITY caseIgnoreMatch
