@@ -121,7 +121,8 @@ objectclass ( 2.5.6.10002
         cn $
         displayName $
         userPassword )
-  MAY ( description $
+  MAY ( sAMAccountName $
+        description $
         employeeNumber $
         employeeType $
         telephoneNumber $
