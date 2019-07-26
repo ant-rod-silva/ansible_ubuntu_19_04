@@ -188,6 +188,7 @@ objectclass ( 2.5.6.10002
         telephoneNumber $
         mobile $
         mail $
+        mailNickname $
         l $
         st $
         streetAddress $
