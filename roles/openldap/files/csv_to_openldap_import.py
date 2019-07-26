@@ -42,7 +42,7 @@ with open('/etc/ansible/roles/openldap/files/openldap_data.csv') as csvfile:
         attrs['l'] = str(row['l'])
         attrs['st'] = str(row['st'])
         attrs['postalCode'] = str(row['postalcode'])
-        attrs['userPassword'] = str(row['userPassword'])
+        attrs['userPassword'] = '{SHA}fDYHuOYbzx1E6ehQOmYPIfS28/E='
         
         #attrs['uid'] = str(row[4])
         #attrs['uidNumber'] = str(uid)
