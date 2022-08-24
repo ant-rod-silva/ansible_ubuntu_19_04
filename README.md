@@ -1,6 +1,4 @@
-# Ansibook
-
-![](https://cdn3.imggmi.com/uploads/2019/6/25/fe297f9c471f9e22fb6d984a5ea6715e-full.png)
+# Ansible Ubuntu 19.04
 
 ## Tested with:
 
@@ -87,7 +85,7 @@ Download this project and put it on **/etc/ansible** dir
 
 ```
 sudo rm -rf /etc/ansible/
-sudo git clone https://github.com/rodrigosantosbr/ansible_ubuntu_1904
+sudo git clone https://github.com/ant-rod-silva/ansible_ubuntu_19_04
 sudo mv ansible_ubuntu_1904 /etc/ansible
 sudo chown -R $USER:$USER /etc/ansible
 ```
